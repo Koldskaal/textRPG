@@ -1,3 +1,6 @@
+WALL_CHAR_UP_DOWN = '+'
+WALL_CHAR_LEFT_RIGHT = '+'
+
 class Room:
     def __init__(self, size):
         """
@@ -12,11 +15,13 @@ class Room:
     def generate_border(self, size):
         map = []
         x, y = size
-        for i in range(x):
+        for i_x in range(x):
             small = []
-            for o in range(y):
-                if o == 0 or o == y - 1 or i == 0  or i == x - 1:
-                    small.append('x')
+            for i_y in range(y):
+                if i_x == 0  or i_x == x - 1:
+                    small.append(WALL_CHAR_UP_DOWN)
+                elif i_y == 0 or i_y == y - 1:
+                    small.append(WALL_CHAR_LEFT_RIGHT)
                 else:
                     small.append(' ')
             map.append(small)
