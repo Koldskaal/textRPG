@@ -16,15 +16,15 @@ class Room:
         map = []
         x, y = size
         for i_x in range(x):
-            small = []
+            row = []
             for i_y in range(y):
                 if i_x == 0  or i_x == x - 1:
-                    small.append(WALL_CHAR_UP_DOWN)
+                    row.append(WALL_CHAR_UP_DOWN)
                 elif i_y == 0 or i_y == y - 1:
-                    small.append(WALL_CHAR_LEFT_RIGHT)
+                    row.append(WALL_CHAR_LEFT_RIGHT)
                 else:
-                    small.append(' ')
-            map.append(small)
+                    row.append(' ')
+            map.append(row)
 
         return map
 
