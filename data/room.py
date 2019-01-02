@@ -1,5 +1,3 @@
-import numpy
-
 class Room:
     def __init__(self, size):
         """
