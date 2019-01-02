@@ -1,4 +1,4 @@
-WALL_CHAR_UP_DOWN = '+'
+WALL_CHAR_UP_DOWN = 'x'
 WALL_CHAR_LEFT_RIGHT = '+'
 
 class Room:
