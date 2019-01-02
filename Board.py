@@ -1,7 +1,8 @@
 board = []
 
-length = 7 #set side length of the square
-for x in range(0,length):
+length = 10 #set side length of the square
+hight = 7 #set hight of the square
+for x in range(0,hight):
     board.append(["X"]*length)
 for x in range(1,len(board)-1):
     y = 1
