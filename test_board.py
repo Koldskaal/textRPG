@@ -1,3 +1,5 @@
+import keyboard
+
 def cls(): print ("\n" * 50)
 
 board = []
@@ -21,12 +23,12 @@ xx = int(length/2)
 yy = int(hight/2)
 def position(board):
     player = board[xx][yy] = "O"
-    cls()
+    # cls()
     print_board(board)
 position(board)
 print_board(board)
 
-import keyboard
+
 
 running = True
 
@@ -74,4 +76,3 @@ while running:
     pass
 
 position(board)
-print_board(board)
