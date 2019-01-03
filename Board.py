@@ -23,51 +23,25 @@ def position(board):
     return yy
 position(board)
 print_board(board)
-
-move_up = (input("Move up: Type w"))
-#move_up = w #for testing purpose
-if move_up == w:
+print("Movement: W A S D")
+movement = input()
+if movement == "w":
     player = board[xx][yy] = " "
     xx = xx-1
-    def position(board):
-        player = board[xx][yy] = "O"
-        return xx
-        return yy
+    position(board)
+elif movement == "s":
+        player = board[xx][yy] = " "
+        xx = xx+1
+        position(board)
+elif movement == "a":
+        player = board[xx][yy] = " "
+        yy = yy-1
+        position(board)
+elif movement == "d":
+        player = board[xx][yy] = " "
+        yy = yy+1
+        position(board)
 else:
-    pass
-move_down = (input("Move up: Type s"))
-#move_down = s #for testing purpose
-if move_up == s:
-    player = board[xx][yy] = " "
-    xx = xx+1
-    def position(board):
-        player = board[xx][yy] = "O"
-        return xx
-        return yy
-else:
-    pass
-move_left = (input("Move up: Type a"))
-#move_let = a #for testing purpose
-if move_left == a:
-    player = board[xx][yy] = " "
-    yy = yy-1
-    def position(board):
-        player = board[xx][yy] = "O"
-        return xx
-        return yy
-else:
-    pass
-move_right = (input("Move up: Type d"))
-#move_right = d #for testing purpose
-if move_up == d:
-    player = board[xx][yy] = " "
-    yy = yy+1
-    def position(board):
-        player = board[xx][yy] = "O"
-        return xx
-        return yy
-else:
-    pass
-
+    print("invalid key")
 position(board)
 print_board(board)
