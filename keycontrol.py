@@ -14,7 +14,7 @@ def move(event):
         global running
         running = False
 
-keyboard.on_press(move)
+keyboard.on_press(move, suppress=True)
 
 print("Press q for exit")
 while running:
