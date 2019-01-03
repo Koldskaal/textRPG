@@ -29,18 +29,30 @@ while True:
     print("Movement: W A S D")
     movement = input()
     if movement == "w":
-        player = board[xx][yy] = " "
-        xx = xx-1
-        position(board)
+        if board[xx-1][yy] == "X":
+            pass
+        else:
+            player = board[xx][yy] = " "
+            xx = xx-1
+            position(board)
     elif movement == "s":
+        if board[xx+1][yy] == "X":
+            pass
+        else:
             player = board[xx][yy] = " "
             xx = xx+1
             position(board)
     elif movement == "a":
+        if board[xx][yy-1] == "X":
+            pass
+        else:
             player = board[xx][yy] = " "
             yy = yy-1
             position(board)
     elif movement == "d":
+        if board[xx][yy+1] == "X":
+            pass
+        else:
             player = board[xx][yy] = " "
             yy = yy+1
             position(board)
