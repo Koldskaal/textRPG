@@ -21,8 +21,8 @@ xx = int(length/2)
 yy = int(hight/2)
 def position(board):
     player = board[xx][yy] = "O"
-    return xx
-    return yy
+    cls()
+    print_board(board)
 position(board)
 print_board(board)
 
@@ -30,9 +30,10 @@ import keyboard
 
 running = True
 
-movement = {'a', 's', 'd', 'w'}
+movement = ['a', 's', 'd', 'w']
 
 def move(event):
+    global xx, yy
     if event.name in movement:
         if event.name == "w":
             if board[xx-1][yy] == "X":
@@ -66,7 +67,7 @@ def move(event):
         global running
         running = False
 
-keyboard.on_press(move)
+keyboard.on_press(move, suppress=True)
 
 print("Press q for exit")
 while running:
