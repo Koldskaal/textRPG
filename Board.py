@@ -1,5 +1,7 @@
-board = []
+def cls(): print ("\n" * 50)
 
+board = []
+cls()
 length = 9 #set side length of the square
 hight = 9 #set hight of the square
 for x in range(0,hight):
@@ -23,25 +25,27 @@ def position(board):
     return yy
 position(board)
 print_board(board)
-print("Movement: W A S D")
-movement = input()
-if movement == "w":
-    player = board[xx][yy] = " "
-    xx = xx-1
+while True:
+    print("Movement: W A S D")
+    movement = input()
+    if movement == "w":
+        player = board[xx][yy] = " "
+        xx = xx-1
+        position(board)
+    elif movement == "s":
+            player = board[xx][yy] = " "
+            xx = xx+1
+            position(board)
+    elif movement == "a":
+            player = board[xx][yy] = " "
+            yy = yy-1
+            position(board)
+    elif movement == "d":
+            player = board[xx][yy] = " "
+            yy = yy+1
+            position(board)
+    else:
+        print("invalid key")
+    cls()
     position(board)
-elif movement == "s":
-        player = board[xx][yy] = " "
-        xx = xx+1
-        position(board)
-elif movement == "a":
-        player = board[xx][yy] = " "
-        yy = yy-1
-        position(board)
-elif movement == "d":
-        player = board[xx][yy] = " "
-        yy = yy+1
-        position(board)
-else:
-    print("invalid key")
-position(board)
-print_board(board)
+    print_board(board)
