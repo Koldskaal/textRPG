@@ -23,17 +23,25 @@ def position(board):
     return yy
 position(board)
 print_board(board)
-
-#move_up = (raw_input("Move up: Type w"))
-move_up = 1
-if move_up == 1:
+print("Movement: W A S D")
+movement = input()
+if movement == "w":
     player = board[xx][yy] = " "
     xx = xx-1
-    def position(board):
-        player = board[xx][yy] = "I"
-        return xx
-        return yy
+    position(board)
+elif movement == "s":
+        player = board[xx][yy] = " "
+        xx = xx+1
+        position(board)
+elif movement == "a":
+        player = board[xx][yy] = " "
+        yy = yy-1
+        position(board)
+elif movement == "d":
+        player = board[xx][yy] = " "
+        yy = yy+1
+        position(board)
 else:
-    pass
+    print("invalid key")
 position(board)
 print_board(board)
