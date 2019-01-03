@@ -26,7 +26,7 @@ def position(board):
 position(board)
 print_board(board)
 while True:
-    print("Movement: W A S D")
+    print("Movement: w a s d. Quit: q")
     movement = input()
     if movement == "w":
         if board[xx-1][yy] == "X":
@@ -56,6 +56,8 @@ while True:
             player = board[xx][yy] = " "
             yy = yy+1
             position(board)
+    elif movement == "q":
+        break
     else:
         print("invalid key")
     cls()
