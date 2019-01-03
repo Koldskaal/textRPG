@@ -1,5 +1,5 @@
-WALL_CHAR_UP_DOWN = '+'
-WALL_CHAR_LEFT_RIGHT = '+'
+WALL_CHAR_UP_DOWN = 'x'
+WALL_CHAR_LEFT_RIGHT = 'x'
 
 class Room:
     def __init__(self, size):
@@ -11,22 +11,27 @@ class Room:
         """
         self.room = self.generate_border(size)
         self.has_been_entered_before = False
+        self.player_position = (11,11)
+        self.map_player()
 
     def generate_border(self, size):
         map = []
         x, y = size
         for i_x in range(x):
-            small = []
+            row = []
             for i_y in range(y):
                 if i_x == 0  or i_x == x - 1:
-                    small.append(WALL_CHAR_UP_DOWN)
+                    row.append(WALL_CHAR_UP_DOWN)
                 elif i_y == 0 or i_y == y - 1:
-                    small.append(WALL_CHAR_LEFT_RIGHT)
+                    row.append(WALL_CHAR_LEFT_RIGHT)
                 else:
-                    small.append(' ')
-            map.append(small)
+                    row.append(' ')
+            map.append(row)
 
         return map
+
+    def map_player(self):
+        self.room[self.player_position[0]][self.player_position[1]] = 'P'
 
     def print_room(self):
         for row in self.room:
