@@ -11,8 +11,6 @@ class Room:
         """
         self.room = self.generate_border(size)
         self.has_been_entered_before = False
-        self.player_position = [5,5]
-        self.spawn_player()
         self.print_door()
 
         self.go_to_next = None
@@ -34,7 +32,7 @@ class Room:
         return map
 
     def spawn_player(self):
-        self.room[self.player_position[0]][self.player_position[1]] = 'P'
+            self.room[self.player_position[0]][self.player_position[1]] = 'P'
 
     def print_room(self):
         for row in self.room:
