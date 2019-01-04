@@ -11,7 +11,8 @@ class RoomController:
         self.current_room = starter_room
         self.next_room = None
         self.prev_room = None
-        self.current_room.spawn_player
+        self.spawn_player_controller()
+        self.current_room.spawn_player()
 
     def assign_next_room(self, room):
         self.next_room = room
@@ -21,12 +22,20 @@ class RoomController:
         self.current_room = self.next_room
         self.next_room = None
 
-    def spawn_player(self):
+    def spawn_player_controller(self):
         if self.prev_room == None:
-            self.current_room.player_position = (2,2)
+            self.current_room.player_position = [2,2]
         else:
-            self.current_room.player_position = (5,5)
-
+            if self.prev_room.player_position[1] < self.prev_room.door_coordinates[1]:
+                self.current_room.player_position = [8,1]
+            elif self.prev_room.player_position[1] > self.prev_room.door_coordinates[1]:
+                self.current_room.player_position = [8,14]
+            elif self.prev_room.player_position[0] > self.prev_room.door_coordinates[0]:
+                self.current_room.player_position = [14,8]
+            elif self.prev_room.player_position[0] < self.prev_room.door_coordinates[0]:
+                self.current_room.player_position = [1,8]
+            else:
+                self.current_room.player_position = [5,5]
     def print_room(self):
         self.current_room.print_room()
 
@@ -34,4 +43,6 @@ class RoomController:
         self.current_room.move_player(coordinates)
         if self.current_room.go_to_next == True:
             self.change_room()
+            self.spawn_player_controller()
+            self.current_room.spawn_player()
             self.print_room()

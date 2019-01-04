@@ -60,8 +60,8 @@ class Room:
             self.room[self.player_position[0]][self.player_position[1]] = 'P'
 
     def print_door(self):
-        door_coordinates = [int(len(self.room[0])/2),len(self.room[1])-1]
-        self.room[door_coordinates[0]][door_coordinates[1]] = "|"
+        self.door_coordinates = [int(len(self.room[0])/2),len(self.room[1])-5]
+        self.room[self.door_coordinates[0]][self.door_coordinates[1]] = "|"
 
     def change_room(self):
         self.go_to_next = True
