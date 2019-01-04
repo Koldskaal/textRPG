@@ -23,7 +23,7 @@ xx = int(length/2)
 yy = int(hight/2)
 def position(board):
     player = board[xx][yy] = "O"
-    # cls()
+    cls()
     print_board(board)
 position(board)
 print_board(board)
