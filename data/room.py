@@ -39,16 +39,14 @@ class Room:
             print(' '.join(row))
 
     def move_player(self, coordinates):
-        if
-        (
+        if (
         self.room
         [self.player_position[0] + coordinates[0]]
         [self.player_position[1] + coordinates[1]]
         == "x"
         ):
             pass
-        elif
-        (
+        elif (
         self.room
         [self.player_position[0] + coordinates[0]]
         [self.player_position[1] + coordinates[1]]
@@ -60,11 +58,15 @@ class Room:
             self.player_position[0] = self.player_position[0] + coordinates[0]
             self.player_position[1] = self.player_position[1] + coordinates[1]
             self.room[self.player_position[0]][self.player_position[1]] = 'P'
+
     def print_door(self):
         door_coordinates = [int(len(self.room[0])/2),len(self.room[1])-1]
         self.room[door_coordinates[0]][door_coordinates[1]] = "|"
+
     def change_room(self):
         pass # to change
+
+
 if __name__ == '__main__':
     r = Room((9,9)) #tester med et rum der er 25 gange 25
 
