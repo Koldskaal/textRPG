@@ -1,17 +1,22 @@
+from random import randint
+
 WALL_CHAR_UP_DOWN = 'x'
 WALL_CHAR_LEFT_RIGHT = 'x'
 
 class Room:
-    def __init__(self, size):
+    def __init__(self, size, prev_room_door=''):
         """
         Arguments
         ---------
             size : tuple
                 (x, y) The size of the room
+
+            prev_room_door : string
+                previous direction of the wall left, right, up, down
         """
         self.room = self.generate_border(size)
-        self.has_been_entered_before = False
-        self.print_door()
+
+        self.print_door(prev_room_door)
 
         self.go_to_next = None
 
@@ -59,18 +64,38 @@ class Room:
             self.player_position[1] = self.player_position[1] + coordinates[1]
             self.room[self.player_position[0]][self.player_position[1]] = 'P'
 
-    def print_door(self):
-        self.door_coordinates = [int(len(self.room[0])/2),len(self.room[1])-5]
-        self.room[self.door_coordinates[0]][self.door_coordinates[1]] = "|"
+    def print_door(self, prev_room_door):
+        self.door = {}
+        self.door['next'] = [randint(1, len(self.room[0])-2),len(self.room[1])-1]
+        self.room[self.door['next'][0]][self.door['next'][1]] = " "
+        if prev_room_door == 'left':
+            horizontal_coord = len(self.room[1])-1
+            vertical_coord = randint(1, len(self.room[0])-2)
+            self.door['prev'] = [vertical_coord, horizontal_coord]
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+
+        elif prev_room_door == 'right':
+            horizontal_coord = 0
+            vertical_coord = randint(1, len(self.room[0])-2)
+            self.door['prev'] = [vertical_coord, horizontal_coord]
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+
+        elif prev_room_door == 'up':
+            horizontal_coord = randint(1, len(self.room[1])-2)
+            vertical_coord = len(self.room[0])-1
+            self.door['prev'] = [vertical_coord, horizontal_coord]
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+
+        elif prev_room_door == 'down':
+            horizontal_coord = randint(1, len(self.room[1])-2)
+            vertical_coord = 0
+            self.door['prev'] = [vertical_coord, horizontal_coord]
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
 
     def change_room(self):
         self.go_to_next = True
 
 
 if __name__ == '__main__':
-    r = Room((9,9)) #tester med et rum der er 25 gange 25
-
-    r.print_room()
-
-    r.move_player((0,1))
+    r = Room((9,9), 'up') #tester med et rum der er 25 gange 25
     r.print_room()
