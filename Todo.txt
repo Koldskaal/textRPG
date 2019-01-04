@@ -1,0 +1,32 @@
+Objects:
+  Character
+    gold, health, mana, armor, equipment, skills, level, xp,
+    base stats (str, agi, int, hp, mana)
+  NPC
+    trader
+      inventory
+    story driver
+      quest?
+
+      skills:
+        heal
+        buff
+        debuff (poison sword f.eks.)
+
+
+Other:
+  Doors
+  equipment
+  inventory
+  auto combat
+  game tick timer
+  puzzles
+  dodge puzzles
+  character creation (simple deploy x amount of base stats?)
+
+Story:
+  who
+  what
+  when
+  why
+  how
