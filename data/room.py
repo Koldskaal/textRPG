@@ -13,6 +13,7 @@ class Room:
         self.has_been_entered_before = False
         self.player_position = [5,5]
         self.map_player()
+        self.print_door()
 
     def generate_border(self, size):
         map = []
@@ -38,12 +39,32 @@ class Room:
             print(' '.join(row))
 
     def move_player(self, coordinates):
-        self.room[self.player_position[0]][self.player_position[1]] = ' '
-        self.player_position[0] = self.player_position[0] + coordinates[0]
-        self.player_position[1] = self.player_position[1] + coordinates[1]
-        self.room[self.player_position[0]][self.player_position[1]] = 'P'
-
-
+        if
+        (
+        self.room
+        [self.player_position[0] + coordinates[0]]
+        [self.player_position[1] + coordinates[1]]
+        == "x"
+        ):
+            pass
+        elif
+        (
+        self.room
+        [self.player_position[0] + coordinates[0]]
+        [self.player_position[1] + coordinates[1]]
+        == "|"
+        ):
+            self.change_room()
+        else:
+            self.room[self.player_position[0]][self.player_position[1]] = ' '
+            self.player_position[0] = self.player_position[0] + coordinates[0]
+            self.player_position[1] = self.player_position[1] + coordinates[1]
+            self.room[self.player_position[0]][self.player_position[1]] = 'P'
+    def print_door(self):
+        door_coordinates = [int(len(self.room[0])/2),len(self.room[1])-1]
+        self.room[door_coordinates[0]][door_coordinates[1]] = "|"
+    def change_room(self):
+        pass # to change
 if __name__ == '__main__':
     r = Room((9,9)) #tester med et rum der er 25 gange 25
 
