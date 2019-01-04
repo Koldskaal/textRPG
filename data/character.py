@@ -9,10 +9,4 @@ class Character:
 class Player(Character):
     def __init__(self):
         super().__init__()
-        # exp
-
-class Monter(Character):
-    pass
-
-
-p = Character(100, 100, 100)
+        # exps

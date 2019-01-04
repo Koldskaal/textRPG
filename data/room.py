@@ -11,7 +11,7 @@ class Room:
         """
         self.room = self.generate_border(size)
         self.has_been_entered_before = False
-        self.player_position = (11,11)
+        self.player_position = [5,5]
         self.map_player()
 
     def generate_border(self, size):
@@ -37,7 +37,17 @@ class Room:
         for row in self.room:
             print(' '.join(row))
 
+    def move_player(self, coordinates):
+        self.room[self.player_position[0]][self.player_position[1]] = ' '
+        self.player_position[0] = self.player_position[0] + coordinates[0]
+        self.player_position[1] = self.player_position[1] + coordinates[1]
+        self.room[self.player_position[0]][self.player_position[1]] = 'P'
+
 
 if __name__ == '__main__':
-    r = Room((25,25)) #tester med et rum der er 25 gange 25
+    r = Room((9,9)) #tester med et rum der er 25 gange 25
+
+    r.print_room()
+
+    r.move_player((0,1))
     r.print_room()
