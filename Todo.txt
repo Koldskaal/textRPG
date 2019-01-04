@@ -8,10 +8,10 @@ Objects:
     story driver
       quest?
 
-      skills:
-        heal
-        buff
-        debuff (poison sword f.eks.)
+  skills:
+    heal
+    buff
+    debuff (poison sword f.eks.)
 
 
 Other:
@@ -23,6 +23,8 @@ Other:
   puzzles
   dodge puzzles
   character creation (simple deploy x amount of base stats?)
+  Main menu
+  saving progress?
 
 Story:
   who
