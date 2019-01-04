@@ -13,9 +13,14 @@ Objects:
     buff
     debuff (poison sword f.eks.)
 
+Doors: 
+  2 typer rum (1 dør, 2 døre)
+  2 typer døre(prev room, next room)
+  exclude hjørner  (0,0), (0,hight), (0,length), (length, hight)
+  auto generate rum
+  change directional door change coordinates til nye døre
 
 Other:
-  Doors
   equipment
   inventory
   auto combat
