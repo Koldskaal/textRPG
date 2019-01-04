@@ -74,7 +74,9 @@ class Room:
         # det andet er: len(self.room[1])-1 , er max tal på det vandrette koordinat så helt til højre.
         # Vi kan overveje at gøre så den vælger en random væg at placere døren i. Lige nu er det altid til højre
         # vi har nu gemt koordinaterne på døren "next"
-        self.door['next'] = [randint(1, len(self.room[0])-2),len(self.room[1])-1]
+        self.door['next'] = [0, 0]
+        self.door['next'][1] = len(self.room[1])-1
+        self.door['next'][0] = randint(1, len(self.room)-2)
 
         # Her bruger vi de koordinater vi lige har genereret til at skrive døren ind i rummet.
         # Jeg har valgt at lave døren tom i stedet for en | men det kan vi altid ændre igen.
@@ -85,7 +87,7 @@ class Room:
             # max vandret, helt til højre
             horizontal_coord = len(self.room[1])-1
             # random int mellem 1 og en mindre end max lodret
-            vertical_coord = randint(1, len(self.room[0])-2)
+            vertical_coord = randint(1, len(self.room)-2)
             # her gemmer  vi det i en "prev" key, så vi kan slå op senere hvilken dør vi går igennem
             self.door['prev'] = [vertical_coord, horizontal_coord]
             # og sætter den ind i rummet
@@ -95,7 +97,7 @@ class Room:
             # resten er samme princip som den første.
             # døren her kommer fra en dør der lå til højre, så den må ligge til venstre.
             horizontal_coord = 0
-            vertical_coord = randint(1, len(self.room[0])-2)
+            vertical_coord = randint(1, len(self.room)-2)
             self.door['prev'] = [vertical_coord, horizontal_coord]
             self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
 
