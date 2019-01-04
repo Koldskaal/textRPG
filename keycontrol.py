@@ -3,9 +3,9 @@ from data import room, room_controller
 
 running = True
 
-other = room.Room((15,15))
+#other = room.Room((15,15))
 r = room_controller.RoomController(room.Room((10,9)))
-r.assign_next_room(other)
+#r.assign_next_room(other)
 
 r.print_room()
 movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0)}

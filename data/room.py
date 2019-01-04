@@ -54,12 +54,14 @@ class Room:
         ):
             pass
         elif (
-        self.room
-        [self.player_position[0] + coordinates[0]]
-        [self.player_position[1] + coordinates[1]]
-        == "|"
+        self.player_position[0] + coordinates[0]
+        == self.door['next'][0]
+        and
+        self.player_position[1] + coordinates[1]
+        == self.door['next'][1]
         ):
             self.change_room()
+            #print([self.door['next']])
         else:
             self.room[self.player_position[0]][self.player_position[1]] = ' '
             self.player_position[0] = self.player_position[0] + coordinates[0]
