@@ -15,6 +15,8 @@ class Room:
         self.map_player()
         self.print_door()
 
+        self.go_to_next = None
+
     def generate_border(self, size):
         map = []
         x, y = size
@@ -64,7 +66,7 @@ class Room:
         self.room[door_coordinates[0]][door_coordinates[1]] = "|"
 
     def change_room(self):
-        pass # to change
+        self.go_to_next = True
 
 
 if __name__ == '__main__':
