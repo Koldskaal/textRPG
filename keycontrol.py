@@ -4,7 +4,7 @@ from data import room, room_controller
 running = True
 
 #other = room.Room((15,15))
-r = room_controller.RoomController(room.Room((10,9)))
+r = room_controller.RoomController(room.Room((10,9), room_nr='0'))
 #r.assign_next_room(other)
 
 r.print_room()

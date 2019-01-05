@@ -4,7 +4,7 @@ WALL_CHAR_UP_DOWN = 'x'
 WALL_CHAR_LEFT_RIGHT = 'x'
 
 class Room:
-    def __init__(self, size, prev_room_door=''):
+    def __init__(self, size, prev_room_door='', room_nr=''):
         """
         Arguments
         ---------
@@ -16,6 +16,7 @@ class Room:
                 ("left", "right", "up" or "down")
         """
         self.room = self.generate_border(size)
+        self.generate_room_nr(room_nr)
 
         self.door = {}
         self.print_door(prev_room_door)
@@ -37,6 +38,12 @@ class Room:
             map.append(row)
 
         return map
+
+    def generate_room_nr(self, room_nr):
+        koord_y = 1
+        for number in room_nr:
+            self.room[0][koord_y] = number
+            koord_y += 1
 
     def spawn_player(self):
             self.room[self.player_position[0]][self.player_position[1]] = 'P'
@@ -75,7 +82,7 @@ class Room:
                 ):
                     print("change to prev")
                     self.change_room_backwards()
-                    pass
+                    return
             print("walk to coord")
             self.room[self.player_position[0]][self.player_position[1]] = ' '
             self.player_position[0] = self.player_position[0] + coordinates[0]

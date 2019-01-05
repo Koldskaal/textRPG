@@ -11,13 +11,14 @@ class RoomController:
                 An instance of a Room()
         """
         self.current_room = starter_room
-        self.next_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]))
+        self.RN = 0
+        self.next_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]), str(self.RN+1))
         self.prev_room = None
         self.spawn_player_controller()
         self.current_room.spawn_player()
         self.list_of_rooms = []
         self.list_of_rooms.append(self.current_room)
-        self.RN = 0
+
 
     def assign_next_room(self, room):
         self.next_room = room
@@ -36,7 +37,7 @@ class RoomController:
             self.prev_room = self.current_room
             self.current_room = self.next_room
             self.list_of_rooms.append(self.current_room)
-            self.next_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]))
+            self.next_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]), str(self.RN+1))
             self.RN = self.RN + 1
             print(f'RN: {self.RN}')
             print(f'len of roomlist{len(self.list_of_rooms)}')
