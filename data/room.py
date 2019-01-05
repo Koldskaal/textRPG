@@ -69,6 +69,18 @@ class Room:
         ):
             self.change_room()
 
+        elif (
+        self.room
+        [self.player_position[0] + coordinates[0]]
+        [self.player_position[1] + coordinates[1]]
+        != "x"
+        and
+        self.room
+        [self.player_position[0] + coordinates[0]]
+        [self.player_position[1] + coordinates[1]]
+        != " "
+        ):
+            pass #go to npc in objects
         else:
             if self.door.get("prev"):
                 if (

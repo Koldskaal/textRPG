@@ -7,15 +7,13 @@ Objects:
       inventory
     story driver
       quest?
+    enemy
 
   skills:
     heal
     buff
     debuff (poison sword f.eks.)
 
-Doors:
-  fix prev door (skift måden vi ændrer rum fra go_to_next = True til noget andet)
-  fix liste system til next og prev Room
 
 
 Other:
