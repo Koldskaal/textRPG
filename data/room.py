@@ -19,8 +19,8 @@ class Room:
 
         self.door = {}
         self.print_door(prev_room_door)
-
         self.go_to_next = None
+        self.go_to_prev = None
 
     def generate_border(self, size):
         map = []
@@ -118,6 +118,8 @@ class Room:
     def change_room(self):
         self.go_to_next = True
 
+    def change_room_backwards(self):
+        self.go_to_prev = True
 
 if __name__ == '__main__':
     r = Room((9,9), 'up') #tester med et rum der er 25 gange 25
