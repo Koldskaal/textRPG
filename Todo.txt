@@ -1,25 +1,33 @@
 Objects:
   Character
-    gold, health, mana, armor, equipment, skills, level, xp,
-    base stats (str, agi, int, hp, mana)
+    make more
+
   NPC
     trader
+      shopkeeper
       inventory
     story driver
       quest?
-    enemy
+    enemy - needs work
+      make more
 
-  skills:
+  skills: mana and int here
     heal
     buff
     debuff (poison sword f.eks.)
 
+udvid loot loot_tables
 
+balance combat stats
+
+nye client - movement n shit'
+get rid of prev (HVIS VI GIDER CUS WHO DOES) i mean it works....
+
+Matt: Look at shopkeeper
+Aviv: do the hard work
 
 Other:
   equipment
-  inventory
-  auto combat
   game tick timer
   puzzles
   dodge puzzles

@@ -1,6 +1,6 @@
 from random import choice
 from random import randint
-#import low_level
+#import low_level for testing
 
 def grab_loot_low_level(list_of_equipment,list_of_rest,min_loot, max_loot):
     looted = []
@@ -17,5 +17,4 @@ def grab_loot_low_level(list_of_equipment,list_of_rest,min_loot, max_loot):
                 looted.append(choice(list_of_rest))
         else:
             looted.append(choice(list_of_rest))
-    print(looted)
     return looted
