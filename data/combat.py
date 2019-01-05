@@ -1,7 +1,8 @@
 import character
 import time
+from loot_tables import grab_loot,low_level
 from termcolor import colored
-
+import sys
 
 
 p = character.Player()
@@ -55,4 +56,11 @@ def encounter(p, e):
     if winner == p:
         p.gain_exp(10)
         p.gold += e.gold
-        
+        gained_items = grab_loot_low_level(low_level.list_of_equipment,low_level.list_of_rest,2,5)
+        print(f'You picked up: {gained_items}!')
+        p.items += gained_items
+    else:
+        print("You lose gtfo")
+        sys.exit()
+
+encounter(p,e)
