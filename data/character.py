@@ -15,6 +15,7 @@ class Character:
 
 class Player(Character):
     """
+
     {'helmet' : {
         'id': 12,
         'str': 1,
