@@ -52,6 +52,7 @@ class Room:
         [self.player_position[1] + coordinates[1]]
         == "x"
         ):
+            print('into x')
             pass
         elif (
         self.player_position[0] + coordinates[0]
@@ -60,19 +61,22 @@ class Room:
         self.player_position[1] + coordinates[1]
         == self.door['next'][1]
         ):
+            print('change to next')
             self.change_room()
 
-        elif self.door.get("prev"):
-            if (
-            self.player_position[0] + coordinates[0]
-            == self.door['prev'][0]
-            and
-            self.player_position[1] + coordinates[1]
-            == self.door['prev'][1]
-            ):
-                self.change_room_backwards()
-
         else:
+            if self.door.get("prev"):
+                if (
+                self.player_position[0] + coordinates[0]
+                == self.door['prev'][0]
+                and
+                self.player_position[1] + coordinates[1]
+                == self.door['prev'][1]
+                ):
+                    print("change to prev")
+                    self.change_room_backwards()
+                    pass
+            print("walk to coord")
             self.room[self.player_position[0]][self.player_position[1]] = ' '
             self.player_position[0] = self.player_position[0] + coordinates[0]
             self.player_position[1] = self.player_position[1] + coordinates[1]
