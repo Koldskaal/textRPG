@@ -39,8 +39,8 @@ class Player(Character):
         self.items = []
 
     def gain_exp(self, amount):
-        self.exp += amoumt
-        if exp >= levelcap:
+        self.exp += amount
+        if self.exp >= levelcap:
             self.level_up()
 
     def level_up(self):
