@@ -25,12 +25,14 @@ class RoomController:
         self.list_of_rooms.append(self.prev_room)
         self.prev_room = self.current_room
         self.current_room = self.next_room
-        if self.list_of_rooms[self.RN+1] == None:
-            self.next_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]))
-            self.RN = self.RN + 1
-        else:
+        if len(self.list_of_rooms)-1 > self.RN:
             self.next_room = self.list_of_rooms[self.RN+1]
             self.RN = self.RN + 1
+
+        else:
+            self.next_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]))
+            self.RN = self.RN + 1
+            print(self.list_of_rooms)
 
     def change_room_backwards(self):
         self.next_room = self.current_room
@@ -68,17 +70,15 @@ class RoomController:
     def move_player(self, coordinates):
         self.current_room.move_player(coordinates)
         if self.current_room.go_to_next == True:
+            self.current_room.go_to_next = False
             self.change_room()
             self.spawn_player_controller()
             self.current_room.spawn_player()
-            self.print_room()
-            self.current_room.go_to_next = False
 
-    def move_player_backwards(self, coordinates):
-        self.current_room.move_player(coordinates)
-        if self.current_room.go_to_prev == True:
-            self.change_room_backwards()
-            self.spawn_player_controller()
-            self.current_room.spawn_player()
-            self.print_room()
+
+        elif self.current_room.go_to_prev == True:
             self.current_room.go_to_prev = False
+            self.change_room_backwards()
+            #self.spawn_player_controller()
+            #self.current_room.spawn_player()
+            self.print_room()

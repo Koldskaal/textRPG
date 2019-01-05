@@ -61,7 +61,17 @@ class Room:
         == self.door['next'][1]
         ):
             self.change_room()
-            #print([self.door['next']])
+
+        elif self.door.get("prev"):
+            if (
+            self.player_position[0] + coordinates[0]
+            == self.door['prev'][0]
+            and
+            self.player_position[1] + coordinates[1]
+            == self.door['prev'][1]
+            ):
+                self.change_room_backwards()
+
         else:
             self.room[self.player_position[0]][self.player_position[1]] = ' '
             self.player_position[0] = self.player_position[0] + coordinates[0]
