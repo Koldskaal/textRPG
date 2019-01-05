@@ -1,3 +1,5 @@
+from termcolor import colored
+
 class Character:
     def __init__(self):
         self.name = ""
@@ -23,7 +25,7 @@ class Player(Character):
     def __init__(self):
         super().__init__()
 
-        self.name = 'Player'
+        self.name = colored('Player', 'blue', attrs=['bold',])
         self.Player = True
 
         self.level = 1
@@ -47,5 +49,7 @@ class Monster(Character):
     def __init__(self):
         super().__init__()
 
-        self.name = "Monster"
+        self.name = colored('Monster', 'magenta', attrs=['bold',])
         self.Enemy = True
+
+        self.loot_table = 'table_x'
