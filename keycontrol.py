@@ -13,6 +13,7 @@ movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0)}
 def move(event):
     global r
     if event.name in movement:
+        print('\n'*20)
         r.move_player(movement[event.name])
         r.print_room()
 

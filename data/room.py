@@ -40,7 +40,7 @@ class Room:
         return map
 
     def generate_room_nr(self, room_nr):
-        koord_y = 1
+        koord_y = 0
         for number in room_nr:
             self.room[0][koord_y] = number
             koord_y += 1
@@ -59,7 +59,6 @@ class Room:
         [self.player_position[1] + coordinates[1]]
         == "x"
         ):
-            print('into x')
             pass
         elif (
         self.player_position[0] + coordinates[0]
@@ -68,7 +67,6 @@ class Room:
         self.player_position[1] + coordinates[1]
         == self.door['next'][1]
         ):
-            print('change to next')
             self.change_room()
 
         else:
@@ -80,10 +78,8 @@ class Room:
                 self.player_position[1] + coordinates[1]
                 == self.door['prev'][1]
                 ):
-                    print("change to prev")
                     self.change_room_backwards()
                     return
-            print("walk to coord")
             self.room[self.player_position[0]][self.player_position[1]] = ' '
             self.player_position[0] = self.player_position[0] + coordinates[0]
             self.player_position[1] = self.player_position[1] + coordinates[1]
