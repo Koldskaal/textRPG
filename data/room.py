@@ -50,8 +50,8 @@ class Room:
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
 
     def print_room(self):
-        for row in self.room:
-            print(' '.join(row))
+        string = '\n'.join(''.join(row) for row in self.room)
+        print(string)
 
     def move_player(self, coordinates):
         if (
