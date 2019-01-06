@@ -2,6 +2,7 @@ from random import randint
 
 WALL_CHAR_UP_DOWN = 'x'
 WALL_CHAR_LEFT_RIGHT = 'x'
+PLAYER_CHAR = 'P'# '■'
 
 class Room:
     def __init__(self, size, prev_room_door='', room_nr=''):
@@ -46,7 +47,7 @@ class Room:
             koord_y += 1
 
     def spawn_player(self):
-            self.room[self.player_position[0]][self.player_position[1]] = 'P'
+            self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
 
     def print_room(self):
         for row in self.room:
@@ -95,7 +96,7 @@ class Room:
             self.room[self.player_position[0]][self.player_position[1]] = ' '
             self.player_position[0] = self.player_position[0] + coordinates[0]
             self.player_position[1] = self.player_position[1] + coordinates[1]
-            self.room[self.player_position[0]][self.player_position[1]] = 'P'
+            self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
 
     def print_door(self, prev_room_door):
         # to koordinater sat ind dictionariet door med key next.
