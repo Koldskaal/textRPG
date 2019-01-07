@@ -75,7 +75,7 @@ if __name__ == '__main__':
     e2 = character.Monster()
     e2.health = 10
     e3 = character.Monster()
-    e3.health = 10
+    e3.health = 15
     encounter(p,e)# for testing
     print(p.levelcap)
     encounter(p,e2)
