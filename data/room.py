@@ -99,7 +99,7 @@ class Room:
         self.room
         [self.player_position[0] + coordinates[0]]
         [self.player_position[1] + coordinates[1]]
-        != "x"
+        != WALL_CHAR_UP_DOWN
         and
         self.room
         [self.player_position[0] + coordinates[0]]

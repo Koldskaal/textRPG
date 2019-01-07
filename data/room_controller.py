@@ -68,6 +68,12 @@ class RoomController:
     def print_room(self):
         self.current_room.print_room()
 
+    def use_key(self, key):
+        if current_room == room:
+            move_player
+        elif current_room == shop_keeper:
+            shop_menu
+
     def move_player(self, coordinates):
         self.current_room.move_player(coordinates)
         if self.current_room.go_to_next == True:
