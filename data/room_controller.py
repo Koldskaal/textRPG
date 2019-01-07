@@ -1,23 +1,28 @@
 from . import room
 from random import randint
 from random import choice
+from .canvas import Canvas
 
 class RoomController:
-    def __init__(self, starter_room):
+    def __init__(self):
         """
         Arguments
         ---------
             starter_room : class Room
                 An instance of a Room()
         """
-        self.current_room = starter_room
+        self.canvas = Canvas()
+
+        self.current_room = room.Room((10,9), room_nr='0', canvas=self.canvas)
         self.RN = 0
-        self.next_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]), str(self.RN+1))
+        self.next_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]), str(self.RN+1), canvas=self.canvas)
         self.prev_room = None
         self.spawn_player_controller()
         self.current_room.spawn_player()
         self.list_of_rooms = []
         self.list_of_rooms.append(self.current_room)
+
+
 
 
     def assign_next_room(self, room):
@@ -32,7 +37,7 @@ class RoomController:
 
         else:
             self.prev_room = self.current_room
-            self.current_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]), str(self.RN+1))
+            self.current_room = room.Room((randint(5,15),randint(5,15)),choice(["right"]), str(self.RN+1), canvas=self.canvas)
             self.list_of_rooms.append(self.current_room)
             self.RN = self.RN + 1
 
@@ -88,3 +93,5 @@ class RoomController:
             self.change_room_backwards()
             #self.spawn_player_controller()
             #self.current_room.spawn_player()
+
+        self.print_room()

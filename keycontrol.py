@@ -12,7 +12,7 @@ cursor.hide() ## Hides the cursor
 running = True
 
 #other = room.Room((15,15))
-r = room_controller.RoomController(room.Room((10,9), room_nr='0'))
+r = room_controller.RoomController()
 #r.assign_next_room(other)
 print("Press q for exit.")
 r.print_room()
@@ -33,7 +33,7 @@ if sys.stdin.isatty():
                 print("\033[H\033[J")  # moves curser to start corner then deletes down
                 print('\n'*20)
                 r.move_player(movement[chr(key)])
-                r.print_room()
+
 
             if key == ord('q'):
                 running = False
@@ -42,8 +42,8 @@ else:
         global r
         if event.name in movement:
             print('\n'*20)
-            r.move_player(movement[event.name])
-            r.print_room()
+            r.use_key(event.name)
+
 
         if event.name == 'q':
             global running

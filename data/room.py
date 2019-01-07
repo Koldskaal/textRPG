@@ -5,7 +5,7 @@ from . import combat,character
 p = character.Player()
 
 class Room:
-    def __init__(self, size, prev_room_door='', room_nr=''):
+    def __init__(self, size, prev_room_door='', room_nr='', canvas=None):
         """
         Arguments
         ---------
@@ -16,6 +16,8 @@ class Room:
                 Previous position of the door that was walked thorugh
                 ("left", "right", "up" or "down")
         """
+        self.canvas = canvas
+
         self.size = size
         self.room = self.generate_border()
         self.generate_room_nr(room_nr)
@@ -75,7 +77,17 @@ class Room:
             else:
                 string += '\n' + WALL_CHAR_UP_DOWN.join(row)
         string.replace
-        print(string)
+        settings = {
+            'horizontal_order'  : 1,     # Order of who goes first from left to right
+            'delay'             : 0,     # if it needs to be x lines below
+            'width'             : 50,    # how wide will it print
+            'allignment'        : '^',
+            'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
+            'join_char'         : ''
+        }
+        # print(string)
+        self.canvas.add_to_print('room', string, settings)
+        self.canvas.print_canvas()
 
 
     def move_player(self, coordinates):
@@ -107,7 +119,7 @@ class Room:
         != " "
         ):
             e = character.Monster()
-            winning = combat.encounter(p,e)
+            winning = combat.encounter(p,e, self.canvas)
             if winning == "enemy_killed":
                 self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
 

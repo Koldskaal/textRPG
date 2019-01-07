@@ -1,4 +1,6 @@
 """ This scrpit is supposed to tie all objects together to a single print """
+import colorama
+import termcolor
 
 class Canvas:
     def __init__(self):
@@ -19,6 +21,7 @@ class Canvas:
 
     def print_canvas(self):
         # Find the lowest printed line
+        # print(self.areas['room']['string'])
         lines = 0
         for items in self.areas.values():
             items['_split'] = items['string'].splitlines()
@@ -27,6 +30,7 @@ class Canvas:
             fills = len(items['_split']) + items.get('delay', 0)
             if fills > lines:
                 lines = fills
+
 
         # print in order
         # find the horizontal order
@@ -48,14 +52,18 @@ class Canvas:
                     if not start_postition.get(k):
                         start_postition[k] = len(big_string.splitlines()[-1])
                     popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ''
+                    # print(popped)
                     if len(big_string.splitlines()[-1]) != start_postition[k]:
-                        big_string += ' '*(start_postition[k] - len(big_string.splitlines()[-1]) - 1) + '|'
+                        big_string += ' '*(start_postition[k] - len(big_string.splitlines()[-1]) - 1)
                     if popped:
-                        big_string += '{: {allignment}{width}}|'.format(
-                            f"{self.areas[k].get('join_char', '')}".join(popped),
-                            allignment = self.areas[k].get('allignment', '^'),
-                            width = self.areas[k].get('width', 30)
+                        add = '{item:^50}'.format(
+                            # item=termcolor.colored(popped, 'red')
+                            item=popped
+                            # allignment = self.areas[k].get('allignment', '^'),
+                            # width = self.areas[k].get('width', 30)
                         )
+                        # print(add)
+                        big_string += add
 
         print(big_string)
 
@@ -98,7 +106,9 @@ class Canvas:
         for row in self.main_box:
             s += '\n'
             s += " ".join(row)
-        self.add_to_print('room', s, {'horizontal_order': 1, 'width': 40})
+
+        # print(s)
+        self.add_to_print('room', termcolor.colored(s, 'red'), {'horizontal_order': 1, 'width': 40})
         self.add_to_print('stats', healthbox, {'horizontal_order': 2, 'width': 20, 'allignment': '<', 'delay': 1})
         self.add_to_print('room2', s, {'horizontal_order': 1, 'width': 40, 'delay': 11})
 
@@ -121,5 +131,5 @@ class Canvas:
 
 
     """
-
-c = Canvas().print_example()
+if __name__ == '__main__':
+    c = Canvas().print_example()
