@@ -1,4 +1,4 @@
-import character
+
 import time
 from loot_tables import grab_loot,low_level
 from termcolor import colored
@@ -9,9 +9,7 @@ if sys.stdin.isatty():
     colorama.init(convert=True)
 
 
-p = character.Player()
 
-e = character.Monster()
 
 def fight(p, e):
     next_hit_p = 0
@@ -67,4 +65,8 @@ def encounter(p, e):
         print("You lose gtfo")
         sys.exit()
 
-encounter(p,e)# for testing
+if __name__ == '__main__':
+    import character
+    p = character.Player()
+    e = character.Monster()
+    encounter(p,e)# for testing
