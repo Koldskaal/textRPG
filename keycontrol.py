@@ -2,9 +2,10 @@ import msvcrt
 import keyboard
 from data import room, room_controller
 import sys
-from shutil import get_terminal_size
-terminal_size = get_terminal_size()
-print(terminal_size)
+if sys.stdin.isatty():
+    import colorama
+    colorama.init(convert=True)
+
 import cursor
 cursor.hide() ## Hides the cursor
 
@@ -15,6 +16,7 @@ r = room_controller.RoomController(room.Room((10,9), room_nr='0'))
 #r.assign_next_room(other)
 print("Press q for exit.")
 r.print_room()
+
 movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0)}
 
 

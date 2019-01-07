@@ -1,8 +1,5 @@
 from random import randint
-
-WALL_CHAR_UP_DOWN = 'x'
-WALL_CHAR_LEFT_RIGHT = 'x'
-PLAYER_CHAR = 'P'# '■'
+from .textures import *
 
 class Room:
     def __init__(self, size, prev_room_door='', room_nr=''):
@@ -16,17 +13,21 @@ class Room:
                 Previous position of the door that was walked thorugh
                 ("left", "right", "up" or "down")
         """
-        self.room = self.generate_border(size)
+        self.size = size
+        self.room = self.generate_border()
         self.generate_room_nr(room_nr)
+
 
         self.door = {}
         self.print_door(prev_room_door)
         self.go_to_next = None
         self.go_to_prev = None
 
-    def generate_border(self, size):
+
+
+    def generate_border(self):
         map = []
-        x, y = size
+        x, y = self.size
         for i_x in range(x):
             row = []
             for i_y in range(y):
@@ -48,10 +49,31 @@ class Room:
 
     def spawn_player(self):
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
+            self.spawn_monsters()
+
+    def spawn_monsters(self, amount=None):
+        if not amount:
+            amount = randint(1, 5)
+        monster_coord = set()
+        while len(monster_coord) <= amount:
+            rand_coord = (randint(1, self.size[0]-2),randint(1, self.size[1]-2))
+            if rand_coord[0] != self.player_position[0] and rand_coord[1] != self.player_position[1]:
+                monster_coord.add(rand_coord)
+
+        for coord in monster_coord:
+            self.room[coord[0]][coord[1]] = MONSTER_CHAR
+
 
     def print_room(self):
-        string = '\n'.join(' '.join(row) for row in self.room)
+        string = ""
+        for row in self.room:
+            if " " in row or PLAYER_CHAR in row:
+                string += '\n' + ' '.join(row)
+            else:
+                string += '\n' + WALL_CHAR_UP_DOWN.join(row)
+        string.replace
         print(string)
+
 
     def move_player(self, coordinates):
         if (
