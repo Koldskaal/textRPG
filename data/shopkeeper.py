@@ -1,37 +1,52 @@
 import shopkeeper_stock
-menu_options = ["buy", "sell", "leave"]
-menu_position = 0
+import sys
 
-def shop_menu():
-    while True
+class Shop:
+    def __init__():
+        self.menu_options = ["buy", "sell", "leave"]
+        self.menu_position = 0
+        self.shop_position = 0
+
+    def shop_menu():
         print(shopkeeper_stock.shop_items)
-        if menu_position == 0:
+        if self.menu_position == 0:
+            print(colored("Buy", 'on_green', attrs=['bold']))
+            print("Sell")
+            print("Leave Shop")
             if event.name == "ENTER":
                 buy_item()
             if event.name == "s":
-                menu_position += 1
+                self.menu_position += 1
             else:
                 pass
-        if menu_position == 1:
+        if self.menu_position == 1:
+            print("Buy"))
+            print(colored("Sell", 'on_green', attrs=['bold']))
+            print("Leave Shop")
             if event.name == "ENTER":
                 sell_item()
             if event.name == "s":
-                menu_position += 1
+                self.menu_position += 1
             if event.name == "w":
-                menu_position -= 1
+                self.menu_position -= 1
             else:
                 pass
-        if menu_position == 2:
+        if self.menu_position == 2:
+            print("Buy")
+            print("Sell")
+            print(colored("Leave Shop", 'on_green', attrs=['bold']))
             if event.name == "ENTER":
                 leave_shop()
-
-            if event.name == "w":
-                menu_position -= 1
+                if event.name == "w":
+                self.menu_position -= 1
             else:
                 pass
 
 
 def stock(self):
+    self.stock
+
+def
 
 def buy_item():
     pass

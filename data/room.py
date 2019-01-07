@@ -1,5 +1,8 @@
 from random import randint
 from .textures import *
+from . import combat,character
+
+p = character.Player()
 
 class Room:
     def __init__(self, size, prev_room_door='', room_nr=''):
@@ -103,7 +106,11 @@ class Room:
         [self.player_position[1] + coordinates[1]]
         != " "
         ):
-            pass #go to npc in objects
+            e = character.Monster()
+            winning = combat.encounter(p,e)
+            if winning == "enemy_killed":
+                self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
+
         else:
             if self.door.get("prev"):
                 if (

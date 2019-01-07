@@ -52,12 +52,14 @@ class Player(Character):
     def level_up(self):
         self.level += 1
         self.exp = self.exp-self.levelcap
-<<<<<<< HEAD
-        self.levelcap = 5+3*self.level**2
-=======
         self.levelcap = 5+4*self.level**2
->>>>>>> 96f8d5135b3b4f77174752135e2493314a83dc32
+        self.str += 2
+        self.agi += 2
+        self.int += 2
+        self.health = 100 + self.level*20-20
+        self.mana = 100 + self.level*20-20
         print (f"Level up! You are now level {self.level}!")
+        print ("All stats increased by 2! Health and mana increased by 20! You feel refreshed!")
 
 class Monster(Character):
     def __init__(self):
@@ -65,5 +67,5 @@ class Monster(Character):
 
         self.name = colored('Monster', 'magenta', attrs=['bold',])
         self.Enemy = True
-
+        self.exp = 10
         self.loot_table = 'table_x'

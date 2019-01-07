@@ -1,7 +1,8 @@
 
 import time
-from loot_tables import grab_loot,low_level
+from .loot_tables import grab_loot,low_level
 from termcolor import colored
+from random import choice,randint
 
 import sys
 if sys.stdin.isatty():
@@ -20,7 +21,7 @@ def fight(p, e):
     while True:
 
         def hitting(att, _def):
-            dmg = att.str - _def.armor
+            dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
             dmg_col = colored(str(dmg), 'red', attrs=['bold'])
             print(f"{att.name} attacks!")
 
@@ -49,7 +50,7 @@ def fight(p, e):
                 break
 
 
-        time.sleep(0.1)
+        time.sleep(0.3)
 
     print(f"{winner.name} wins!")
     print(f"{winner.name} has {winner.health} health left.")
@@ -58,11 +59,12 @@ def fight(p, e):
 def encounter(p, e):
     winner = fight(p, e)
     if winner == p:
-        p.gain_exp(10)
+        p.gain_exp(e.exp)
         p.gold += e.gold
         gained_items = grab_loot.grab_loot_low_level(low_level.list_of_weapons, low_level.list_of_helmets, low_level.list_of_armour, low_level.list_of_rest, 2, 5)
         print(f'You picked up: {gained_items}!')
         p.items += gained_items
+        return "enemy_killed"
     else:
         print("You lose gtfo")
         sys.exit()
@@ -71,11 +73,11 @@ if __name__ == '__main__':
     import character
     p = character.Player()
     e = character.Monster()
-    e.health = 25
+    e.health = 100
     e2 = character.Monster()
-    e2.health = 10
+    e2.health = 120
     e3 = character.Monster()
-    e3.health = 15
+    e3.health = 150
     encounter(p,e)# for testing
     print(p.levelcap)
     encounter(p,e2)
