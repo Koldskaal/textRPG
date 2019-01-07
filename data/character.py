@@ -37,14 +37,22 @@ class Player(Character):
         self.current_weapon = ""
         self.equipment = [] # id
         self.items = []
+        self.levelcap = 5+3*self.level**2
 
     def gain_exp(self, amount):
         self.exp += amount
-        if self.exp >= levelcap:
+        print(f"You gained {amount} experience!")
+        if self.levelcap-self.exp <=0:
+            print(f"Required experience untill next level: 0")
+        else:
+            print(f"Required experience untill next level: {self.levelcap-self.exp}")
+        if self.exp >= self.levelcap:
             self.level_up()
 
     def level_up(self):
-        pass
+        self.level += 1
+        self.exp = self.exp-self.levelcap
+        print (f"Level up! You are now level {self.level}!")
 
 class Monster(Character):
     def __init__(self):

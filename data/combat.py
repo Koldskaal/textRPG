@@ -12,7 +12,7 @@ e = character.Monster()
 def fight(p, e):
     next_hit_p = 0
     next_hit_e = 0
-    hit = 100
+    hit = 10
 
 
     while True:
@@ -54,13 +54,13 @@ def fight(p, e):
 def encounter(p, e):
     winner = fight(p, e)
     if winner == p:
-        #p.gain_exp(10)
+        p.gain_exp(10)
         p.gold += e.gold
-        gained_items = grab_loot.grab_loot_low_level(low_level.list_of_equipment,low_level.list_of_rest,2,5)
+        gained_items = grab_loot.grab_loot_low_level(low_level.list_of_weapons, low_level.list_of_helmets, low_level.list_of_armour, low_level.list_of_rest, 10, 15)
         print(f'You picked up: {gained_items}!')
         p.items += gained_items
     else:
         print("You lose gtfo")
         sys.exit()
 
-#encounter(p,e)# for testing
+encounter(p,e)# for testing
