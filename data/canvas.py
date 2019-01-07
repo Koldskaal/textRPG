@@ -40,7 +40,7 @@ class Canvas:
 
         big_string = ""
         for i in range(lines):
-            print("outs")
+            # print("outs")
             big_string += '\n'
             for k, useless in list_of_columns:
                 if i >= self.areas[k].get('delay', 0):
@@ -51,7 +51,7 @@ class Canvas:
                             allignment = self.areas[k].get('allignment', '^'),
                             width = self.areas[k].get('width', 30)
                         )
-                        print('in')
+                        # print('in')
 
         print(big_string)
 
