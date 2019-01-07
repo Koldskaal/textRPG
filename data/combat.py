@@ -2,7 +2,11 @@ import character
 import time
 from loot_tables import grab_loot,low_level
 from termcolor import colored
+
 import sys
+if sys.stdin.isatty():
+    import colorama
+    colorama.init(convert=True)
 
 
 p = character.Player()

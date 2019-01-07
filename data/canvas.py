@@ -18,7 +18,7 @@ class Canvas:
         self.areas[name]['string'] = string
 
     def print_canvas(self):
-        # Check for the lowest line
+        # Find the lowest printed line
         lines = 0
         for items in self.areas.values():
             items['_split'] = items['string'].splitlines()
@@ -35,23 +35,27 @@ class Canvas:
         list_of_columns = []
         for k in self.areas.keys():
             list_of_columns.append((k,self.areas[k].get('horizontal_order', 100)))
-
         list_of_columns.sort(key=takeSecond)
 
         big_string = ""
+
+        start_postition = {}
         for i in range(lines):
-            # print("outs")
-            big_string += '\n'
+            big_string += '\n '
             for k, useless in list_of_columns:
+
                 if i >= self.areas[k].get('delay', 0):
+                    if not start_postition.get(k):
+                        start_postition[k] = len(big_string.splitlines()[-1])
                     popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ''
+                    if len(big_string.splitlines()[-1]) != start_postition[k]:
+                        big_string += ' '*(start_postition[k] - len(big_string.splitlines()[-1]) - 1) + '|'
                     if popped:
                         big_string += '{: {allignment}{width}}|'.format(
                             f"{self.areas[k].get('join_char', '')}".join(popped),
                             allignment = self.areas[k].get('allignment', '^'),
                             width = self.areas[k].get('width', 30)
                         )
-                        # print('in')
 
         print(big_string)
 
@@ -75,37 +79,27 @@ class Canvas:
 
 
         string = ""
-        healthbox = """--------------------
+        healthbox = """----------------[u]-
  Health: 100/100
  Mana:   100/100
  Str:    10+4(14)
  Int:    10
  Agi:    10
---------------------
+----------------[i]-
  Equipment:
     - Helmet
     - Boots
     ...
---------------------"""
+--------------------
+"""
 
-
-        # lines = max(len(self.main_box), len(healthbox))
-        # nr = 40
-        # for i in range(lines):
-        #     string += "\n" + '{: ^{nr}}|{: <20}|'.format(
-        #
-        #     " ".join(self.main_box.pop(0) if self.main_box else ''),
-        #
-        #     "".join(healthbox.pop(0) if healthbox else ''),
-        #     nr=nr
-        #     )
         print("This is how it could look.")
         s = ''
         for row in self.main_box:
             s += '\n'
             s += " ".join(row)
         self.add_to_print('room', s, {'horizontal_order': 1, 'width': 40})
-        self.add_to_print('stats', healthbox, {'horizontal_order': 2, 'width': 20, 'allignment': '<'})
+        self.add_to_print('stats', healthbox, {'horizontal_order': 2, 'width': 20, 'allignment': '<', 'delay': 1})
         self.add_to_print('room2', s, {'horizontal_order': 1, 'width': 40, 'delay': 11})
 
         self.print_canvas()
