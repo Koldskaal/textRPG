@@ -1,6 +1,7 @@
 from . import room
 from random import randint
 from random import choice
+from . import shopkeeper
 
 class RoomController:
     def __init__(self, starter_room):
@@ -44,6 +45,7 @@ class RoomController:
     def spawn_player_controller(self):
         if self.prev_room == None:
             self.current_room.player_position = [2,2]
+            self.current_room.shop_position = [4,4]
         else:
             #hvis P kommer fra venstre
             if self.prev_room.player_position[1] < self.prev_room.door["next"][1]:
@@ -69,10 +71,18 @@ class RoomController:
         self.current_room.print_room()
 
     def use_key(self, key):
-        if current_room == room:
-            move_player
-        elif current_room == shop_keeper:
-            shop_menu
+        if isinstance(self.current_room, room.Room):
+            movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0)}
+            self.move_player(movement[key])
+
+        elif isinstance(self.current_room, shopkeeper.Shop):
+            def move(key):
+                if key.name == 'q':
+                    global running
+                    running = False
+                if direction.name == 'w' or 's' or 'ENTER':
+                    print('\n'*20)
+                    shop_keeper.shop_menu(key)
 
     def move_player(self, coordinates):
         self.current_room.move_player(coordinates)
@@ -88,3 +98,7 @@ class RoomController:
             self.change_room_backwards()
             #self.spawn_player_controller()
             #self.current_room.spawn_player()
+
+        elif self.current_room.go_to_shop == True:
+            self.current_room.go_to_shop = False
+            self.change_to_shop()

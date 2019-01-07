@@ -42,7 +42,7 @@ else:
         global r
         if event.name in movement:
             print('\n'*20)
-            r.move_player(movement[event.name])
+            r.use_key(event.name)
             r.print_room()
 
         if event.name == 'q':

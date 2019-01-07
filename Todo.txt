@@ -23,7 +23,7 @@ balance combat stats
 nye client - movement n shit'
 get rid of prev (HVIS VI GIDER CUS WHO DOES) i mean it works....
 
-Matt: Look at shopkeeper
+Matt: Look at shopkeeper - continue from "change_to_shop"
 Aviv: do the hard work
 
 Other:

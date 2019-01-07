@@ -1,4 +1,4 @@
-import shopkeeper_stock
+from . import shopkeeper_stock
 import sys
 
 class Shop:
@@ -21,7 +21,7 @@ class Shop:
             else:
                 pass
         if self.menu_position == 1:
-            print("Buy"))
+            print("Buy")
             print(colored("Sell", 'on_green', attrs=['bold']))
             print("Leave Shop")
             if direction == "ENTER":
@@ -39,7 +39,7 @@ class Shop:
             if direction == "ENTER":
                 leave_shop()
                 if direction == "w":
-                self.menu_position -= 1
+                    self.menu_position -= 1
             else:
                 pass
 
@@ -47,7 +47,7 @@ class Shop:
 def stock(self):
     self.stock
 
-def
+#def
 
 def buy_item():
     pass
@@ -56,3 +56,4 @@ def sell_item():
     pass
 
 def leave_shop():
+    pass

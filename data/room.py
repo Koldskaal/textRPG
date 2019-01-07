@@ -25,6 +25,7 @@ class Room:
         self.print_door(prev_room_door)
         self.go_to_next = None
         self.go_to_prev = None
+        self.go_to_shop = None
 
 
 
@@ -52,6 +53,7 @@ class Room:
 
     def spawn_player(self):
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
+            self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
             self.spawn_monsters()
 
     def spawn_monsters(self, amount=None):
@@ -106,10 +108,13 @@ class Room:
         [self.player_position[1] + coordinates[1]]
         != " "
         ):
-            e = character.Monster()
-            winning = combat.encounter(p,e)
-            if winning == "enemy_killed":
-                self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
+            if self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == MONSTER_CHAR:
+                e = character.Monster()
+                winning = combat.encounter(p,e)
+                if winning == "enemy_killed":
+                    self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
+            elif self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == SHOP_STAND:
+                change_to_shop()
 
         else:
             if self.door.get("prev"):
@@ -126,6 +131,7 @@ class Room:
             self.player_position[0] = self.player_position[0] + coordinates[0]
             self.player_position[1] = self.player_position[1] + coordinates[1]
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
+
 
     def print_door(self, prev_room_door):
         # to koordinater sat ind dictionariet door med key next.
@@ -180,6 +186,8 @@ class Room:
     def change_room_backwards(self):
         self.go_to_prev = True
 
+    def change_to_shop(self):
+        self.go_to_shop = True
 if __name__ == '__main__':
     r = Room((9,9), 'up') #tester med et rum der er 25 gange 25
     r.print_room()
