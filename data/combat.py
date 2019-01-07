@@ -1,21 +1,18 @@
-
 import time
-from .loot_tables import grab_loot,low_level
 from termcolor import colored
 from random import choice,randint
-
 import sys
-if sys.stdin.isatty():
-    import colorama
-    colorama.init(convert=True)
 
-
+try:
+    from  .loot_tables import grab_loot,low_level
+except ModuleNotFoundError:
+    from  loot_tables import grab_loot,low_level
 
 
 def fight(p, e):
     next_hit_p = 0
     next_hit_e = 0
-    hit = 10
+    hit = 100
 
 
     while True:
@@ -50,7 +47,7 @@ def fight(p, e):
                 break
 
 
-        time.sleep(0.3)
+        time.sleep(0.1)
 
     print(f"{winner.name} wins!")
     print(f"{winner.name} has {winner.health} health left.")
@@ -71,6 +68,9 @@ def encounter(p, e):
 
 if __name__ == '__main__':
     import character
+    if sys.stdin.isatty():
+        import colorama
+        colorama.init(convert=True)
     p = character.Player()
     e = character.Monster()
     e.health = 100
