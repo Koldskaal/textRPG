@@ -56,7 +56,7 @@ def encounter(p, e):
     if winner == p:
         p.gain_exp(10)
         p.gold += e.gold
-        gained_items = grab_loot.grab_loot_low_level(low_level.list_of_weapons, low_level.list_of_helmets, low_level.list_of_armour, low_level.list_of_rest, 10, 15)
+        gained_items = grab_loot.grab_loot_low_level(low_level.list_of_weapons, low_level.list_of_helmets, low_level.list_of_armour, low_level.list_of_rest, 2, 5)
         print(f'You picked up: {gained_items}!')
         p.items += gained_items
     else:
