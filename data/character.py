@@ -52,7 +52,11 @@ class Player(Character):
     def level_up(self):
         self.level += 1
         self.exp = self.exp-self.levelcap
+<<<<<<< HEAD
         self.levelcap = 5+3*self.level**2
+=======
+        self.levelcap = 5+4*self.level**2
+>>>>>>> 96f8d5135b3b4f77174752135e2493314a83dc32
         print (f"Level up! You are now level {self.level}!")
 
 class Monster(Character):
