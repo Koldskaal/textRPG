@@ -22,11 +22,13 @@ def fight(p, e):
         def hitting(att, _def):
             dmg = att.str - _def.armor
             dmg_col = colored(str(dmg), 'red', attrs=['bold'])
-            print(f"{att.name} did {dmg_col} damage to {_def.name}")
+            print(f"{att.name} attacks!")
+
             _def.health -= dmg
-            health_col = colored(str(_def.health), 'red', attrs=['bold'])
-            print(f"{_def.name} has {_def.health} health remaining.")
-            print(" ")
+            health_col = colored(str(_def.health), 'green', attrs=['bold'])
+            print(f"{_def.name} took {dmg_col} damage (HP left: {health_col})")
+            # print(f"{_def.name} has  health remaining.")
+            print("-"*15)
 
 
         next_hit_p += p.agi
@@ -69,4 +71,14 @@ if __name__ == '__main__':
     import character
     p = character.Player()
     e = character.Monster()
+    e.health = 25
+    e2 = character.Monster()
+    e2.health = 10
+    e3 = character.Monster()
+    e3.health = 10
     encounter(p,e)# for testing
+    print(p.levelcap)
+    encounter(p,e2)
+    print(p.levelcap)
+    encounter(p,e3)
+    print(p.levelcap)
