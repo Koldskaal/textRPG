@@ -27,8 +27,14 @@ class Canvas:
         lines = 0
         for items in self.areas.values():
             items['_split'] = items['string'].splitlines()
+            wrap = []
+            for i in items['_split']:
+                wrap += ansiwrap.wrap(i, items.get('width', 30))
+            items['_split'] = wrap
             if len(items['_split']) > items.get('max_lines', 0) and items.get('max_lines', 0) != 0:
                 items['_split'] = items['_split'][-items['max_lines']:]
+
+
             fills = len(items['_split']) + items.get('delay', 0)
             if fills > lines:
                 lines = fills
@@ -73,7 +79,7 @@ class Canvas:
                 if i >= self.areas[k].get('delay', 0):
                     popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
                     if popped:
-                        popped = ansiwrap.fill(popped, self.areas[k].get('width', 30))
+                        # popped = ansiwrap.fill(popped, self.areas[k].get('width', 30))
                         add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
                         # print(popped)
                         # print(add)
@@ -120,6 +126,7 @@ class Canvas:
     - Boots
     ...
 --------------------
+-------------------------------------------------------------------
 """
 
         print("This is how it could look.")

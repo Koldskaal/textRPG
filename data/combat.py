@@ -21,9 +21,7 @@ def add_to_text_log(text, canvas):
     'max_lines'         : 20,    # for the string that keeps getting bigger. Take only the latest 30
     'join_char'         : ''
     }
-    text = text_log.splitlines()
-    text = '\n'.join(text[-20:])
-    canvas.add_to_print('log', text, settings)
+    canvas.add_to_print('log', text_log, settings)
     canvas.print_canvas()
 
 def print_canvas(canvas):
