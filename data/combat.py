@@ -15,7 +15,7 @@ def add_to_text_log(text, canvas):
     text_log += text + "\n"
     settings = {
     'horizontal_order'  : 2,     # Order of who goes first from left to right
-    'delay'             : 1,     # if it needs to be x lines below
+    'delay'             : 0,     # if it needs to be x lines below
     'width'             : 50,    # how wide will it add_to_text_log
     'allignment'        : '<',
     'max_lines'         : 20,    # for the string that keeps getting bigger. Take only the latest 30

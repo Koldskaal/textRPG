@@ -1,6 +1,7 @@
 from random import randint
 from .textures import *
 from . import combat,character
+import time
 
 p = character.Player()
 
@@ -73,9 +74,9 @@ class Room:
         string = ""
         for row in self.room:
             if " " in row or PLAYER_CHAR in row:
-                string += '\n' + ' '.join(row)
+                string += ' '.join(row) + '\n'
             else:
-                string += '\n' + WALL_CHAR_UP_DOWN.join(row)
+                string +=  WALL_CHAR_UP_DOWN.join(row) + '\n'
         string.replace
         settings = {
             'horizontal_order'  : 1,     # Order of who goes first from left to right
@@ -151,7 +152,7 @@ class Room:
 
         # Her bruger vi de koordinater vi lige har genereret til at skrive døren ind i rummet.
         # Jeg har valgt at lave døren tom i stedet for en | men det kan vi altid ændre igen.
-        self.room[self.door['next'][0]][self.door['next'][1]] = " "
+        self.room[self.door['next'][0]][self.door['next'][1]] = DOOR_CHAR
 
         # Hvis vi kom fra en "left" dør, så vil vi lave en "prev" dør på højre side
         if prev_room_door == 'left':
@@ -162,7 +163,7 @@ class Room:
             # her gemmer  vi det i en "prev" key, så vi kan slå op senere hvilken dør vi går igennem
             self.door['prev'] = [vertical_coord, horizontal_coord]
             # og sætter den ind i rummet
-            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
 
         elif prev_room_door == 'right':
             # resten er samme princip som den første.
@@ -170,26 +171,32 @@ class Room:
             horizontal_coord = 0
             vertical_coord = randint(1, len(self.room)-2)
             self.door['prev'] = [vertical_coord, horizontal_coord]
-            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
 
         elif prev_room_door == 'up':
             # kommer fra op så den må ligge nederst.
             horizontal_coord = randint(1, len(self.room[1])-2)
             vertical_coord = len(self.room[0])-1
             self.door['prev'] = [vertical_coord, horizontal_coord]
-            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
 
         elif prev_room_door == 'down':
             # kommer fra nede så den må ligge øverst
             horizontal_coord = randint(1, len(self.room[1])-2)
             vertical_coord = 0
             self.door['prev'] = [vertical_coord, horizontal_coord]
-            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
 
     def change_room(self):
+        self.room[self.door['next'][0]][self.door['next'][1]] = DOOR_CHAR_OPEN_NEXT
+        self.print_room(True)
+        time.sleep(0.3)
         self.go_to_next = True
 
     def change_room_backwards(self):
+        self.room[self.door['next'][0]][self.door['next'][1]] = DOOR_CHAR_OPEN_PREV
+        self.print_room(True)
+        time.sleep(0.3)
         self.go_to_prev = True
 
 if __name__ == '__main__':

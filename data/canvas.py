@@ -2,6 +2,7 @@
 import colorama
 import termcolor
 import ansiwrap
+import textwrap
 
 class Canvas:
     def __init__(self):
@@ -32,25 +33,18 @@ class Canvas:
             if fills > lines:
                 lines = fills
 
-        max_wide = {}
-        for k, i in self.areas.items():
-            max_wide[k] = 0
-            i['_split'] = i['string'].splitlines()
-            for line in i['_split']:
-                if len(line) > max_wide[k]:
-                    max_wide[k] = len(line)
-        total_wide = 0
-        for i in max_wide.values():
-            total_wide += i
-
         def create_allignment(s, width, allignment):
             needed = width - ansiwrap.ansilen(s)
+            # print("ansilen")
+            # print(ansiwrap.ansilen(s))
+            # print("needed")
+            # print(needed)
             if needed > 0:
-                if allignment == '>':
+                if allignment == '>' or allignment == 'right':
                     return needed * ' ' + s
-                elif allignment == '<':
+                elif allignment == '<' or allignment == 'left':
                     return s + needed * ' '
-                elif allignment == '^':
+                elif allignment == '^' or allignment == 'middle':
                     s = (needed//2) * ' ' + s + (needed//2) * ' '
                     if ansiwrap.ansilen(s) < width:
                         s = ' ' + s
@@ -58,6 +52,9 @@ class Canvas:
             else:
                 return s
 
+
+        def text_wrap(s, width):
+            popped = ansiwrap.fill(popped, self.areas[k].get('width', 30))
         # print in order
         # find the horizontal order
         def takeSecond(elem):
@@ -68,7 +65,6 @@ class Canvas:
         list_of_columns.sort(key=takeSecond)
 
         big_string = ""
-        # print(lines)
         start_postition = {}
         for i in range(lines):
             big_string +="\n"
@@ -77,15 +73,19 @@ class Canvas:
                 if i >= self.areas[k].get('delay', 0):
                     popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
                     if popped:
+                        popped = ansiwrap.fill(popped, self.areas[k].get('width', 30))
                         add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                        # print(popped)
+                        # print(add)
                         big_string += add
-            # mellem.center(total_wide + 10)
+                else:
+                    big_string += ' ' * self.areas[k].get('width', 30)
 
 
-
+        print("\033[H")
         if clear:
             print("\033[H\033[J")
-        print("\033[H")
+
         print(big_string)
 
 
