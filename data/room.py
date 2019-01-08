@@ -26,6 +26,7 @@ class Room:
         self.go_to_next = None
         self.go_to_prev = None
         self.go_to_shop = None
+        self.leave_shop = None
 
 
 
@@ -114,7 +115,7 @@ class Room:
                 if winning == "enemy_killed":
                     self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
             elif self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == SHOP_STAND:
-                change_to_shop()
+                self.change_to_shop()
 
         else:
             if self.door.get("prev"):
@@ -188,6 +189,10 @@ class Room:
 
     def change_to_shop(self):
         self.go_to_shop = True
+
+    def leave_shop(self):
+        self.leave_shop = True
+
 if __name__ == '__main__':
     r = Room((9,9), 'up') #tester med et rum der er 25 gange 25
     r.print_room()
