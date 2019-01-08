@@ -70,8 +70,8 @@ class RoomController:
                 self.current_room.player_position = [0,0]
                 self.current_room.player_position[0] = self.current_room.door["prev"][0]+1
                 self.current_room.player_position[1] = self.current_room.door["prev"][1]
-    def print_room(self):
-        self.current_room.print_room()
+    def print_room(self, clear=False):
+        self.current_room.print_room(clear)
 
     def use_key(self, key):
         if current_room == room:

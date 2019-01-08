@@ -1,6 +1,7 @@
 """ This scrpit is supposed to tie all objects together to a single print """
 import colorama
 import termcolor
+import ansiwrap
 
 class Canvas:
     def __init__(self):
@@ -19,7 +20,7 @@ class Canvas:
         self.areas[name] = settings
         self.areas[name]['string'] = string
 
-    def print_canvas(self):
+    def print_canvas(self, clear=False):
         # Find the lowest printed line
         # print(self.areas['room']['string'])
         lines = 0
@@ -31,6 +32,24 @@ class Canvas:
             if fills > lines:
                 lines = fills
 
+        max_wide = {}
+        for k, i in self.areas.items():
+            max_wide[k] = 0
+            i['_split'] = i['string'].splitlines()
+            for line in i['_split']:
+                if len(line) > max_wide[k]:
+                    max_wide[k] = len(line)
+        total_wide = 0
+        for i in max_wide.values():
+            total_wide += i
+
+        def ansi_ljust(s, width):
+            needed = width - ansiwrap.ansilen(s)
+            # print(needed)
+            if needed > 0:
+                return  s + needed * ' '
+            else:
+                return s
 
         # print in order
         # find the horizontal order
@@ -42,29 +61,39 @@ class Canvas:
         list_of_columns.sort(key=takeSecond)
 
         big_string = ""
-
+        # print(lines)
         start_postition = {}
         for i in range(lines):
-            big_string += '\n '
+            big_string +="\n"
+            mellem = ""
             for k, useless in list_of_columns:
 
                 if i >= self.areas[k].get('delay', 0):
-                    if not start_postition.get(k):
-                        start_postition[k] = len(big_string.splitlines()[-1])
-                    popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ''
-                    # print(popped)
-                    if len(big_string.splitlines()[-1]) != start_postition[k]:
-                        big_string += ' '*(start_postition[k] - len(big_string.splitlines()[-1]) - 1)
+                    # if not start_postition.get(k):
+                    #     start_postition[k] = len(big_string.splitlines()[-1])
+                    popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
+                    # # print(popped)
+                    # if len(big_string.splitlines()[-1]) != start_postition[k]:
+                    #     big_string += ' '*(start_postition[k] - len(big_string.splitlines()[-1]) - 1)
                     if popped:
-                        add = '{item:^50}'.format(
-                            # item=termcolor.colored(popped, 'red')
-                            item=popped
+                        # print(ansi_ljust(popped, 40))
+                        add = '{item:<{width}}'.format(
+                            # item=ansiwrap.strip_color(popped),
+
+                            item=ansi_ljust(popped, self.areas[k].get('width', 30)),
+                            width=self.areas[k].get('width', 30)
                             # allignment = self.areas[k].get('allignment', '^'),
                             # width = self.areas[k].get('width', 30)
                         )
-                        # print(add)
-                        big_string += add
+                        # popped.center(100)
+                        mellem += add
+            # mellem.center(total_wide + 10)
 
+            big_string +=mellem
+
+        if clear:
+            print("\033[H\033[J")
+        print("\033[H")
         print(big_string)
 
 
@@ -110,7 +139,7 @@ class Canvas:
         # print(s)
         self.add_to_print('room', termcolor.colored(s, 'red'), {'horizontal_order': 1, 'width': 40})
         self.add_to_print('stats', healthbox, {'horizontal_order': 2, 'width': 20, 'allignment': '<', 'delay': 1})
-        self.add_to_print('room2', s, {'horizontal_order': 1, 'width': 40, 'delay': 11})
+        self.add_to_print('room2', s, {'horizontal_order': 3, 'width': 40, 'delay': 5})
 
         self.print_canvas()
 

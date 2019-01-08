@@ -69,7 +69,7 @@ class Room:
             self.room[coord[0]][coord[1]] = MONSTER_CHAR
 
 
-    def print_room(self):
+    def print_room(self, clear=False):
         string = ""
         for row in self.room:
             if " " in row or PLAYER_CHAR in row:
@@ -80,14 +80,14 @@ class Room:
         settings = {
             'horizontal_order'  : 1,     # Order of who goes first from left to right
             'delay'             : 0,     # if it needs to be x lines below
-            'width'             : 50,    # how wide will it print
+            'width'             : 40,    # how wide will it print
             'allignment'        : '^',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : ''
         }
         # print(string)
         self.canvas.add_to_print('room', string, settings)
-        self.canvas.print_canvas()
+        self.canvas.print_canvas(clear)
 
 
     def move_player(self, coordinates):
@@ -95,7 +95,7 @@ class Room:
         self.room
         [self.player_position[0] + coordinates[0]]
         [self.player_position[1] + coordinates[1]]
-        == "x"
+        == WALL_CHAR_UP_DOWN
         ):
             pass
         elif (

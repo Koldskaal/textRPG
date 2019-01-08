@@ -4,7 +4,7 @@ from data import room, room_controller
 import sys
 if sys.stdin.isatty():
     import colorama
-    colorama.init(convert=True)
+    colorama.init(strip=True)
 
 import cursor
 cursor.hide() ## Hides the cursor
@@ -15,7 +15,7 @@ running = True
 r = room_controller.RoomController()
 #r.assign_next_room(other)
 print("Press q for exit.")
-r.print_room()
+r.print_room(True)
 
 movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0)}
 
@@ -31,7 +31,7 @@ if sys.stdin.isatty():
                 # Pontential flicker killers
                 # print("\033[11A\033[J")  # moves curser 11 up then deletes down
                 print("\033[H\033[J")  # moves curser to start corner then deletes down
-                print('\n'*20)
+                # print('\n'*20)
                 r.move_player(movement[chr(key)])
 
 
@@ -42,7 +42,7 @@ else:
         global r
         if event.name in movement:
             print('\n'*20)
-            r.use_key(event.name)
+            r.move_player(movement[event.name])
 
 
         if event.name == 'q':

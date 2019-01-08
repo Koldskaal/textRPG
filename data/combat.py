@@ -15,13 +15,18 @@ def add_to_text_log(text, canvas):
     text_log += text + "\n"
     settings = {
     'horizontal_order'  : 2,     # Order of who goes first from left to right
-    'delay'             : 3,     # if it needs to be x lines below
+    'delay'             : 1,     # if it needs to be x lines below
     'width'             : 50,    # how wide will it add_to_text_log
     'allignment'        : '<',
-    'max_lines'         : 10,    # for the string that keeps getting bigger. Take only the latest 30
+    'max_lines'         : 20,    # for the string that keeps getting bigger. Take only the latest 30
     'join_char'         : ''
     }
-    canvas.add_to_print('log', text_log, settings)
+    text = text_log.splitlines()
+    text = '\n'.join(text[-20:])
+    canvas.add_to_print('log', text, settings)
+    canvas.print_canvas()
+
+def print_canvas(canvas):
     canvas.print_canvas()
 
 
@@ -30,7 +35,8 @@ def fight(p, e, canvas):
     next_hit_e = 0
     hit = 100
 
-
+    i = 0
+    delay = 10
     while True:
 
         def hitting(att, _def, canvas):
@@ -62,14 +68,20 @@ def fight(p, e, canvas):
                 winner = e
                 break
 
-
+        print_canvas(canvas)
         time.sleep(0.1)
+        # if delay > i:
+        #     i += 1
+        # else:
+
+        i = 0
 
     add_to_text_log(f"{winner.name} wins!", canvas)
     add_to_text_log(f"{winner.name} has {winner.health} health left.", canvas)
     return winner
 
 def encounter(p, e, canvas):
+    canvas.print_canvas(True)
     winner = fight(p, e, canvas)
     if winner == p:
         p.gain_exp(e.exp)
@@ -77,6 +89,7 @@ def encounter(p, e, canvas):
         gained_items = grab_loot.grab_loot_low_level(low_level.list_of_weapons, low_level.list_of_helmets, low_level.list_of_armour, low_level.list_of_rest, 2, 5)
         add_to_text_log(f'You picked up: {gained_items}!', canvas)
         p.items += gained_items
+
         return "enemy_killed"
     else:
         add_to_text_log("You lose gtfo", canvas)
