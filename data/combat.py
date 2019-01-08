@@ -33,7 +33,7 @@ def print_canvas(canvas):
 def fight(p, e, canvas):
     next_hit_p = 0
     next_hit_e = 0
-    hit = 100
+    hit = 50
 
     i = 0
     delay = 10

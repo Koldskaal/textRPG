@@ -43,11 +43,18 @@ class Canvas:
         for i in max_wide.values():
             total_wide += i
 
-        def ansi_ljust(s, width):
+        def create_allignment(s, width, allignment):
             needed = width - ansiwrap.ansilen(s)
-            # print(needed)
             if needed > 0:
-                return  s + needed * ' '
+                if allignment == '>':
+                    return needed * ' ' + s
+                elif allignment == '<':
+                    return s + needed * ' '
+                elif allignment == '^':
+                    s = (needed//2) * ' ' + s + (needed//2) * ' '
+                    if ansiwrap.ansilen(s) < width:
+                        s = ' ' + s
+                    return s
             else:
                 return s
 
@@ -65,31 +72,16 @@ class Canvas:
         start_postition = {}
         for i in range(lines):
             big_string +="\n"
-            mellem = ""
             for k, useless in list_of_columns:
 
                 if i >= self.areas[k].get('delay', 0):
-                    # if not start_postition.get(k):
-                    #     start_postition[k] = len(big_string.splitlines()[-1])
                     popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
-                    # # print(popped)
-                    # if len(big_string.splitlines()[-1]) != start_postition[k]:
-                    #     big_string += ' '*(start_postition[k] - len(big_string.splitlines()[-1]) - 1)
                     if popped:
-                        # print(ansi_ljust(popped, 40))
-                        add = '{item:<{width}}'.format(
-                            # item=ansiwrap.strip_color(popped),
-
-                            item=ansi_ljust(popped, self.areas[k].get('width', 30)),
-                            width=self.areas[k].get('width', 30)
-                            # allignment = self.areas[k].get('allignment', '^'),
-                            # width = self.areas[k].get('width', 30)
-                        )
-                        # popped.center(100)
-                        mellem += add
+                        add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                        big_string += add
             # mellem.center(total_wide + 10)
 
-            big_string +=mellem
+
 
         if clear:
             print("\033[H\033[J")
