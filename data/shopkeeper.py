@@ -7,6 +7,7 @@ class Shop:
         self.menu_options = ["buy", "sell", "leave"]
         self.menu_position = 0
         self.shop_position = 0
+        self.trade_position = 0
 
     def print_room(self):
         if self.menu_position == 0:
@@ -55,12 +56,37 @@ class Shop:
 
 
 def stock(self):
-    self.stock
+    pass
 
 #def
 
-def buy_item():
-    pass
+def buy_item(bought):
+        if self.trade_position == 0:
+            if direction == "ENTER":
+                shopkeeper_stock.shop_items.del(bought)
+                #-gold
+            if direction == "s":
+                self.menu_position += 1
+            else:
+                pass
+        if self.trade_position > 0:
+            if direction == "ENTER":
+                shopkeeper_stock.shop_items.del(bought)
+                #-gold
+            if direction == "s":
+                self.menu_position += 1
+            if direction == "w":
+                self.menu_position -= 1
+            else:
+                pass
+        if self.trade_position == len(shopkeeper_stock.shop_items):
+            if direction == "ENTER":
+                shopkeeper_stock.shop_items.del(bought)
+                #-gold
+            if direction == "w":
+                self.menu_position -= 1
+            else:
+                pass
 
 def sell_item():
     pass
