@@ -60,10 +60,11 @@ def stock(self):
 
 #def
 
-def buy_item(bought):
+def buy_item(self):
+        bought = self.trade_position
         if self.trade_position == 0:
             if direction == "ENTER":
-                shopkeeper_stock.shop_items.del(bought)
+                del shopkeeper_stock.shop_items[bought]
                 #-gold
             if direction == "s":
                 self.menu_position += 1
@@ -71,7 +72,7 @@ def buy_item(bought):
                 pass
         if self.trade_position > 0:
             if direction == "ENTER":
-                shopkeeper_stock.shop_items.del(bought)
+                del shopkeeper_stock.shop_items[bought]
                 #-gold
             if direction == "s":
                 self.menu_position += 1
@@ -81,7 +82,7 @@ def buy_item(bought):
                 pass
         if self.trade_position == len(shopkeeper_stock.shop_items):
             if direction == "ENTER":
-                shopkeeper_stock.shop_items.del(bought)
+                del shopkeeper_stock.shop_items[bought]
                 #-gold
             if direction == "w":
                 self.menu_position -= 1
