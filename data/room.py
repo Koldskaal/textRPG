@@ -23,7 +23,7 @@ class Room:
         self.room = self.generate_border()
         self.generate_room_nr(room_nr)
 
-
+        self.monster_spawned = False
         self.door = {}
         self.print_door(prev_room_door)
         self.go_to_next = None
@@ -55,7 +55,8 @@ class Room:
 
     def spawn_player(self):
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
-            self.spawn_monsters()
+            if not self.monster_spawned:
+                self.spawn_monsters()
 
     def spawn_monsters(self, amount=None):
         if not amount:
@@ -68,6 +69,8 @@ class Room:
 
         for coord in monster_coord:
             self.room[coord[0]][coord[1]] = MONSTER_CHAR
+
+        self.monster_spawned = True
 
 
     def print_room(self, clear=False):
@@ -191,12 +194,14 @@ class Room:
         self.room[self.door['next'][0]][self.door['next'][1]] = DOOR_CHAR_OPEN_NEXT
         self.print_room(True)
         time.sleep(0.3)
+        self.room[self.door['next'][0]][self.door['next'][1]] = DOOR_CHAR
         self.go_to_next = True
 
     def change_room_backwards(self):
-        self.room[self.door['next'][0]][self.door['next'][1]] = DOOR_CHAR_OPEN_PREV
+        self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR_OPEN_NEXT
         self.print_room(True)
         time.sleep(0.3)
+        self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
         self.go_to_prev = True
 
 if __name__ == '__main__':

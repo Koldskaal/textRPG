@@ -86,12 +86,13 @@ class RoomController:
             self.change_room()
             self.spawn_player_controller()
             self.current_room.spawn_player()
+            self.print_room(True)
 
 
         elif self.current_room.go_to_prev == True:
             self.current_room.go_to_prev = False
             self.change_room_backwards()
-            #self.spawn_player_controller()
-            #self.current_room.spawn_player()
+            self.print_room(True)
+
 
         self.print_room()
