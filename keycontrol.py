@@ -40,6 +40,9 @@ if sys.stdin.isatty():
                 while msvcrt.kbhit():
                     msvcrt.getch()
 
+            if key == 224:
+                key = ord(msvcrt.getch())
+                r.scroll_log(key)
 
             if key == ord('q'):
                 running = False

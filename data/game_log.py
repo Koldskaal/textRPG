@@ -5,6 +5,7 @@ class GameLog:
     def __init__(self, canvas=None):
         self.canvas = canvas
         self.log = ""
+        self.scroll_state = -1
 
         self.settings = {
         'column_priority'   : 1,     # Order of who goes first from left to right
@@ -17,6 +18,7 @@ class GameLog:
         }
 
     def add_to_log(self, text, source):
+        self.scroll_state = 0
         now = datetime.datetime.now().strftime('%H:%M')
         self.log += f"[{now}] [{source}] {text}" + "\n"
 
@@ -27,5 +29,24 @@ class GameLog:
             raise Exception('GameLog has no target canvas.')
         self.canvas.add_to_print('log', self.log, self.settings)
         self.canvas.print_canvas(clear)
+
+    def scroll(self, direction):
+
+        self.scroll_state += direction * 5
+        t = self.log.splitlines()
+
+        if len(t) < self.settings['max_lines']:
+            return
+
+        if self.scroll_state >= 0:
+            self.scroll_state = 0
+        elif self.scroll_state < -len(t) +self.settings['max_lines']:
+            self.scroll_state = -len(t) + self.settings['max_lines']
+
+        t = t[:(self.scroll_state if self.scroll_state else len(t))]
+        if len(t) < self.settings['max_lines']:
+            return
+        self.canvas.add_to_print('log', "\n".join(t ) , self.settings)
+        self.canvas.print_canvas()
 
 log = GameLog()
