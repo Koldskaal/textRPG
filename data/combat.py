@@ -24,9 +24,6 @@ def add_to_text_log(text, canvas):
     canvas.add_to_print('log', text_log, settings)
     canvas.print_canvas()
 
-def print_canvas(canvas):
-    canvas.print_canvas()
-
 
 def fight(p, e, canvas):
     next_hit_p = 0
@@ -46,7 +43,7 @@ def fight(p, e, canvas):
             health_col = colored(str(_def.health), 'green', attrs=['bold'])
             add_to_text_log(f"{_def.name} took {dmg_col} damage (HP left: {health_col})", canvas)
             # add_to_text_log(f"{_def.name} has  health remaining.")
-            add_to_text_log("-"*15, canvas)
+            add_to_text_log("-"*50, canvas)
 
 
         next_hit_p += p.agi
@@ -66,7 +63,7 @@ def fight(p, e, canvas):
                 winner = e
                 break
 
-        print_canvas(canvas)
+        canvas.print_canvas()
         time.sleep(0.1)
         # if delay > i:
         #     i += 1
@@ -79,7 +76,7 @@ def fight(p, e, canvas):
     return winner
 
 def encounter(p, e, canvas):
-    canvas.print_canvas(True)
+    canvas.print_canvas(clear=True)
     winner = fight(p, e, canvas)
     if winner == p:
         p.gain_exp(e.exp)
