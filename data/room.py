@@ -29,6 +29,7 @@ class Room:
         self.go_to_next = None
         self.go_to_prev = None
         self.go_to_shop = None
+        self.leave_shop = None
 
 
 
@@ -56,13 +57,9 @@ class Room:
 
     def spawn_player(self):
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
-<<<<<<< HEAD
             self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
-            self.spawn_monsters()
-=======
             if not self.monster_spawned:
                 self.spawn_monsters()
->>>>>>> temporary
 
     def spawn_monsters(self, amount=None):
         if not amount:
@@ -128,7 +125,6 @@ class Room:
         [self.player_position[1] + coordinates[1]]
         != " "
         ):
-<<<<<<< HEAD
             if self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == MONSTER_CHAR:
                 e = character.Monster()
                 winning = combat.encounter(p,e)
@@ -136,12 +132,7 @@ class Room:
                     self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
             elif self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == SHOP_STAND:
                 change_to_shop()
-=======
-            e = character.Monster()
-            winning = combat.encounter(p,e, self.canvas)
-            if winning == "enemy_killed":
-                self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
->>>>>>> temporary
+
 
         else:
             if self.door.get("prev"):
@@ -223,6 +214,10 @@ class Room:
 
     def change_to_shop(self):
         self.go_to_shop = True
+
+    def leave_shop(self):
+        self.leave_shop = True
+
 if __name__ == '__main__':
     r = Room((9,9), 'up') #tester med et rum der er 25 gange 25
     r.print_room()

@@ -1,11 +1,8 @@
 from . import room
 from random import randint
 from random import choice
-<<<<<<< HEAD
 from . import shopkeeper
-=======
 from .canvas import Canvas
->>>>>>> temporary
 
 class RoomController:
     def __init__(self):
@@ -50,6 +47,12 @@ class RoomController:
         self.prev_room = self.list_of_rooms[self.RN-2]
         self.RN = self.RN - 1
 
+    def change_to_shop(self):
+        self.current_room = shopkeeper.Shop
+
+    def leave_shop(self):
+        self.current_room = self.list_of_rooms[self.RN]
+
     def spawn_player_controller(self):
         if self.prev_room == None:
             self.current_room.player_position = [2,2]
@@ -75,8 +78,12 @@ class RoomController:
                 self.current_room.player_position = [0,0]
                 self.current_room.player_position[0] = self.current_room.door["prev"][0]+1
                 self.current_room.player_position[1] = self.current_room.door["prev"][1]
+
     def print_room(self, clear=False):
-        self.current_room.print_room(clear)
+        if isinstance(self.current_room, room.Room):
+            self.current_room.print_room(clear)
+        elif isinstance(self.current_room, shopkeeper.Shop):
+            pass
 
     def use_key(self, key):
         if isinstance(self.current_room, room.Room):
@@ -105,16 +112,12 @@ class RoomController:
         elif self.current_room.go_to_prev == True:
             self.current_room.go_to_prev = False
             self.change_room_backwards()
-<<<<<<< HEAD
-            #self.spawn_player_controller()
-            #self.current_room.spawn_player()
+            self.print_room(True)
 
         elif self.current_room.go_to_shop == True:
             self.current_room.go_to_shop = False
             self.change_to_shop()
-=======
             self.print_room(True)
 
 
         self.print_room()
->>>>>>> temporary

@@ -11,16 +11,13 @@ try:
     DOOR_CHAR_OPEN_NEXT = colored('▐', 'yellow', attrs=['bold'])
     DOOR_CHAR_OPEN_PREV = colored('▌', 'yellow', attrs=['bold'])
     print(PLAYER_CHAR)
-    SHOP_STAND = colored('S', 'cyan', attrs=['bold'])
+    SHOP_STAND = colored('⌂', 'cyan', attrs=['bold'])
 except UnicodeEncodeError:
     WALL_CHAR_UP_DOWN = colored('x', 'yellow')
     WALL_CHAR_LEFT_RIGHT = colored('x', 'yellow')
     PLAYER_CHAR = colored('P', 'white', attrs=['bold'])
     MONSTER_CHAR = colored('M', 'green', attrs=['bold'])
-<<<<<<< HEAD
     SHOP_STAND = colored('S', 'cyan', attrs=['bold'])
-=======
     DOOR_CHAR = colored('|', 'yellow', attrs=['bold'])
     DOOR_CHAR_OPEN_NEXT = colored(']', 'yellow', attrs=['bold'])
     DOOR_CHAR_OPEN_PREV = colored('[', 'yellow', attrs=['bold'])
->>>>>>> temporary
