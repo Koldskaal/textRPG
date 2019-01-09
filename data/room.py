@@ -1,11 +1,12 @@
 from random import randint
 from .textures import *
 from . import combat,character
+import time
 
 p = character.Player()
 
 class Room:
-    def __init__(self, size, prev_room_door='', room_nr=''):
+    def __init__(self, size, prev_room_door='', room_nr='', canvas=None):
         """
         Arguments
         ---------
@@ -16,11 +17,13 @@ class Room:
                 Previous position of the door that was walked thorugh
                 ("left", "right", "up" or "down")
         """
+        self.canvas = canvas
+
         self.size = size
         self.room = self.generate_border()
         self.generate_room_nr(room_nr)
 
-
+        self.monster_spawned = False
         self.door = {}
         self.print_door(prev_room_door)
         self.go_to_next = None
@@ -53,8 +56,13 @@ class Room:
 
     def spawn_player(self):
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
+<<<<<<< HEAD
             self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
             self.spawn_monsters()
+=======
+            if not self.monster_spawned:
+                self.spawn_monsters()
+>>>>>>> temporary
 
     def spawn_monsters(self, amount=None):
         if not amount:
@@ -68,16 +76,28 @@ class Room:
         for coord in monster_coord:
             self.room[coord[0]][coord[1]] = MONSTER_CHAR
 
+        self.monster_spawned = True
 
-    def print_room(self):
+
+    def print_room(self, clear=False):
         string = ""
         for row in self.room:
             if " " in row or PLAYER_CHAR in row:
-                string += '\n' + ' '.join(row)
+                string += ' '.join(row) + '\n'
             else:
-                string += '\n' + WALL_CHAR_UP_DOWN.join(row)
+                string +=  WALL_CHAR_UP_DOWN.join(row) + '\n'
         string.replace
-        print(string)
+        settings = {
+            'horizontal_order'  : 1,     # Order of who goes first from left to right
+            'delay'             : 0,     # if it needs to be x lines below
+            'width'             : 40,    # how wide will it print
+            'allignment'        : '^',
+            'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
+            'join_char'         : ''
+        }
+        # print(string)
+        self.canvas.add_to_print('room', string, settings)
+        self.canvas.print_canvas(clear)
 
 
     def move_player(self, coordinates):
@@ -85,7 +105,7 @@ class Room:
         self.room
         [self.player_position[0] + coordinates[0]]
         [self.player_position[1] + coordinates[1]]
-        == "x"
+        == WALL_CHAR_UP_DOWN
         ):
             pass
         elif (
@@ -108,6 +128,7 @@ class Room:
         [self.player_position[1] + coordinates[1]]
         != " "
         ):
+<<<<<<< HEAD
             if self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == MONSTER_CHAR:
                 e = character.Monster()
                 winning = combat.encounter(p,e)
@@ -115,6 +136,12 @@ class Room:
                     self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
             elif self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == SHOP_STAND:
                 change_to_shop()
+=======
+            e = character.Monster()
+            winning = combat.encounter(p,e, self.canvas)
+            if winning == "enemy_killed":
+                self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
+>>>>>>> temporary
 
         else:
             if self.door.get("prev"):
@@ -145,7 +172,7 @@ class Room:
 
         # Her bruger vi de koordinater vi lige har genereret til at skrive døren ind i rummet.
         # Jeg har valgt at lave døren tom i stedet for en | men det kan vi altid ændre igen.
-        self.room[self.door['next'][0]][self.door['next'][1]] = " "
+        self.room[self.door['next'][0]][self.door['next'][1]] = DOOR_CHAR
 
         # Hvis vi kom fra en "left" dør, så vil vi lave en "prev" dør på højre side
         if prev_room_door == 'left':
@@ -156,7 +183,7 @@ class Room:
             # her gemmer  vi det i en "prev" key, så vi kan slå op senere hvilken dør vi går igennem
             self.door['prev'] = [vertical_coord, horizontal_coord]
             # og sætter den ind i rummet
-            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
 
         elif prev_room_door == 'right':
             # resten er samme princip som den første.
@@ -164,26 +191,34 @@ class Room:
             horizontal_coord = 0
             vertical_coord = randint(1, len(self.room)-2)
             self.door['prev'] = [vertical_coord, horizontal_coord]
-            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
 
         elif prev_room_door == 'up':
             # kommer fra op så den må ligge nederst.
             horizontal_coord = randint(1, len(self.room[1])-2)
             vertical_coord = len(self.room[0])-1
             self.door['prev'] = [vertical_coord, horizontal_coord]
-            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
 
         elif prev_room_door == 'down':
             # kommer fra nede så den må ligge øverst
             horizontal_coord = randint(1, len(self.room[1])-2)
             vertical_coord = 0
             self.door['prev'] = [vertical_coord, horizontal_coord]
-            self.room[self.door['prev'][0]][self.door['prev'][1]] = " "
+            self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
 
     def change_room(self):
+        self.room[self.door['next'][0]][self.door['next'][1]] = DOOR_CHAR_OPEN_NEXT
+        self.print_room(True)
+        time.sleep(0.3)
+        self.room[self.door['next'][0]][self.door['next'][1]] = DOOR_CHAR
         self.go_to_next = True
 
     def change_room_backwards(self):
+        self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR_OPEN_NEXT
+        self.print_room(True)
+        time.sleep(0.3)
+        self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
         self.go_to_prev = True
 
     def change_to_shop(self):

@@ -1,4 +1,7 @@
 """ This scrpit is supposed to tie all objects together to a single print """
+import colorama
+import termcolor
+import ansiwrap
 
 class Canvas:
     def __init__(self):
@@ -17,17 +20,46 @@ class Canvas:
         self.areas[name] = settings
         self.areas[name]['string'] = string
 
-    def print_canvas(self):
+    def print_canvas(self, clear=False):
         # Find the lowest printed line
+        # print(self.areas['room']['string'])
         lines = 0
         for items in self.areas.values():
             items['_split'] = items['string'].splitlines()
+            wrap = []
+            for i in items['_split']:
+                wrap += ansiwrap.wrap(i, items.get('width', 30))
+            items['_split'] = wrap
             if len(items['_split']) > items.get('max_lines', 0) and items.get('max_lines', 0) != 0:
                 items['_split'] = items['_split'][-items['max_lines']:]
+
+
             fills = len(items['_split']) + items.get('delay', 0)
             if fills > lines:
                 lines = fills
 
+        def create_allignment(s, width, allignment):
+            needed = width - ansiwrap.ansilen(s)
+            # print("ansilen")
+            # print(ansiwrap.ansilen(s))
+            # print("needed")
+            # print(needed)
+            if needed > 0:
+                if allignment == '>' or allignment == 'right':
+                    return needed * ' ' + s
+                elif allignment == '<' or allignment == 'left':
+                    return s + needed * ' '
+                elif allignment == '^' or allignment == 'middle':
+                    s = (needed//2) * ' ' + s + (needed//2) * ' '
+                    if ansiwrap.ansilen(s) < width:
+                        s = ' ' + s
+                    return s
+            else:
+                return s
+
+
+        def text_wrap(s, width):
+            popped = ansiwrap.fill(popped, self.areas[k].get('width', 30))
         # print in order
         # find the horizontal order
         def takeSecond(elem):
@@ -38,24 +70,26 @@ class Canvas:
         list_of_columns.sort(key=takeSecond)
 
         big_string = ""
-
         start_postition = {}
         for i in range(lines):
-            big_string += '\n '
+            big_string +="\n"
             for k, useless in list_of_columns:
 
                 if i >= self.areas[k].get('delay', 0):
-                    if not start_postition.get(k):
-                        start_postition[k] = len(big_string.splitlines()[-1])
-                    popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ''
-                    if len(big_string.splitlines()[-1]) != start_postition[k]:
-                        big_string += ' '*(start_postition[k] - len(big_string.splitlines()[-1]) - 1) + '|'
+                    popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
                     if popped:
-                        big_string += '{: {allignment}{width}}|'.format(
-                            f"{self.areas[k].get('join_char', '')}".join(popped),
-                            allignment = self.areas[k].get('allignment', '^'),
-                            width = self.areas[k].get('width', 30)
-                        )
+                        # popped = ansiwrap.fill(popped, self.areas[k].get('width', 30))
+                        add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                        # print(popped)
+                        # print(add)
+                        big_string += add
+                else:
+                    big_string += ' ' * self.areas[k].get('width', 30)
+
+
+        print("\033[H")
+        if clear:
+            print("\033[H\033[J")
 
         print(big_string)
 
@@ -91,6 +125,7 @@ class Canvas:
     - Boots
     ...
 --------------------
+-------------------------------------------------------------------
 """
 
         print("This is how it could look.")
@@ -98,9 +133,11 @@ class Canvas:
         for row in self.main_box:
             s += '\n'
             s += " ".join(row)
-        self.add_to_print('room', s, {'horizontal_order': 1, 'width': 40})
+
+        # print(s)
+        self.add_to_print('room', termcolor.colored(s, 'red'), {'horizontal_order': 1, 'width': 40})
         self.add_to_print('stats', healthbox, {'horizontal_order': 2, 'width': 20, 'allignment': '<', 'delay': 1})
-        self.add_to_print('room2', s, {'horizontal_order': 1, 'width': 40, 'delay': 11})
+        self.add_to_print('room2', s, {'horizontal_order': 3, 'width': 40, 'delay': 5})
 
         self.print_canvas()
 
@@ -121,5 +158,5 @@ class Canvas:
 
 
     """
-
-c = Canvas().print_example()
+if __name__ == '__main__':
+    c = Canvas().print_example()
