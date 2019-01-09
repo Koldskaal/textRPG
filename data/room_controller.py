@@ -26,7 +26,7 @@ class RoomController:
         self.list_of_rooms = []
         self.list_of_rooms.append(self.current_room)
 
-        stat_window.StatWindow(p, self.canvas)
+        self.stat_window = stat_window.StatWindow(p, self.canvas)
         combat.add_to_text_log('\n', self.canvas)
 
     def assign_next_room(self, room):
@@ -122,5 +122,5 @@ class RoomController:
             self.change_to_shop()
             self.print_room(True)
 
-
+        self.stat_window.draw()
         self.print_room()
