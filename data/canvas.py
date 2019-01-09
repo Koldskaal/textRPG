@@ -8,7 +8,7 @@ class Canvas:
         self.areas = {}
 
         self.default_settings = {
-            'horizontal_order'  : 1,     # Order of who goes first from left to right
+            'column_priority'  : 1,     # Order of who goes first from left to right
             'delay'             : 0,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
             'allignment'        : '^',
@@ -22,7 +22,6 @@ class Canvas:
 
     def print_canvas(self, clear=False):
         # Find the lowest printed line
-        # print(self.areas['room']['string'])
         lines = 0
         for items in self.areas.values():
             items['_split'] = items['string'].splitlines()
@@ -34,16 +33,12 @@ class Canvas:
                 items['_split'] = items['_split'][-items['max_lines']:]
 
 
-            fills = len(items['_split']) + items.get('delay', 0)
-            if fills > lines:
-                lines = fills
+            temp_lines = len(items['_split']) + items.get('delay', 0)
+            if temp_lines > lines:
+                lines = temp_lines
 
         def create_allignment(s, width, allignment):
             needed = width - ansiwrap.ansilen(s)
-            # print("ansilen")
-            # print(ansiwrap.ansilen(s))
-            # print("needed")
-            # print(needed)
             if needed > 0:
                 if allignment == '>' or allignment == 'right':
                     return needed * ' ' + s
@@ -66,7 +61,7 @@ class Canvas:
             return elem[1]
         list_of_columns = []
         for k in self.areas.keys():
-            list_of_columns.append((k,self.areas[k].get('horizontal_order', 100)))
+            list_of_columns.append((k,self.areas[k].get('column_priority', 100)))
         list_of_columns.sort(key=takeSecond)
 
         big_string = ""
@@ -78,10 +73,7 @@ class Canvas:
                 if i >= self.areas[k].get('delay', 0):
                     popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
                     if popped:
-                        # popped = ansiwrap.fill(popped, self.areas[k].get('width', 30))
                         add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
-                        # print(popped)
-                        # print(add)
                         big_string += add
                 else:
                     big_string += ' ' * self.areas[k].get('width', 30)
@@ -135,16 +127,16 @@ class Canvas:
             s += " ".join(row)
 
         # print(s)
-        self.add_to_print('room', termcolor.colored(s, 'red'), {'horizontal_order': 1, 'width': 40})
-        self.add_to_print('stats', healthbox, {'horizontal_order': 2, 'width': 20, 'allignment': '<', 'delay': 1})
-        self.add_to_print('room2', s, {'horizontal_order': 3, 'width': 40, 'delay': 5})
+        self.add_to_print('room', termcolor.colored(s, 'red'), {'column_priority': 1, 'width': 40})
+        self.add_to_print('stats', healthbox, {'column_priority': 2, 'width': 20, 'allignment': '<', 'delay': 1})
+        self.add_to_print('room2', s, {'column_priority': 3, 'width': 40, 'delay': 5})
 
         self.print_canvas()
 
     """
         # IDEA: Takes in dictionaries, like so:
         {
-            'horizontal_order'  : 1     # Order of who goes first from left to right
+            'column_priority'  : 1     # Order of who goes first from left to right
             'string'            : 'This is what will get printed and split to lines'
             'delay'             : 0     # if it needs to be x lines below
             'width'             : 30    # how wide will it print

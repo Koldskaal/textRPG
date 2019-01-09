@@ -87,7 +87,7 @@ class Room:
                 string +=  WALL_CHAR_UP_DOWN.join(row) + '\n'
         string.replace
         settings = {
-            'horizontal_order'  : 1,     # Order of who goes first from left to right
+            'column_priority'  : 1,     # Order of who goes first from left to right
             'delay'             : 0,     # if it needs to be x lines below
             'width'             : 40,    # how wide will it print
             'allignment'        : '^',
@@ -100,57 +100,39 @@ class Room:
 
 
     def move_player(self, coordinates):
-        if (
-        self.room
-        [self.player_position[0] + coordinates[0]]
-        [self.player_position[1] + coordinates[1]]
-        == WALL_CHAR_UP_DOWN
-        ):
+        player_coord = (self.player_position[0] + coordinates[0],
+                        self.player_position[1] + coordinates[1])
+
+        if self.door.get("prev"):
+            if (player_coord[0] == self.door['prev'][0] and
+                    player_coord[1] == self.door['prev'][1]):
+                self.change_room_backwards()
+                return
+
+        if self.room[player_coord[0]][player_coord[1]] == WALL_CHAR_UP_DOWN:
             pass
-        elif (
-        self.player_position[0] + coordinates[0]
-        == self.door['next'][0]
-        and
-        self.player_position[1] + coordinates[1]
-        == self.door['next'][1]
-        ):
+
+        elif (player_coord[0] == self.door['next'][0] and
+                player_coord[1] == self.door['next'][1]):
             self.change_room()
 
-        elif (
-        self.room
-        [self.player_position[0] + coordinates[0]]
-        [self.player_position[1] + coordinates[1]]
-        != WALL_CHAR_UP_DOWN
-        and
-        self.room
-        [self.player_position[0] + coordinates[0]]
-        [self.player_position[1] + coordinates[1]]
-        != " "
-        ):
-            if self.door.get("prev"):
-                if (
-                self.player_position[0] + coordinates[0]
-                == self.door['prev'][0]
-                and
-                self.player_position[1] + coordinates[1]
-                == self.door['prev'][1]
-                ):
-                    self.change_room_backwards()
-                    return
-            if self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == MONSTER_CHAR:
+        elif (self.room[player_coord[0]][player_coord[1]] != WALL_CHAR_UP_DOWN and
+                self.room[player_coord[0]][player_coord[1]] != " "):
+            if (self.room[self.player_position[0]
+                    + coordinates[0]][self.player_position[1]
+                    + coordinates[1]] == MONSTER_CHAR):
                 e = character.Monster()
                 winning = combat.encounter(p,e, self.canvas)
                 if winning == "enemy_killed":
-                    self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
-            elif self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == SHOP_STAND:
+                    self.room[player_coord[0]][player_coord[1]] = " "
+
+            elif self.room[player_coord[0]][player_coord[1]] == SHOP_STAND:
                 self.change_to_shop()
 
-
         else:
-
             self.room[self.player_position[0]][self.player_position[1]] = ' '
-            self.player_position[0] = self.player_position[0] + coordinates[0]
-            self.player_position[1] = self.player_position[1] + coordinates[1]
+            self.player_position[0] = player_coord[0]
+            self.player_position[1] = player_coord[1]
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
 
 

@@ -14,7 +14,7 @@ def add_to_text_log(text, canvas):
     global text_log
     text_log += text + "\n"
     settings = {
-    'horizontal_order'  : 2,     # Order of who goes first from left to right
+    'column_priority'  : 2,     # Order of who goes first from left to right
     'delay'             : 0,     # if it needs to be x lines below
     'width'             : 50,    # how wide will it add_to_text_log
     'allignment'        : '<',
@@ -28,7 +28,7 @@ def add_to_text_log(text, canvas):
 def fight(p, e, canvas):
     next_hit_p = 0
     next_hit_e = 0
-    hit = 100
+    hit = 50
 
     while True:
 
@@ -62,7 +62,7 @@ def fight(p, e, canvas):
                 break
 
         canvas.print_canvas()
-        time.sleep(0.1)
+        time.sleep(0.2)
 
     add_to_text_log(f"{winner.name} wins!", canvas)
     add_to_text_log(f"{winner.name} has {winner.health} health left.", canvas)
