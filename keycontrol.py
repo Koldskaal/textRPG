@@ -42,13 +42,8 @@ else:
         global r
         if event.name in movement:
             print('\n'*20)
-<<<<<<< HEAD
             r.use_key(event.name)
             r.print_room()
-=======
-            r.move_player(movement[event.name])
-
->>>>>>> temporary
 
         if event.name == 'q':
             global running
