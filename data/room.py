@@ -1,7 +1,8 @@
 from random import randint
 from .textures import *
-from . import combat,character
+from . import combat,character, game_log
 import time
+from termcolor import colored
 
 
 
@@ -51,17 +52,20 @@ class Room:
         return map
 
     def generate_room_nr(self, room_nr):
+        if int(room_nr) > 1:
+            game_log.log.add_to_log('Oooh, a new room. How exciting!', colored('GM', 'green'))
         koord_y = 0
         for number in room_nr:
             self.room[0][koord_y] = number
             koord_y += 1
 
     def spawn_player(self):
-            self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
-            if self.shop_position:
-                self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
-            if not self.monster_spawned:
-                self.spawn_monsters()
+
+        self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
+        if self.shop_position:
+            self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
+        if not self.monster_spawned:
+            self.spawn_monsters()
 
     def spawn_monsters(self, amount=None):
         if not amount:
@@ -92,11 +96,13 @@ class Room:
             'width'             : 40,    # how wide will it print
             'allignment'        : '^',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
-            'join_char'         : ''
+            'join_char'         : '',
+            'title'             : 'MAP'
         }
         # print(string)
         self.canvas.add_to_print('room', string, settings)
         self.canvas.print_canvas(clear)
+
 
 
     def move_player(self, coordinates):
@@ -122,7 +128,7 @@ class Room:
                     + coordinates[0]][self.player_position[1]
                     + coordinates[1]] == MONSTER_CHAR):
                 e = character.Monster()
-                winning = combat.encounter(self.player, e, self.canvas)
+                winning = combat.encounter(self.player, e)
                 if winning == "enemy_killed":
                     self.room[player_coord[0]][player_coord[1]] = " "
 

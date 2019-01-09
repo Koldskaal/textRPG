@@ -16,6 +16,8 @@ class Canvas:
             'join_char'         : ''
         }
 
+        self.gap = 1
+
     def add_to_print(self, name, string, settings={}):
         self.areas[name] = settings
         self.areas[name]['string'] = string
@@ -68,21 +70,27 @@ class Canvas:
 
         big_string = ""
         start_postition = {}
-        for i in range(lines):
+        for i in range(lines+2):
             big_string +="\n"
             for k, useless in list_of_columns:
-
-                if i >= self.areas[k].get('delay', 0):
-                    popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
-                    if popped:
-                        add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
-                        if self.border:
-                            add = '|' + add + '|'
-                        big_string += add
-                elif i <= self.areas[k].get('max_lines', 0) and self.areas[k].get('max_lines', 0) != 0:
-                    big_string += ('|' + ' ' * self.areas[k].get('width', 30) + '|' if self.border else ' ' * self.areas[k].get('width', 30))
+                if i == 0:
+                    mid = '{:-{a}{w}}'.format(self.areas[k].get('title', ''), w=self.areas[k].get('width', 30), a='^')
+                    big_string+=(' '*self.gap + '+' + mid  + '+')
+                elif i == lines+1:
+                    big_string+=' '*self.gap + '+' + '-'*self.areas[k].get('width', 30) + '+'
                 else:
-                    big_string += ('|' + ' ' * self.areas[k].get('width', 30) + '|' if self.border else ' ' * self.areas[k].get('width', 30))
+
+                    if i >= self.areas[k].get('delay', 0):
+                        popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
+                        if popped:
+                            add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                            if self.border:
+                                add =' '*self.gap +  '|' + add + '|'
+                            big_string += add
+                    elif i <= self.areas[k].get('max_lines', 0) and self.areas[k].get('max_lines', 0) != 0:
+                        big_string += (' '*self.gap + '|' + ' ' * self.areas[k].get('width', 30) + '|'  if self.border else ' ' * self.areas[k].get('width', 30))
+                    else:
+                        big_string += (' '*self.gap + '|' + ' ' * self.areas[k].get('width', 30) + '|' if self.border else ' ' * self.areas[k].get('width', 30))
 
 
         print("\033[H")

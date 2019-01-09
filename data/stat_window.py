@@ -8,14 +8,14 @@ class StatWindow():
             'width'             : 22,    # how wide will it print
             'allignment'        : '<',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
-            'join_char'         : ''
+            'join_char'         : '',
+            'title'             : 'STATS'
         }
         self.draw()
         canvas.add_to_print('stats', self.string, self.settings)
 
     def draw(self):
-        self.string = "-"*self.settings['width'] +f"""
- Health:     {self.player.health}/{self.player.max_health}
+        self.string = f""" Health:     {self.player.health}/{self.player.max_health}
  Mana:       {self.player.mana}/{self.player.max_health}
  Str:        {self.player.str}
  Int:        {self.player.int}

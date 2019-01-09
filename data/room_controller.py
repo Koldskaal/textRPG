@@ -1,10 +1,8 @@
-from . import room
+from termcolor import colored
 from random import randint
 from random import choice
-from . import shopkeeper
+from . import shopkeeper, stat_window, combat, character, game_log, room
 from .canvas import Canvas
-from . import stat_window
-from . import combat, character
 
 p = character.Player()
 class RoomController:
@@ -16,7 +14,9 @@ class RoomController:
                 An instance of a Room()
         """
         self.canvas = Canvas()
-
+        log = game_log.log
+        log.canvas = self.canvas
+        
         self.current_room = room.Room((10,9), p, room_nr='0', canvas=self.canvas)
         self.RN = 0
         self.next_room = room.Room((randint(5,15),randint(5,15)), p, choice(["right"]), str(self.RN+1), canvas=self.canvas)
@@ -27,7 +27,12 @@ class RoomController:
         self.list_of_rooms.append(self.current_room)
 
         self.stat_window = stat_window.StatWindow(p, self.canvas)
-        combat.add_to_text_log('\n', self.canvas)
+
+        log.add_to_log('Welcome to infinite rooms!', colored('GM', 'green'))
+        log.add_to_log('A game with infinite amount of rooms. And infinite fights.', colored('GM', 'green'))
+        log.add_to_log('Are you ready? Well then..', colored('GM', 'green'))
+        log.add_to_log('LET THE GAME BEGIN!', colored('GM', 'green'))
+
 
     def assign_next_room(self, room):
         self.next_room = room
