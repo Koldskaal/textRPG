@@ -37,6 +37,8 @@ if sys.stdin.isatty():
                 # print("\033[H\033[J")  # moves curser to start corner then deletes down
                 # print('\n'*20)
                 r.use_key(chr(key))
+                while msvcrt.kbhit():
+                    msvcrt.getch()
 
 
             if key == ord('q'):

@@ -87,7 +87,7 @@ class Room:
                 string +=  WALL_CHAR_UP_DOWN.join(row) + '\n'
         string.replace
         settings = {
-            'column_priority'  : 1,     # Order of who goes first from left to right
+            'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 4,     # if it needs to be x lines below
             'width'             : 40,    # how wide will it print
             'allignment'        : '^',
