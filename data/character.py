@@ -3,8 +3,8 @@ from termcolor import colored
 class Character:
     def __init__(self):
         self.name = ""
-        self.health = 100
-        self.mana = 100
+        self.max_health = self.health = 100
+        self.max_mana = self.mana = 100
         self.gold = 4000
         self.armor = 5
 
@@ -56,8 +56,8 @@ class Player(Character):
         self.str += 2
         self.agi += 2
         self.int += 2
-        self.health = 100 + self.level*20-20
-        self.mana = 100 + self.level*20-20
+        self.max_health = self.health = 100 + self.level*20-20
+        self.max_mana = self.mana = 100 + self.level*20-20
         print (f"Level up! You are now level {self.level}!")
         print ("All stats increased by 2! Health and mana increased by 20! You feel refreshed!")
 

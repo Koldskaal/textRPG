@@ -3,10 +3,10 @@ from .textures import *
 from . import combat,character
 import time
 
-p = character.Player()
+
 
 class Room:
-    def __init__(self, size, prev_room_door='', room_nr='', canvas=None):
+    def __init__(self, size, player, prev_room_door='', room_nr='', canvas=None):
         """
         Arguments
         ---------
@@ -18,7 +18,7 @@ class Room:
                 ("left", "right", "up" or "down")
         """
         self.canvas = canvas
-
+        self.player = player
         self.size = size
         self.room = self.generate_border()
         self.generate_room_nr(room_nr)
@@ -122,7 +122,7 @@ class Room:
                     + coordinates[0]][self.player_position[1]
                     + coordinates[1]] == MONSTER_CHAR):
                 e = character.Monster()
-                winning = combat.encounter(p,e, self.canvas)
+                winning = combat.encounter(self.player, e, self.canvas)
                 if winning == "enemy_killed":
                     self.room[player_coord[0]][player_coord[1]] = " "
 
