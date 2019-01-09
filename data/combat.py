@@ -35,16 +35,20 @@ def fight(p, e):
     while True:
 
         def hitting(att, _def):
+            a_name = att.name if att.name != p.name else 'you'
+            d_name = _def.name if _def.name != p.name else 'you'
+
             dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
             dmg_col = colored(str(dmg), 'red', attrs=['bold'])
-            log.add_to_log(f"{att.name} attacks!", colored('Combat', 'red'))
+            log.add_to_log(f"{a_name.capitalize()} {'attack' if a_name == 'you' else 'attacks'}!", 'Combat')
 
             _def.health -= dmg
             health_col = colored(str(_def.health), 'green', attrs=['bold'])
             max_health = colored(str(_def.max_health), 'green', attrs=['bold'])
-            log.add_to_log(f"{_def.name} took {dmg_col} damage.", colored('Combat', 'red'))
-            log.add_to_log(f"{_def.name} has {health_col}/{max_health} health", colored('Info', 'blue'))
-            # log.add_to_log("-"*40, colored('Combat', 'red'))
+            log.add_to_log(f"{d_name.capitalize()} took {dmg} damage.", 'Combat', 'bad' if _def.name == p.name else 'default')
+            if _def.health <= 0:
+                log.add_to_log(f"WOAH! {d_name.capitalize()} has no more health left!", 'Announcer', 'surprise')
+            # log.add_to_log("-"*40, 'Combat')
 
 
         next_hit_p += p.agi
@@ -67,8 +71,7 @@ def fight(p, e):
         log.print_canvas()
         time.sleep(0.2)
 
-    log.add_to_log(f"{winner.name} wins!", colored('Info', 'blue'))
-    log.add_to_log(f"{winner.name} has {winner.health} health left.", colored('Info', 'blue'))
+    log.add_to_log(f"{winner.name} wins!", 'Announcer', 'surprise')
     return winner
 
 def encounter(p, e):
@@ -78,12 +81,12 @@ def encounter(p, e):
         p.gain_exp(e.exp)
         p.gold += e.gold
         gained_items = grab_loot.grab_loot_low_level(low_level.list_of_weapons, low_level.list_of_helmets, low_level.list_of_armour, low_level.list_of_rest, 2, 5)
-        log.add_to_log(f'You picked up: {gained_items}!', colored('Info', 'blue'))
+        log.add_to_log(f'You picked up: {gained_items}!', 'Info', 'useful')
         p.items += gained_items
 
         return "enemy_killed"
     else:
-        log.add_to_log("You lose gtfo", colored('Combat', 'red'))
+        log.add_to_log("You lose gtfo", 'Announcer', 'surprise')
         sys.exit()
 
 if __name__ == '__main__':

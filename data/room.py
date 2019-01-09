@@ -52,8 +52,10 @@ class Room:
         return map
 
     def generate_room_nr(self, room_nr):
-        if int(room_nr) > 1:
-            game_log.log.add_to_log('Oooh, a new room. How exciting!', colored('GM', 'green'))
+        if int(room_nr) == 1:
+            game_log.log.add_to_log('Oooh, a new room. How exciting!', 'Announcer', 'surprise')
+        if int(room_nr) == 2:
+            game_log.log.add_to_log('AAAAND another room! Does this ever end?', 'GM', 'surprise')
         koord_y = 0
         for number in room_nr:
             self.room[0][koord_y] = number

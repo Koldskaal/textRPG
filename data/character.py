@@ -1,4 +1,5 @@
 from termcolor import colored
+from . import game_log
 
 class Character:
     def __init__(self):
@@ -26,7 +27,7 @@ class Player(Character):
     def __init__(self):
         super().__init__()
 
-        self.name = colored('Player', 'blue', attrs=['bold',])
+        self.name = 'Player'
         self.Player = True
 
         self.level = 1
@@ -41,11 +42,11 @@ class Player(Character):
 
     def gain_exp(self, amount):
         self.exp += amount
-        print(f"You gained {amount} experience!")
+        game_log.log.add_to_log(f"You gained {amount} experience!", 'info', 'useful')
         if self.levelcap-self.exp <=0:
-            print(f"Required experience untill next level: 0")
+            game_log.log.add_to_log(f"Required experience until next level: 0", 'info', 'useful')
         else:
-            print(f"Required experience untill next level: {self.levelcap-self.exp}")
+            game_log.log.add_to_log(f"Required experience until next level: {self.levelcap-self.exp}", 'info')
         if self.exp >= self.levelcap:
             self.level_up()
 
@@ -58,14 +59,14 @@ class Player(Character):
         self.int += 2
         self.max_health = self.health = 100 + self.level*20-20
         self.max_mana = self.mana = 100 + self.level*20-20
-        print (f"Level up! You are now level {self.level}!")
-        print ("All stats increased by 2! Health and mana increased by 20! You feel refreshed!")
+        game_log.log.add_to_log(f"Level up! You are now level {self.level}!", 'info', 'recked')
+        game_log.log.add_to_log("All stats increased by 2! Health and mana increased by 20! You feel refreshed!", 'info', 'recked')
 
 class Monster(Character):
     def __init__(self):
         super().__init__()
 
-        self.name = colored('Monster', 'magenta', attrs=['bold',])
+        self.name = 'Monster'
         self.Enemy = True
         self.exp = 10
         self.loot_table = 'table_x'

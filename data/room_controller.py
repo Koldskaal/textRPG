@@ -1,4 +1,5 @@
 from termcolor import colored
+import time
 from random import randint
 from random import choice
 from . import shopkeeper, stat_window, combat, character, game_log, room
@@ -19,7 +20,6 @@ class RoomController:
 
         self.current_room = room.Room((10,9), p, room_nr='0', canvas=self.canvas)
         self.RN = 0
-        self.next_room = room.Room((randint(5,15),randint(5,15)), p, choice(["right"]), str(self.RN+1), canvas=self.canvas)
         self.prev_room = None
         self.spawn_player_controller()
         self.current_room.spawn_player()
@@ -28,17 +28,13 @@ class RoomController:
 
         self.stat_window = stat_window.StatWindow(p, self.canvas)
 
-        self.log.add_to_log('Welcome to infinite rooms!', colored('GM', 'green'))
-        self.log.add_to_log('A game with infinite amount of rooms. And infinite fights.', colored('GM', 'green'))
-        self.log.add_to_log('Are you ready? Well then..', colored('GM', 'green'))
-        self.log.add_to_log('LET THE GAME BEGIN!', colored('GM', 'green'))
-
-
-    def assign_next_room(self, room):
-        self.next_room = room
+        self.log.add_to_log('Welcome to infinite rooms!', 'Announcer', 'surprise')
+        self.log.add_to_log('A game with infinite rooms and infinite fights.', 'Announcer', 'surprise')
+        self.log.add_to_log('Sounds fun, eh? AHAHAHAHAHAHAHAHAHAHAHA! ', 'Announcer', 'surprise')
+        self.log.add_to_log('Sorry about that... are you ready? Then', 'Announcer', 'surprise')
+        self.log.add_to_log('LET THE GAMES BEGIN!', 'Announcer', 'surprise')
 
     def change_room(self):
-
         if len(self.list_of_rooms)-1 > self.RN:
             self.prev_room = self.current_room
             self.current_room= self.list_of_rooms[self.RN+1]

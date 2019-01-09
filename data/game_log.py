@@ -1,5 +1,5 @@
 import datetime
-
+from termcolor import colored
 
 class GameLog:
     def __init__(self, canvas=None):
@@ -17,10 +17,26 @@ class GameLog:
         'title'             : "LOG"
         }
 
-    def add_to_log(self, text, source):
+        self.colors = {
+        'default'   : 'white',
+        'bad'       : 'red',        # like dmg
+        'useful'    : 'cyan',       # like getting loot or other info
+        'positive'  : 'green',      # like heal or buffs or lifesteal
+        'surprise'  : 'blue',     # no idea, be creative
+        'recked'    : 'magenta',
+        'white'     : 'white',      # same colors again in case I dont remeber my awesome keywords
+        'red'       : 'red',
+        'cyan'      : 'cyan',
+        'green'     : 'green',
+        'blue'      : 'blue',
+        'magenta'   : 'magenta',
+        }
+
+    def add_to_log(self, text, source, effect='default'):
         self.scroll_state = 0
         now = datetime.datetime.now().strftime('%H:%M')
-        self.log += f"[{now}] [{source}] {text}" + "\n"
+        s = "\n"+f"[{now}] [{source.upper()}] " + colored(f"{text}", self.colors[effect], attrs=['reverse'])
+        self.log += s
 
         self.print_canvas()
 
