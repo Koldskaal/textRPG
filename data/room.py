@@ -24,6 +24,7 @@ class Room:
         self.generate_room_nr(room_nr)
 
         self.monster_spawned = False
+        self.shop_position = None
         self.door = {}
         self.print_door(prev_room_door)
         self.go_to_next = None
@@ -57,7 +58,8 @@ class Room:
 
     def spawn_player(self):
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
-            self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
+            if self.shop_position:
+                self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
             if not self.monster_spawned:
                 self.spawn_monsters()
 
@@ -127,11 +129,11 @@ class Room:
         ):
             if self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == MONSTER_CHAR:
                 e = character.Monster()
-                winning = combat.encounter(p,e)
+                winning = combat.encounter(p,e, self.canvas)
                 if winning == "enemy_killed":
                     self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
             elif self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == SHOP_STAND:
-                change_to_shop()
+                self.change_to_shop()
 
 
         else:
