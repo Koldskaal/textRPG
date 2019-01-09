@@ -88,7 +88,7 @@ class Room:
         string.replace
         settings = {
             'column_priority'  : 1,     # Order of who goes first from left to right
-            'delay'             : 0,     # if it needs to be x lines below
+            'delay'             : 4,     # if it needs to be x lines below
             'width'             : 40,    # how wide will it print
             'allignment'        : '^',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30

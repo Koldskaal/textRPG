@@ -6,7 +6,7 @@ import ansiwrap
 class Canvas:
     def __init__(self):
         self.areas = {}
-
+        self.border = True
         self.default_settings = {
             'column_priority'  : 1,     # Order of who goes first from left to right
             'delay'             : 0,     # if it needs to be x lines below
@@ -19,6 +19,7 @@ class Canvas:
     def add_to_print(self, name, string, settings={}):
         self.areas[name] = settings
         self.areas[name]['string'] = string
+
 
     def print_canvas(self, clear=False):
         # Find the lowest printed line
@@ -36,6 +37,8 @@ class Canvas:
             temp_lines = len(items['_split']) + items.get('delay', 0)
             if temp_lines > lines:
                 lines = temp_lines
+            if lines < items.get('max_lines', 0):
+                lines = items.get('max_lines', 0)
 
         def create_allignment(s, width, allignment):
             needed = width - ansiwrap.ansilen(s)
@@ -53,8 +56,7 @@ class Canvas:
                 return s
 
 
-        def text_wrap(s, width):
-            popped = ansiwrap.fill(popped, self.areas[k].get('width', 30))
+
         # print in order
         # find the horizontal order
         def takeSecond(elem):
@@ -74,9 +76,13 @@ class Canvas:
                     popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
                     if popped:
                         add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                        if self.border:
+                            add = '|' + add + '|'
                         big_string += add
+                elif i <= self.areas[k].get('max_lines', 0) and self.areas[k].get('max_lines', 0) != 0:
+                    big_string += ('|' + ' ' * self.areas[k].get('width', 30) + '|' if self.border else ' ' * self.areas[k].get('width', 30))
                 else:
-                    big_string += ' ' * self.areas[k].get('width', 30)
+                    big_string += ('|' + ' ' * self.areas[k].get('width', 30) + '|' if self.border else ' ' * self.areas[k].get('width', 30))
 
 
         print("\033[H")
