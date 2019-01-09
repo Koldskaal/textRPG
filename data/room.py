@@ -127,16 +127,6 @@ class Room:
         [self.player_position[1] + coordinates[1]]
         != " "
         ):
-            if self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == MONSTER_CHAR:
-                e = character.Monster()
-                winning = combat.encounter(p,e, self.canvas)
-                if winning == "enemy_killed":
-                    self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
-            elif self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == SHOP_STAND:
-                self.change_to_shop()
-
-
-        else:
             if self.door.get("prev"):
                 if (
                 self.player_position[0] + coordinates[0]
@@ -147,6 +137,17 @@ class Room:
                 ):
                     self.change_room_backwards()
                     return
+            if self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == MONSTER_CHAR:
+                e = character.Monster()
+                winning = combat.encounter(p,e, self.canvas)
+                if winning == "enemy_killed":
+                    self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] = " "
+            elif self.room[self.player_position[0] + coordinates[0]][self.player_position[1] + coordinates[1]] == SHOP_STAND:
+                self.change_to_shop()
+
+
+        else:
+
             self.room[self.player_position[0]][self.player_position[1]] = ' '
             self.player_position[0] = self.player_position[0] + coordinates[0]
             self.player_position[1] = self.player_position[1] + coordinates[1]
@@ -208,7 +209,7 @@ class Room:
         self.go_to_next = True
 
     def change_room_backwards(self):
-        self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR_OPEN_NEXT
+        self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR_OPEN_PREV
         self.print_room(True)
         time.sleep(0.3)
         self.room[self.door['prev'][0]][self.door['prev'][1]] = DOOR_CHAR
