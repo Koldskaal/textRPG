@@ -52,7 +52,7 @@ class RoomController:
         self.RN = self.RN - 1
 
     def change_to_shop(self):
-        self.current_room = shopkeeper.Shop
+        self.current_room = shopkeeper.Shop().print_room()
 
     def leave_shop(self):
         self.current_room = self.list_of_rooms[self.RN]
@@ -101,7 +101,7 @@ class RoomController:
                     running = False
                 if direction.name == 'w' or 's' or 'ENTER':
                     print('\n'*20)
-                    shop_keeper.shop_menu(key)
+                    shopkeeper.Shop().shop_menu(key)
 
     def move_player(self, coordinates):
         self.current_room.move_player(coordinates)

@@ -1,6 +1,7 @@
 from . import shopkeeper_stock
 import sys
 from . import room
+from termcolor import colored
 
 class Shop:
     def __init__(self):
@@ -12,17 +13,17 @@ class Shop:
     def print_room(self):
         if self.menu_position == 0:
             print(shopkeeper_stock.shop_items)
-            print(colored("Buy", 'on_green', attrs=['bold']))
+            print(colored("Buy", "white", 'on_green', attrs=['bold']))
             print("Sell")
             print("Leave Shop")
         if self.menu_position == 1:
             print("Buy")
-            print(colored("Sell", 'on_green', attrs=['bold']))
+            print(colored("Sell", "white", 'on_green', attrs=['bold']))
             print("Leave Shop")
         if self.menu_position == 2:
             print("Buy")
             print("Sell")
-            print(colored("Leave Shop", 'on_green', attrs=['bold']))
+            print(colored("Leave Shop", "white", 'on_green', attrs=['bold']))
 
 
     def shop_menu(self, direction):

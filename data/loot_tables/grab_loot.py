@@ -20,11 +20,22 @@ def grab_loot_low_level(list_of_weapons, list_of_helmets, list_of_armour, list_o
                     if chosen == list_of_helmets:
                         helmets += 1
                         looted.append(choice(chosen))
+                    else:
+                        if armour < 1:
+                            if chosen == list_of_armour:
+                                armour += 1
+                                looted.append(choice(chosen))
+                            else:
+                                looted.append(choice(list_of_rest))
+                        else:
+                            looted.append(choice(list_of_rest))
                 else:
                     if armour < 1:
                         if chosen == list_of_armour:
                             armour += 1
                             looted.append(choice(chosen))
+                        else:
+                            looted.append(choice(list_of_rest))
                     else:
                         looted.append(choice(list_of_rest))
         else:
@@ -32,11 +43,22 @@ def grab_loot_low_level(list_of_weapons, list_of_helmets, list_of_armour, list_o
                 if chosen == list_of_helmets:
                     helmets += 1
                     looted.append(choice(chosen))
+                else:
+                    if armour < 1:
+                        if chosen == list_of_armour:
+                            armour += 1
+                            looted.append(choice(chosen))
+                        else:
+                            looted.append(choice(list_of_rest))
+                    else:
+                        looted.append(choice(list_of_rest))
             else:
                 if armour < 1:
                     if chosen == list_of_armour:
                         armour += 1
                         looted.append(choice(chosen))
+                    else:
+                        looted.append(choice(list_of_rest))
                 else:
                     looted.append(choice(list_of_rest))
 
