@@ -25,8 +25,6 @@ movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0)}
 
 
 
-
-
 if sys.stdin.isatty():
     while running:
         if msvcrt.kbhit():

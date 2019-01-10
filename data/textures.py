@@ -12,6 +12,13 @@ try:
     DOOR_CHAR_OPEN_PREV = colored('▌', 'yellow', attrs=['bold'])
     print(PLAYER_CHAR)
     SHOP_STAND = colored('▲', 'cyan', attrs=['bold'])
+
+    BORDER_UP_DOWN = '─'
+    BORDER_LEFT_RIGHT = '│'
+    BORDER_CORNER_UP_LEFT = '┌'
+    BORDER_CORNER_UP_RIGHT = '┐'
+    BORDER_CORNER_DOWN_LEFT = '└'
+    BORDER_CORNER_DOWN_RIGHT = '┘'
 except UnicodeEncodeError:
     WALL_CHAR_UP_DOWN = colored('x', 'yellow')
     WALL_CHAR_LEFT_RIGHT = colored('x', 'yellow')
@@ -21,3 +28,10 @@ except UnicodeEncodeError:
     DOOR_CHAR = colored('|', 'yellow', attrs=['bold'])
     DOOR_CHAR_OPEN_NEXT = colored(']', 'yellow', attrs=['bold'])
     DOOR_CHAR_OPEN_PREV = colored('[', 'yellow', attrs=['bold'])
+
+    BORDER_UP_DOWN = '-'
+    BORDER_LEFT_RIGHT = '|'
+    BORDER_CORNER_UP_LEFT = '+'
+    BORDER_CORNER_UP_RIGHT = '+'
+    BORDER_CORNER_DOWN_LEFT = '+'
+    BORDER_CORNER_DOWN_RIGHT = '+'

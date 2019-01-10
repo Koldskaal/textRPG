@@ -9,23 +9,6 @@ try:
 except ModuleNotFoundError:
     from  loot_tables import grab_loot,low_level
 
-text_log = ""
-
-def add_to_text_log(text, canvas):
-    global text_log
-    text_log += text + "\n"
-    settings = {
-    'column_priority'  : 1,     # Order of who goes first from left to right
-    'delay'             : 0,     # if it needs to be x lines below
-    'width'             : 40,    # how wide will it add_to_text_log
-    'allignment'        : '<',
-    'max_lines'         : 20,    # for the string that keeps getting bigger. Take only the latest 30
-    'join_char'         : '',
-    'title'             : 'LOG'
-    }
-    canvas.add_to_print('log', text_log, settings)
-    canvas.print_canvas()
-
 
 def fight(p, e):
     next_hit_p = 0
@@ -47,7 +30,9 @@ def fight(p, e):
             max_health = colored(str(_def.max_health), 'green', attrs=['bold'])
             log.add_to_log(f"{d_name.capitalize()} took {dmg} damage.", 'Combat', 'bad' if _def.name == p.name else 'default')
             if _def.health <= 0:
-                log.add_to_log(f"WOAH! {d_name.capitalize()} has no more health left!", 'Announcer', 'surprise')
+                log.add_to_log(f"WOAH! That {d_name.capitalize()} looks to be in agony!", 'Announcer', 'surprise')
+                if att.health > att.max_health*0.8:
+                    log.add_to_log(f"What a blow out!", 'Announcer', 'surprise')
             # log.add_to_log("-"*40, 'Combat')
 
 

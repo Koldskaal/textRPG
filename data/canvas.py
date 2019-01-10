@@ -2,6 +2,10 @@
 import colorama
 import termcolor
 import ansiwrap
+try:
+    from .textures import *
+except ModuleNotFoundError:
+    from textures import *
 
 class Canvas:
     def __init__(self):
@@ -73,11 +77,11 @@ class Canvas:
         for i in range(lines+2):
             big_string +="\n"
             for k, useless in list_of_columns:
-                if i == 0:
-                    mid = '{:-{a}{w}}'.format(self.areas[k].get('title', ''), w=self.areas[k].get('width', 30), a='^')
-                    big_string+=(' '*self.gap + '+' + mid  + '+')
-                elif i == lines+1:
-                    big_string+=' '*self.gap + '+' + '-'*self.areas[k].get('width', 30) + '+'
+                if i == 0 and self.border:
+                    mid = '{:{char}{a}{w}}'.format(self.areas[k].get('title', ''), char=BORDER_UP_DOWN, w=self.areas[k].get('width', 30), a='^')
+                    big_string+=(' '*self.gap + BORDER_CORNER_UP_LEFT + mid  + BORDER_CORNER_UP_RIGHT)
+                elif i == lines+1 and self.border:
+                    big_string+=' '*self.gap + BORDER_CORNER_DOWN_LEFT + BORDER_UP_DOWN*self.areas[k].get('width', 30) + BORDER_CORNER_DOWN_RIGHT
                 else:
 
                     if i >= self.areas[k].get('delay', 0):
@@ -85,12 +89,12 @@ class Canvas:
                         if popped:
                             add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
                             if self.border:
-                                add =' '*self.gap +  '|' + add + '|'
+                                add =' '*self.gap +  BORDER_LEFT_RIGHT + add + BORDER_LEFT_RIGHT
                             big_string += add
                     elif i <= self.areas[k].get('max_lines', 0) and self.areas[k].get('max_lines', 0) != 0:
-                        big_string += (' '*self.gap + '|' + ' ' * self.areas[k].get('width', 30) + '|'  if self.border else ' ' * self.areas[k].get('width', 30))
+                        big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT  if self.border else ' ' * self.areas[k].get('width', 30))
                     else:
-                        big_string += (' '*self.gap + '|' + ' ' * self.areas[k].get('width', 30) + '|' if self.border else ' ' * self.areas[k].get('width', 30))
+                        big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT if self.border else ' ' * self.areas[k].get('width', 30))
 
 
         print("\033[H")
