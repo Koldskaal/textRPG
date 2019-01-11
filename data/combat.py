@@ -9,6 +9,15 @@ try:
 except ModuleNotFoundError:
     from  loot_tables import grab_loot,low_level
 
+def health_bar(p, e):
+    length = 10
+    iteration = e.health
+    total = e.max_health
+    filledLength = int(length * iteration // total)
+    percent = ("{}").format(100 * (iteration / float(total)))
+    fill = '■'
+    enemy_bar = e.name + ' | ' + colored(fill * filledLength + '-' * (length - filledLength), 'red') + f' | {iteration}/{total}'
+    log.canvas.replace_line('room', enemy_bar, 20)
 
 def fight(p, e):
     next_hit_p = 0
@@ -18,19 +27,19 @@ def fight(p, e):
     while True:
 
         def hitting(att, _def):
-            a_name = att.name if att.name != p.name else 'you'
-            d_name = _def.name if _def.name != p.name else 'you'
+            a_name = att.name if att.name != p.name else 'You'
+            d_name = _def.name if _def.name != p.name else 'You'
 
             dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
             dmg_col = colored(str(dmg), 'red', attrs=['bold'])
-            log.add_to_log(f"{a_name.capitalize()} {'attack' if a_name == 'you' else 'attacks'}!", 'Combat')
+            log.add_to_log(f"{a_name} {'attack' if a_name == 'you' else 'attacks'}!", 'Combat')
 
             _def.health -= dmg
             health_col = colored(str(_def.health), 'green', attrs=['bold'])
             max_health = colored(str(_def.max_health), 'green', attrs=['bold'])
-            log.add_to_log(f"{d_name.capitalize()} took {dmg} damage.", 'Combat', 'bad' if _def.name == p.name else 'default')
+            log.add_to_log(f"{d_name} took {dmg} damage.", 'Combat', 'bad' if _def.name == p.name else 'default')
             if _def.health <= 0:
-                log.add_to_log(f"WOAH! That {d_name.capitalize()} looks to be in agony!", 'Announcer', 'surprise')
+                log.add_to_log(f"WOAH! That {d_name} looks to be in agony!", 'Announcer', 'surprise')
                 if att.health > att.max_health*0.8:
                     log.add_to_log(f"What a blow out!", 'Announcer', 'surprise')
             # log.add_to_log("-"*40, 'Combat')
@@ -41,6 +50,7 @@ def fight(p, e):
 
         if next_hit_p > hit:
             hitting(p, e)
+            health_bar(p,e)
             next_hit_p -= hit
             if e.health <= 0:
                 winner = p
@@ -48,6 +58,7 @@ def fight(p, e):
 
         if next_hit_e > hit:
             hitting(e, p)
+            health_bar(p,e)
             next_hit_e -= hit
             if p.health <= 0:
                 winner = e

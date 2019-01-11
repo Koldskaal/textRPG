@@ -3,6 +3,8 @@ from . import game_log
 
 class Character:
     def __init__(self):
+        self.__health = self.__mana = 0
+        self._observers = []
         self.name = ""
         self.max_health = self.health = 100
         self.max_mana = self.mana = 100
@@ -13,6 +15,28 @@ class Character:
         self.int = 10
         self.agi = 10
 
+    @property
+    def health(self):
+        return self.__health
+
+    @health.setter
+    def health(self, amount):
+        self.__health = amount
+        for callback in self._observers:
+            callback()
+
+    @property
+    def mana(self):
+        return self.__mana
+
+    @mana.setter
+    def mana(self, amount):
+        self.__mana = amount
+        for callback in self._observers:
+            callback()
+
+    def bind_stats(self, callback):
+        self._observers.append(callback)
 
 class Player(Character):
     """
@@ -25,7 +49,7 @@ class Player(Character):
     }}
     """
     def __init__(self):
-        super().__init__()
+        super(Player, self).__init__()
 
         self.name = 'Player'
         self.Player = True
@@ -44,6 +68,7 @@ class Player(Character):
         self.exp += amount
         game_log.log.add_to_log(f"You gained {amount} experience!", 'info', 'useful')
         if self.levelcap-self.exp <=0:
+
             game_log.log.add_to_log(f"Required experience until next level: 0", 'info', 'useful')
         else:
             game_log.log.add_to_log(f"Required experience until next level: {self.levelcap-self.exp}", 'info')
@@ -64,9 +89,9 @@ class Player(Character):
 
 class Monster(Character):
     def __init__(self):
-        super().__init__()
+        super(Monster, self).__init__()
 
-        self.name = 'Monster'
+        self.name = 'xXxSh4dowLordxXx'
         self.Enemy = True
         self.exp = 10
         self.loot_table = 'table_x'

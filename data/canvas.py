@@ -20,11 +20,24 @@ class Canvas:
             'join_char'         : ''
         }
 
+
         self.gap = 1
 
     def add_to_print(self, name, string, settings={}):
         self.areas[name] = settings
         self.areas[name]['string'] = string
+
+    def replace_line(self, name, string, line):
+        if ansiwrap.ansilen(string) > self.areas[name]['width']:
+            raise Exception('Too long line')
+        if not self.areas[name].get('replace'):
+            self.areas[name]['replace'] = [(string, line)]
+        else:
+            if any(line in c for c in self.areas[name]['replace']):
+                self.areas[name]['replace'] = [(string, line)]
+            else:
+                self.areas[name]['replace'].append((string,line))
+
 
 
     def print_canvas(self, clear=False):
@@ -62,7 +75,7 @@ class Canvas:
                 return s
 
 
-
+        kyk = ''
         # print in order
         # find the horizontal order
         def takeSecond(elem):
@@ -83,14 +96,24 @@ class Canvas:
                 elif i == lines+1 and self.border:
                     big_string+=' '*self.gap + BORDER_CORNER_DOWN_LEFT + BORDER_UP_DOWN*self.areas[k].get('width', 30) + BORDER_CORNER_DOWN_RIGHT
                 else:
+                    # print(self.areas[k].get('replace', []))
+                    if any(i in c for c in self.areas[k].get('replace', [])):
+                        for line in self.areas[k].get('replace'):
+                            if line[1] == i:
+                                kyk = create_allignment(line[0], self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                                if self.border:
+                                    kyk =' '*self.gap +  BORDER_LEFT_RIGHT + kyk + BORDER_LEFT_RIGHT
 
-                    if i >= self.areas[k].get('delay', 0):
+                                big_string += kyk
+                    elif i >= self.areas[k].get('delay', 0):
                         popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
                         if popped:
                             add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
                             if self.border:
                                 add =' '*self.gap +  BORDER_LEFT_RIGHT + add + BORDER_LEFT_RIGHT
                             big_string += add
+
+
                     elif i <= self.areas[k].get('max_lines', 0) and self.areas[k].get('max_lines', 0) != 0:
                         big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT  if self.border else ' ' * self.areas[k].get('width', 30))
                     else:
@@ -102,7 +125,6 @@ class Canvas:
             print("\033[H\033[J")
 
         print(big_string)
-
 
 
     def print_example(self):
@@ -149,6 +171,7 @@ class Canvas:
         self.add_to_print('stats', healthbox, {'column_priority': 2, 'width': 20, 'allignment': '<', 'delay': 1})
         self.add_to_print('room2', s, {'column_priority': 3, 'width': 40, 'delay': 5})
 
+        self.replace_line('room', 'asdasd', 2)
         self.print_canvas()
 
     """

@@ -95,7 +95,7 @@ class Room:
         settings = {
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 4,     # if it needs to be x lines below
-            'width'             : 40,    # how wide will it print
+            'width'             : 41,    # how wide will it print
             'allignment'        : '^',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
