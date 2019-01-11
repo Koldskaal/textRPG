@@ -21,7 +21,7 @@ r = room_controller.RoomController()
 print("Press q for exit.")
 r.print_room(True)
 
-movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0)}
+movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0), '\r': (0,0)}
 
 
 

@@ -40,7 +40,7 @@ class Shop:
             if self.menu_position <0:
                 self.menu_position = 0
             self.print_room()
-        if direction is "ENTER":
+        if direction is '\r': # ENTER KEY
             if self.menu_position == 0:
                 self.buy_item()
             if self.menu_position == 1:
