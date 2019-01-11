@@ -32,26 +32,27 @@ class Shop:
             if direction == "ENTER":
                 buy_item()
             if direction == "s":
-                self.menu_position += 1
+                self.menu_position = 1
+                self.print_room()
             else:
                 pass
         if self.menu_position == 1:
             if direction == "ENTER":
                 sell_item()
             if direction == "s":
-                self.menu_position += 1
+                self.menu_position =2
+                self.print_room()
             if direction == "w":
-                self.menu_position -= 1
+                self.menu_position = 0
+                self.print_room()
             else:
                 pass
         if self.menu_position == 2:
-            print("Buy")
-            print("Sell")
-            print(colored("Leave Shop", 'on_green', attrs=['bold']))
             if direction == "ENTER":
                 room.leave_shop()
             if direction == "w":
-                self.menu_position -= 1
+                self.menu_position =1
+                self.print_room()
             else:
                 pass
 

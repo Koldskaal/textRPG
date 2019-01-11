@@ -52,7 +52,7 @@ class RoomController:
         self.RN = self.RN - 1
 
     def change_to_shop(self):
-        self.current_room = shopkeeper.Shop().print_room()
+        self.current_room = shopkeeper.Shop()
 
     def leave_shop(self):
         self.current_room = self.list_of_rooms[self.RN]
@@ -87,7 +87,7 @@ class RoomController:
         if isinstance(self.current_room, room.Room):
             self.current_room.print_room(clear)
         elif isinstance(self.current_room, shopkeeper.Shop):
-            pass
+            self.current_room.print_room()
 
     def use_key(self, key):
         if isinstance(self.current_room, room.Room):
@@ -95,13 +95,7 @@ class RoomController:
             self.move_player(movement[key])
 
         elif isinstance(self.current_room, shopkeeper.Shop):
-            def move(key):
-                if key.name == 'q':
-                    global running
-                    running = False
-                if direction.name == 'w' or 's' or 'ENTER':
-                    print('\n'*20)
-                    shopkeeper.Shop().shop_menu(key)
+            self.current_room.shop_menu(key)
 
     def move_player(self, coordinates):
         self.current_room.move_player(coordinates)
@@ -110,18 +104,18 @@ class RoomController:
             self.change_room()
             self.spawn_player_controller()
             self.current_room.spawn_player()
-            self.print_room(True)
+            #self.print_room(True)
 
 
         elif self.current_room.go_to_prev == True:
             self.current_room.go_to_prev = False
             self.change_room_backwards()
-            self.print_room(True)
+            #self.print_room(True)
 
         elif self.current_room.go_to_shop == True:
             self.current_room.go_to_shop = False
             self.change_to_shop()
-            self.print_room(True)
+            #self.print_room(True)
 
         self.stat_window.draw()
         self.print_room()
