@@ -38,7 +38,8 @@ class StatWindow():
 
         mana = colored(player_bar, 'blue') +'  ' +str(self.player.mana)+'/'+str(self.player.max_mana)
 
-        self.string = f""" {health}
+        self.string = f""" Level:       {self.player.level}
+ {health}
  {mana}
  Str:        {self.player.str}
  Int:        {self.player.int}
