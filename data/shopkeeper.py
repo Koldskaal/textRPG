@@ -4,58 +4,49 @@ from . import room
 from termcolor import colored
 
 class Shop:
-    def __init__(self):
-        self.menu_options = ["buy", "sell", "leave"]
+    def __init__(self, canvas):
+        self.canvas = canvas
+        self.menu_options = ["Buy", "Sell", "Leave"]
         self.menu_position = 0
         self.shop_position = 0
         self.trade_position = 0
 
     def print_room(self):
-        if self.menu_position == 0:
-            print(shopkeeper_stock.shop_items)
-            print(colored("Buy", "white", 'on_green', attrs=['bold']))
-            print("Sell")
-            print("Leave Shop")
-        if self.menu_position == 1:
-            print("Buy")
-            print(colored("Sell", "white", 'on_green', attrs=['bold']))
-            print("Leave Shop")
-        if self.menu_position == 2:
-            print("Buy")
-            print("Sell")
-            print(colored("Leave Shop", "white", 'on_green', attrs=['bold']))
+        #if self.menu_position == 0:
+            self.pre_index = self.menu_options[0:self.menu_position]
+            self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
+            self.post_index =  self.menu_options[self.menu_position+1:]
+            self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index))
+            self.canvas.print_canvas()
+        #if self.menu_position == 1:
+        #    self.canvas.add_to_print("Buy")
+        #    self.canvas.add_to_print(colored("Sell", "white", 'on_green', attrs=['bold']))
+        #    self.canvas.add_to_print("Leave Shop")
+        #if self.menu_position == 2:
+        #    self.canvas.add_to_print("Buy")
+        #    self.canvas.add_to_print("Sell")
+        #    self.canvas.add_to_print(colored("Leave Shop", "white", 'on_green', attrs=['bold']))
 
 
     def shop_menu(self, direction):
         """ direction is :"""
-        if self.menu_position == 0:
-            if direction == "ENTER":
-                buy_item()
-            if direction == "s":
-                self.menu_position = 1
-                self.print_room()
-            else:
-                pass
-        if self.menu_position == 1:
-            if direction == "ENTER":
-                sell_item()
-            if direction == "s":
-                self.menu_position =2
-                self.print_room()
-            if direction == "w":
+        if direction is "s":
+            self.menu_position += 1
+            if self.menu_position > 2:
+                self.menu_position = 2
+            self.print_room()
+        if direction is "w":
+            self.menu_position -= 1
+            if self.menu_position <0:
                 self.menu_position = 0
-                self.print_room()
-            else:
+            self.print_room()
+        if direction is "ENTER":
+            if self.menu_position == 0:
+                self.buy_item()
+            if self.menu_position == 1:
                 pass
-        if self.menu_position == 2:
-            if direction == "ENTER":
-                room.leave_shop()
-            if direction == "w":
-                self.menu_position =1
-                self.print_room()
-            else:
+            if self.menu_position == 2:
                 pass
-
 
 def stock(self):
     pass

@@ -52,7 +52,7 @@ class RoomController:
         self.RN = self.RN - 1
 
     def change_to_shop(self):
-        self.current_room = shopkeeper.Shop()
+        self.current_room = shopkeeper.Shop(self.canvas)
 
     def leave_shop(self):
         self.current_room = self.list_of_rooms[self.RN]
