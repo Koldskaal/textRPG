@@ -13,6 +13,7 @@ class StatWindow():
         }
         self.draw()
         canvas.add_to_print('stats', self.string, self.settings)
+        self.player.bind_stats(self.draw)
 
     def draw(self):
         self.string = f""" Health:     {self.player.health}/{self.player.max_health}
