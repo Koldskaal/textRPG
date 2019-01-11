@@ -31,7 +31,7 @@ class Character:
 
     @mana.setter
     def mana(self, amount):
-        self.__mana = self.__mana + amount
+        self.__mana = amount
         for callback in self._observers:
             callback()
 
@@ -91,7 +91,7 @@ class Monster(Character):
     def __init__(self):
         super(Monster, self).__init__()
 
-        self.name = 'Monster'
+        self.name = 'xXxSh4dowLordxXx'
         self.Enemy = True
         self.exp = 10
         self.loot_table = 'table_x'

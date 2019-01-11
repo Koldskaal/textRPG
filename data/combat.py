@@ -9,6 +9,15 @@ try:
 except ModuleNotFoundError:
     from  loot_tables import grab_loot,low_level
 
+def health_bar(p, e):
+    length = 10
+    iteration = e.health
+    total = e.max_health
+    filledLength = int(length * iteration // total)
+    percent = ("{}").format(100 * (iteration / float(total)))
+    fill = '■'
+    enemy_bar = e.name + ' | ' + colored(fill * filledLength + '-' * (length - filledLength), 'red') + f' | {iteration}/{total}'
+    log.canvas.replace_line('room', enemy_bar, 20)
 
 def fight(p, e):
     next_hit_p = 0
@@ -41,6 +50,7 @@ def fight(p, e):
 
         if next_hit_p > hit:
             hitting(p, e)
+            health_bar(p,e)
             next_hit_p -= hit
             if e.health <= 0:
                 winner = p
@@ -48,6 +58,7 @@ def fight(p, e):
 
         if next_hit_e > hit:
             hitting(e, p)
+            health_bar(p,e)
             next_hit_e -= hit
             if p.health <= 0:
                 winner = e

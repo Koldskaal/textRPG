@@ -21,6 +21,9 @@ BORDER_CORNER_UP_RIGHT = '┐'
 BORDER_CORNER_DOWN_LEFT = '└'
 BORDER_CORNER_DOWN_RIGHT = '┘'
 
+HEALTH_BAR = '■'
+MANA_BAR = '■'
+
 
 try:
     print(PLAYER_CHAR)
@@ -42,3 +45,6 @@ except UnicodeEncodeError:
     BORDER_CORNER_UP_RIGHT = '+'
     BORDER_CORNER_DOWN_LEFT = '+'
     BORDER_CORNER_DOWN_RIGHT = '+'
+
+    HEALTH_BAR = '|'
+    MANA_BAR = '|'
