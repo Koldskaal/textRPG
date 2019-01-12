@@ -17,7 +17,8 @@ class Canvas:
             'width'             : 30,    # how wide will it print
             'allignment'        : '^',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
-            'join_char'         : ''
+            'join_char'         : '',
+            'push'              : 30
         }
 
 
@@ -108,6 +109,8 @@ class Canvas:
                     elif i >= self.areas[k].get('delay', 0):
                         popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
                         if popped:
+                            if self.areas[k].get('push'):
+                                popped = ' ' * self.areas[k].get('push') + popped
                             add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
                             if self.border:
                                 add =' '*self.gap +  BORDER_LEFT_RIGHT + add + BORDER_LEFT_RIGHT
