@@ -30,7 +30,7 @@ class Canvas:
 
     def replace_line(self, name, string, line):
         if ansiwrap.ansilen(string) > self.areas[name]['width']:
-            raise Exception('Too long line')
+            string = ansiwrap.wrap(string, self.areas[name]['width'])[0]
         if not self.areas[name].get('replace'):
             self.areas[name]['replace'] = [(string, line)]
         else:

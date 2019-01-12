@@ -65,6 +65,10 @@ def fight(p, e):
         int_turn += p.int
         next_hit_p += p.agi
         next_hit_e += e.agi
+        for debuff in p.debuffs:
+            debuff.proc_debuff()
+        for debuff in e.debuffs:
+            debuff.proc_debuff()
 
         if next_hit_p > hit:
             hitting(p, e)

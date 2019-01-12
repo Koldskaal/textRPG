@@ -17,7 +17,7 @@ class Character:
         self.agi = 10
 
         self.buffs = []
-        self.debuff = []
+        self.debuffs = []
 
     @property
     def health(self):
@@ -72,7 +72,7 @@ class Player(Character):
         self.name = 'Player'
         self.Player = True
 
-        self.spells = [spells.BasicSpell(self), spells.BasicHeal(self)]
+
 
         self.level = 1
         self.exp = 0
@@ -83,6 +83,10 @@ class Player(Character):
         self.equipment = [] # id
         self.items = []
         self.levelcap = 5+3*self.level**2
+
+        self.spells = [spells.BasicSpell(self), spells.BasicDoT(self)]
+
+
 
     def gain_exp(self, amount):
         self.exp += amount
@@ -106,6 +110,8 @@ class Player(Character):
         self.max_mana = self.mana = 100 + self.level*20-20
         game_log.log.add_to_log(f"Level up! You are now level {self.level}!", 'info', 'recked')
         game_log.log.add_to_log("All stats increased by 2! Health and mana increased by 20! You feel refreshed!", 'info', 'recked')
+        for spell in self.spells:
+            spell.level_up()
 
 class Monster(Character):
     def __init__(self):
