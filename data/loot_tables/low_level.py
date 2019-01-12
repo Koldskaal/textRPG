@@ -4,6 +4,7 @@ These include: yada yada
 """
 
 list_of_weapons = [
+"axe of blood",
 "wooden sword",
 "steel sword",
 "iron sword",
