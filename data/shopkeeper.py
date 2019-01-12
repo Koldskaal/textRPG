@@ -30,23 +30,16 @@ class Shop:
             if self.menu_position <0:
                 self.menu_position = 0
             self.print_room()
-<<<<<<< HEAD
-        if direction is "e":
-=======
         if direction is '\r': # ENTER KEY
->>>>>>> 04f55406e70df47a4f4f9495e2b8e74b132df747
             if self.menu_position == 0:
                 self.buy_item()
             if self.menu_position == 1:
                 self.sell_item()
             if self.menu_position == 2:
-                self.leave_shop()
+                return "leave_shop"
 
 def stock(self):
     pass
-
-def leave_shop(self):
-    room_controller.RoomController().leave_shop()
 
 def buy_item(self):
         bought = self.trade_position
