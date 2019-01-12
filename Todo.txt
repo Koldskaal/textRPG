@@ -23,8 +23,6 @@ balance combat stats
 nye client - movement n shit'
 get rid of prev (HVIS VI GIDER CUS WHO DOES) i mean it works....
 
-Matt: Look at shopkeeper - continue from "change_to_shop"
-
 Features I'd like to implement, todo:
     - lifesteal
     - live updating player stats panel
@@ -34,8 +32,14 @@ Features I'd like to implement, todo:
     - extended combat system, til at inkorporere spells og andre sjove ting
     - inventory + inventory "room" to browse/use items.
     - level up "room", flere valg når man leveler up.
-    - talent tree!
+    - talent tree! evt random of 3 options pr level up. big choices.
+    - Risk reward play options
+      - low health kills = more reward
+      - low health = more mana
+      - potions to xp
 
+    -roguelike: no stats, only hp+mana on lvlup. On death ->
+                higher stats for next run.
 
 Other:
   equipment
