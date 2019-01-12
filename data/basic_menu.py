@@ -20,6 +20,7 @@ class menu:
             'push'              : 18
         }
 
+<<<<<<< HEAD
         if if not self.menu_options:
             self.canvas.add_to_print("room", "No items in menu_options!", settings)
             self.canvas.print_canvas()
@@ -28,6 +29,14 @@ class menu:
             item_list_string.replace(self.menu_options[self.menu_position], colored(self.menu_options[self.menu_position], "white", 'on_green'))
             self.canvas.add_to_print("room", item_list_string, settings)
             self.canvas.print_canvas(clear)
+=======
+    def print_room(self, clear=False):
+        self.pre_index = self.menu_options[0:self.menu_position]
+        self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
+        self.post_index =  self.menu_options[self.menu_position+1:]
+        self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index))
+        self.canvas.print_canvas()
+>>>>>>> 3bc3e3178a215f7e0cf982c1fbca9d780466e6da
 
     def shop_menu(self, direction):
         if not self.menu_options:
