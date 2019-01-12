@@ -53,9 +53,6 @@ class RoomController:
     def change_to_shop(self):
         self.current_room = shopkeeper.Shop(self.canvas)
 
-    def leave_shop(self):
-        self.current_room = self.list_of_rooms[self.RN]
-
     def spawn_player_controller(self):
         if self.prev_room == None:
             self.current_room.player_position = [2,2]
@@ -94,7 +91,12 @@ class RoomController:
             self.move_player(movement[key])
 
         elif isinstance(self.current_room, shopkeeper.Shop):
-            self.current_room.shop_menu(key)
+            response = self.current_room.shop_menu(key)
+            if response == "leave_shop":
+                self.current_room = self.list_of_rooms[self.RN]
+                self.print_room()
+            else:
+                pass
 
     def move_player(self, coordinates):
         self.current_room.move_player(coordinates)

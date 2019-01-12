@@ -12,21 +12,11 @@ class Shop:
         self.trade_position = 0
 
     def print_room(self):
-        #if self.menu_position == 0:
-            self.pre_index = self.menu_options[0:self.menu_position]
-            self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
-            self.post_index =  self.menu_options[self.menu_position+1:]
-            self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index))
-            self.canvas.print_canvas()
-        #if self.menu_position == 1:
-        #    self.canvas.add_to_print("Buy")
-        #    self.canvas.add_to_print(colored("Sell", "white", 'on_green', attrs=['bold']))
-        #    self.canvas.add_to_print("Leave Shop")
-        #if self.menu_position == 2:
-        #    self.canvas.add_to_print("Buy")
-        #    self.canvas.add_to_print("Sell")
-        #    self.canvas.add_to_print(colored("Leave Shop", "white", 'on_green', attrs=['bold']))
-
+        self.pre_index = self.menu_options[0:self.menu_position]
+        self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
+        self.post_index =  self.menu_options[self.menu_position+1:]
+        self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index))
+        self.canvas.print_canvas()
 
     def shop_menu(self, direction):
         """ direction is :"""
@@ -44,14 +34,12 @@ class Shop:
             if self.menu_position == 0:
                 self.buy_item()
             if self.menu_position == 1:
-                pass
+                self.sell_item()
             if self.menu_position == 2:
-                pass
+                return "leave_shop"
 
 def stock(self):
     pass
-
-#def
 
 def buy_item(self):
         bought = self.trade_position
