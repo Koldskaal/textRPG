@@ -92,24 +92,24 @@ class RoomController:
             response = self.current_room.shop_menu(key)
             if response == "leave_shop":
                 self.current_room = self.list_of_rooms[self.RN]
-                self.print_room()
+                self.print_room(True)
             if response == "buy_menu":
                 self.current_room = shopkeeper.Buy(self.canvas, p)
-                self.print_room()
+                self.print_room(True)
             if response == "sell_menu":
                 self.current_room = shopkeeper.Sell(self.canvas, p)
-                self.print_room()
+                self.print_room(True)
         elif isinstance(self.current_room, shopkeeper.Buy):
             response = self.current_room.buy_item(key)
             if response == "leave_buy":
                 self.current_room = shopkeeper.Shop(self.canvas)
-                self.print_room()
+                self.print_room(True)
         elif isinstance(self.current_room, shopkeeper.Sell):
             response = self.current_room.sell_item(key)
             if response == "leave_sell":
                 self.current_room = shopkeeper.Shop(self.canvas)
                 self.current_room.menu_position = 1
-                self.print_room()
+                self.print_room(True)
 
     def move_player(self, coordinates):
         self.current_room.move_player(coordinates)

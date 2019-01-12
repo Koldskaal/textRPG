@@ -4,6 +4,7 @@ These include: yada yada
 """
 
 list_of_weapons = [
+"axe of blood",
 "wooden sword",
 "steel sword",
 "iron sword",
@@ -23,9 +24,12 @@ list_of_helmets = [
 "steel simple helmet",
 "iron helmet",
 "steel helmet",
+"tinfoil hat",
+"wizard hat",
 ]
 
-list_of_armour = [
+list_of_armor = [
+"linen rags",
 "iron breastplate",
 "steel breastplate",
 "iron chainmail",
@@ -38,6 +42,9 @@ list_of_rest = [
 "gold ring",
 "gold ring",
 "silver ring",
+"emerald ring",
+"ruby ring",
+"sapphire ring",
 "worn-out bedroll",
 "health potion",
 "mana potion",

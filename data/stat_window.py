@@ -6,7 +6,7 @@ class StatWindow():
         self.player = player
         self.canvas = canvas
         self.settings = {
-            'column_priority'  : 3,     # Order of who goes first from left to right
+            'column_priority'  : 4,     # Order of who goes first from left to right
             'delay'             : 0,     # if it needs to be x lines below
             'width'             : 22,    # how wide will it print
             'allignment'        : '<',
