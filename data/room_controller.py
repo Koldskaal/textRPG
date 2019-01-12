@@ -85,7 +85,8 @@ class RoomController:
     def use_key(self, key):
         if isinstance(self.current_room, room.Room):
             movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0), '\r': (0,0)}
-            self.move_player(movement[key])
+            if key in movement:
+                self.move_player(movement[key])
 
         elif isinstance(self.current_room, shopkeeper.Shop):
             response = self.current_room.shop_menu(key)

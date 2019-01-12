@@ -16,6 +16,9 @@ class Character:
         self.int = 10
         self.agi = 10
 
+        self.buffs = []
+        self.debuff = []
+
     @property
     def health(self):
         return self.__health
@@ -23,6 +26,8 @@ class Character:
     @health.setter
     def health(self, amount):
         self.__health = amount
+        if self.__health > self.max_health:
+            self.__health = self.max_health
         for callback in self._observers:
             callback()
 
@@ -33,6 +38,18 @@ class Character:
     @mana.setter
     def mana(self, amount):
         self.__mana = amount
+        if self.__mana > self.max_mana:
+            self.__mana = self.max_mana
+        for callback in self._observers:
+            callback()
+
+    @property
+    def gold(self):
+        return self.__gold
+
+    @gold.setter
+    def gold(self, amount):
+        self.__gold = amount
         for callback in self._observers:
             callback()
 
@@ -55,7 +72,7 @@ class Player(Character):
         self.name = 'Player'
         self.Player = True
 
-        self.spells = [spells.Spell()]
+        self.spells = [spells.BasicSpell(self), spells.BasicHeal(self)]
 
         self.level = 1
         self.exp = 0
