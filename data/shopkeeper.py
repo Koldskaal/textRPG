@@ -88,14 +88,16 @@ class Sell:
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
-            'push'              : 0
+            'push'              : 1
             }
         if empty:
             showcase = "Nothing here"
             self.canvas.add_to_print("showcase", showcase, settings)
             self.canvas.print_canvas()
         else:
-            showcase = str(item_ID.items[self.menu_options[self.menu_position]])
+            showcase = ""
+            for key, values in item_ID.items[self.menu_options[self.menu_position]].items():
+                showcase += (f"{key}: {values} \n") #lav en linje for hver stat, så price kan halveres, og ting have farver
             self.canvas.add_to_print("showcase", showcase, settings)
             self.canvas.print_canvas()
 
@@ -166,14 +168,16 @@ class Buy:
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
-            'push'              : 0
+            'push'              : 1
             }
         if empty:
             showcase = "Nothing here"
             self.canvas.add_to_print("showcase", showcase, settings)
             self.canvas.print_canvas()
         else:
-            showcase = str(item_ID.items[self.menu_options[self.menu_position]])
+            showcase = ""
+            for key, values in item_ID.items[self.menu_options[self.menu_position]].items():
+                showcase += (f"{key}: {values} \n")
             self.canvas.add_to_print("showcase", showcase, settings)
             self.canvas.print_canvas()
 
