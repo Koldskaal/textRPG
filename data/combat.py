@@ -21,11 +21,18 @@ def health_bar(p, e):
     log.canvas.replace_line('room', enemy_bar, 20)
 
 def use_spell(player, enemy):
-    spell = player.spells[0]
-    log.add_to_log(f"You used {spell.name}!", 'Combat', 'recked')
-    enemy.health -= spell.damage
-    player.mana -= spell.mana_usage
-    log.add_to_log(f"{enemy.name} took {spell.damage} damage.", 'Combat', 'recked')
+
+    spell = player.spells[1]
+    if player.mana < spell.mana_usage:
+        log.add_to_log(f"Not enough mana for {spell.name}.", 'Combat', 'useful')
+        return
+    target = player if spell.target == 'player' else enemy
+    spell.cast(target)
+    log.add_to_log(f"You used {spell.name} on {target.name}!", 'Combat', 'recked')
+    if spell.damage < 0:
+        log.add_to_log(f"{target.name} healed for {abs(spell.damage)} hp.", 'Combat', 'positive')
+    else:
+        log.add_to_log(f"{target.name} took {spell.damage} damage.", 'Combat', 'recked')
 
 def fight(p, e):
     next_hit_p = 0
@@ -38,6 +45,8 @@ def fight(p, e):
         def hitting(att, _def):
             a_name = att.name if att.name != p.name else 'You'
             d_name = _def.name if _def.name != p.name else 'You'
+
+            att.mana += att.int
 
             dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
             dmg_col = colored(str(dmg), 'red', attrs=['bold'])
