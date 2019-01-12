@@ -2,7 +2,8 @@ from termcolor import colored
 import time
 from random import randint
 from random import choice
-from . import shopkeeper, stat_window, combat, character, game_log, room
+from . import shopkeeper, stat_window, combat, character, room
+from .game_log import log
 from .canvas import Canvas
 
 p = character.Player()
@@ -15,10 +16,9 @@ class RoomController:
                 An instance of a Room()
         """
         self.canvas = Canvas()
-        self.log = game_log.log
-        self.log.canvas = self.canvas
+        log.canvas = self.canvas
 
-        self.current_room = room.Room((10,9), p, room_nr='0', canvas=self.canvas)
+        self.current_room = room.Room((10,9), p, room_nr='0')
         self.RN = 0
         self.prev_room = None
         self.spawn_player_controller()
@@ -28,11 +28,11 @@ class RoomController:
 
         self.stat_window = stat_window.StatWindow(p, self.canvas)
 
-        self.log.add_to_log('Welcome to infinite rooms!', 'Announcer', 'surprise')
-        self.log.add_to_log('A game with infinite rooms and infinite fights.', 'Announcer', 'surprise')
-        self.log.add_to_log('Sounds fun, eh? AHAHAHAHAHAHAHAHAHAHAHA! ', 'Announcer', 'surprise')
-        self.log.add_to_log('Sorry about that... are you ready? Then', 'Announcer', 'surprise')
-        self.log.add_to_log('LET THE GAMES BEGIN!', 'Announcer', 'surprise')
+        log.add_to_log('Welcome to infinite rooms!', 'Announcer', 'surprise')
+        log.add_to_log('A game with infinite rooms and infinite fights.', 'Announcer', 'surprise')
+        log.add_to_log('Sounds fun, eh? AHAHAHAHAHAHAHAHAHAHAHA! ', 'Announcer', 'surprise')
+        log.add_to_log('Sorry about that... are you ready? Then', 'Announcer', 'surprise')
+        log.add_to_log('LET THE GAMES BEGIN!', 'Announcer', 'surprise')
 
     def change_room(self):
         if len(self.list_of_rooms)-1 > self.RN:
@@ -42,7 +42,7 @@ class RoomController:
 
         else:
             self.prev_room = self.current_room
-            self.current_room = room.Room((randint(5,15),randint(5,15)), p, choice(["right"]), str(self.RN+1), canvas=self.canvas)
+            self.current_room = room.Room((randint(5,15),randint(5,15)), p, choice(["right"]), str(self.RN+1))
             self.list_of_rooms.append(self.current_room)
             self.RN = self.RN + 1
 
@@ -123,7 +123,7 @@ class RoomController:
     def scroll_log(self, key):
         # page up
         if key == 73:
-            self.log.scroll(-1)
+            log.scroll(-1)
         # page down
         if key == 81:
-            self.log.scroll(1)
+            log.scroll(1)

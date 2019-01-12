@@ -6,6 +6,7 @@ import sys
 try:
     from  .loot_tables import grab_loot,low_level
     from .game_log import log
+    from .textures import *
 except ModuleNotFoundError:
     from  loot_tables import grab_loot,low_level
 
@@ -15,7 +16,7 @@ def health_bar(p, e):
     total = e.max_health
     filledLength = int(length * iteration // total)
     percent = ("{}").format(100 * (iteration / float(total)))
-    fill = '■'
+    fill = HEALTH_BAR
     enemy_bar = e.name + ' | ' + colored(fill * filledLength + '-' * (length - filledLength), 'red') + f' | {iteration}/{total}'
     log.canvas.replace_line('room', enemy_bar, 20)
 
@@ -32,7 +33,7 @@ def fight(p, e):
 
             dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
             dmg_col = colored(str(dmg), 'red', attrs=['bold'])
-            log.add_to_log(f"{a_name} {'attack' if a_name == 'you' else 'attacks'}!", 'Combat')
+            log.add_to_log(f"{a_name} {'attack' if a_name == 'You' else 'attacks'} {d_name}!", 'Combat')
 
             _def.health -= dmg
             health_col = colored(str(_def.health), 'green', attrs=['bold'])

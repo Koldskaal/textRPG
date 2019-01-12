@@ -1,13 +1,14 @@
 from random import randint
 from .textures import *
-from . import combat,character, game_log
+from . import combat,character
+from .game_log import log
 import time
 from termcolor import colored
 
 
 
 class Room:
-    def __init__(self, size, player, prev_room_door='', room_nr='', canvas=None):
+    def __init__(self, size, player, prev_room_door='', room_nr=''):
         """
         Arguments
         ---------
@@ -18,7 +19,6 @@ class Room:
                 Previous position of the door that was walked thorugh
                 ("left", "right", "up" or "down")
         """
-        self.canvas = canvas
         self.player = player
         self.size = size
         self.room = self.generate_border()
@@ -53,9 +53,9 @@ class Room:
 
     def generate_room_nr(self, room_nr):
         if int(room_nr) == 1:
-            game_log.log.add_to_log('Oooh, a new room. How exciting!', 'Announcer', 'surprise')
+            log.add_to_log('Oooh, a new room. How exciting!', 'Announcer', 'surprise')
         if int(room_nr) == 2:
-            game_log.log.add_to_log('AAAAND another room! Does this ever end?', 'Announcer', 'surprise')
+            log.add_to_log('AAAAND another room! Does this ever end?', 'Announcer', 'surprise')
         koord_y = 0
         for number in room_nr:
             self.room[0][koord_y] = number
@@ -102,8 +102,8 @@ class Room:
             'title'             : 'MAP'
         }
         # print(string)
-        self.canvas.add_to_print('room', string, settings)
-        self.canvas.print_canvas(clear)
+        log.canvas.add_to_print('room', string, settings)
+        log.canvas.print_canvas(clear)
 
 
 

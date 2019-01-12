@@ -47,6 +47,7 @@ if sys.stdin.isatty():
 else:
     def move(event):
         global r
+        print(event.name)
         if event.name in movement:
             print('\n'*20)
             r.use_key(event.name)
