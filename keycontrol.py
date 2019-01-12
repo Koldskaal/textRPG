@@ -21,7 +21,7 @@ r = room_controller.RoomController()
 print("Press q for exit.")
 r.print_room(True)
 
-movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0)}
+movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0), '\r': (0,0)}
 
 
 
@@ -47,6 +47,7 @@ if sys.stdin.isatty():
 else:
     def move(event):
         global r
+        print(event.name)
         if event.name in movement:
             print('\n'*20)
             r.use_key(event.name)

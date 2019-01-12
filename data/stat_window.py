@@ -1,5 +1,6 @@
 from termcolor import colored
 from .textures import *
+
 class StatWindow():
     def __init__(self, player, canvas):
         self.player = player
