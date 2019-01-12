@@ -23,9 +23,10 @@ def equip_item(self, item):
 def item_stats(self):
 
 
-item_ID = [
-"iron helmet" = "H0001" = {armor: 1, hp: 10} # test -1 agi
-]
+item_ID = {
+"iron helmet": {'armor': 1, 'hp': 10}, # test -1 agi
+'axe of blood': {'type': 'weapon', 'spell': 'Basic Spell'}
+}
 
 items {
 'iron helmet' : {'type' : 'helmet','armor': 5 }
