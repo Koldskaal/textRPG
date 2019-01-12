@@ -29,14 +29,13 @@ if sys.stdin.isatty():
     while running:
         if msvcrt.kbhit():
             key = ord(msvcrt.getch())
-            if chr(key) in movement:
                 # Pontential flicker killers
                 # print("\033[11A\033[J")  # moves curser 11 up then deletes down
                 # print("\033[H\033[J")  # moves curser to start corner then deletes down
                 # print('\n'*20)
-                r.use_key(chr(key))
-                while msvcrt.kbhit():
-                    msvcrt.getch()
+            r.use_key(chr(key))
+            while msvcrt.kbhit():
+                msvcrt.getch()
 
             if key == 224:
                 key = ord(msvcrt.getch())

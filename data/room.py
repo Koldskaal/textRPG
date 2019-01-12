@@ -64,10 +64,10 @@ class Room:
     def spawn_player(self):
 
         self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
-        if self.shop_position:
-            self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
         if not self.monster_spawned:
             self.spawn_monsters()
+        if self.shop_position:
+            self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
 
     def spawn_monsters(self, amount=None):
         if not amount:
