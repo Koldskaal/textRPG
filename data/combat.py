@@ -20,9 +20,17 @@ def health_bar(p, e):
     enemy_bar = e.name + ' | ' + colored(fill * filledLength + '-' * (length - filledLength), 'red') + f' | {iteration}/{total}'
     log.canvas.replace_line('room', enemy_bar, 20)
 
+def use_spell(player, enemy):
+    spell = player.spells[0]
+    log.add_to_log(f"You used {spell.name}!", 'Combat', 'recked')
+    enemy.health -= spell.damage
+    player.mana -= spell.mana_usage
+    log.add_to_log(f"{enemy.name} took {spell.damage} damage.", 'Combat', 'recked')
+
 def fight(p, e):
     next_hit_p = 0
     next_hit_e = 0
+    int_turn = 0
     hit = 50
 
     while True:
@@ -45,7 +53,7 @@ def fight(p, e):
                     log.add_to_log(f"What a blow out!", 'Announcer', 'surprise')
             # log.add_to_log("-"*40, 'Combat')
 
-
+        int_turn += p.int
         next_hit_p += p.agi
         next_hit_e += e.agi
 
@@ -63,6 +71,14 @@ def fight(p, e):
             next_hit_e -= hit
             if p.health <= 0:
                 winner = e
+                break
+
+        if int_turn > hit:
+            use_spell(p, e)
+            health_bar(p,e)
+            int_turn -= hit
+            if e.health <= 0:
+                winner = p
                 break
 
         log.print_canvas()

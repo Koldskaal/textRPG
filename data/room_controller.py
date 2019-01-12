@@ -15,8 +15,7 @@ class RoomController:
             starter_room : class Room
                 An instance of a Room()
         """
-        self.canvas = Canvas()
-        log.canvas = self.canvas
+        self.canvas = log.canvas
 
         self.current_room = room.Room((10,9), p, room_nr='0')
         self.RN = 0

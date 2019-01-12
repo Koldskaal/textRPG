@@ -1,5 +1,6 @@
 from termcolor import colored
 from . import game_log
+from . import spells
 
 class Character:
     def __init__(self):
@@ -53,6 +54,8 @@ class Player(Character):
 
         self.name = 'Player'
         self.Player = True
+
+        self.spells = [spells.Spell()]
 
         self.level = 1
         self.exp = 0

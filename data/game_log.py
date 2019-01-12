@@ -1,5 +1,6 @@
 import datetime
 from termcolor import colored
+from . import canvas
 
 class GameLog:
     def __init__(self, canvas=None):
@@ -62,7 +63,8 @@ class GameLog:
         t = t[:(self.scroll_state if self.scroll_state else len(t))]
         if len(t) < self.settings['max_lines']:
             return
-        self.canvas.add_to_print('log', "\n".join(t ) , self.settings)
+        self.canvas.add_to_print('log', "\n".join(t), self.settings)
         self.canvas.print_canvas()
 
-log = GameLog()
+game_canvas = canvas.Canvas()
+log = GameLog(game_canvas)
