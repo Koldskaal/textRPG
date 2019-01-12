@@ -22,7 +22,7 @@ def health_bar(p, e):
 
 def use_spell(player, enemy):
 
-    spell = player.spells[1]
+    spell = player.spells[0]
     if player.mana < spell.mana_usage:
         log.add_to_log(f"Not enough mana for {spell.name}.", 'Combat', 'useful')
         return
