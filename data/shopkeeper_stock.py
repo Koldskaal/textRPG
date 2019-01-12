@@ -1,5 +1,7 @@
-shop_items = [
-"item 1",
-"item 2",
-"item 3",
-]
+from random import choice
+from . import item_ID
+
+shop_items= []
+
+for stock in range(30):
+    shop_items.append(choice(list(item_ID.items.keys())))

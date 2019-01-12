@@ -2,6 +2,7 @@ from . import shopkeeper_stock
 import sys
 from . import room
 from termcolor import colored
+from . import item_ID
 
 class Shop:
     def __init__(self, canvas):
@@ -91,6 +92,7 @@ class Sell:
                 self.print_room()
             if direction is '\r': # ENTER KEY
                 shopkeeper_stock.shop_items.append(self.player.items[self.menu_position])
+                self.player.items += item_ID.items[self.menu_options[self.menu_position]]['price']*0.5
                 del self.player.items[self.menu_position]
                 if self.menu_position > len(self.menu_options)-1:
                     self.menu_position = len(self.menu_options)-1
@@ -141,10 +143,12 @@ class Buy:
                     self.menu_position = 0
                 self.print_room()
             if direction is '\r': # ENTER KEY
-                self.player.items.append(shopkeeper_stock.shop_items[self.menu_position])
-                del shopkeeper_stock.shop_items[self.menu_position]
-                if self.menu_position > len(self.menu_options)-1:
-                    self.menu_position = len(self.menu_options)-1
-                self.print_room()
+                if self.player.gold > item_ID.items[self.menu_options[self.menu_position]]['price']:
+                    self.player.items.append(shopkeeper_stock.shop_items[self.menu_position])
+                    self.player.gold -= item_ID.items[self.menu_options[self.menu_position]]['price']
+                    del shopkeeper_stock.shop_items[self.menu_position]
+                    if self.menu_position > len(self.menu_options)-1:
+                        self.menu_position = len(self.menu_options)-1
+                    self.print_room()
             if direction is "r":
                 return "leave_buy"

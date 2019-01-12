@@ -4,7 +4,7 @@ class menu:
         self.menu_options = []#"index1","index2","index3"
         self.menu_position = 0
 
-    def print_room(self):
+    def print_room(self, clear=False):
         self.pre_index = self.menu_options[0:self.menu_position]
         self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
         self.post_index =  self.menu_options[self.menu_position+1:]
