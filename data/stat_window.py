@@ -45,6 +45,6 @@ class StatWindow():
  Str:        {self.player.str}
  Int:        {self.player.int}
  Agi:        {self.player.agi}
-""" + BORDER_UP_DOWN*self.settings['width']
+""" + 'MISC'.center(self.settings['width'], BORDER_UP_DOWN) + f"\n Gold:        {self.player.gold}"
 
         self.canvas.add_to_print('stats', self.string, self.settings)

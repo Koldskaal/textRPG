@@ -26,3 +26,8 @@ def item_stats(self):
 item_ID = [
 "iron helmet" = "H0001" = {armor: 1, hp: 10} # test -1 agi
 ]
+
+items {
+'iron helmet' : {'type' : 'helmet','armor': 5 }
+
+}
