@@ -1,46 +1,86 @@
 from .game_log import log
 from termcolor import colored
 
-class menu:
+class BasicMenu:
     def __init__(self):
         self.canvas = log.canvas
         self.menu_options = []  #"index1","index2","index3"
         self.menu_position = 0
         selt.title = 'temp'
 
+    @staticmethod
+    def rotate(l, n):
+        return l[n:] + l[:n]
+
     def print_room(self, clear=False):
+
         settings = {
             'column_priority'  : 2,     # Order of who goes first from left to right
-            'delay'             : 4,     # if it needs to be x lines below
+            'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '<',
-            'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
+            'allignment'        : '^',
+            'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
-            'title'             : self.title.upper(),
-            'push'              : 18
+            'title'             : 'SHOP-BUY',
+            'push'              : 0
         }
+        if len(shopkeeper_stock.shop_items) == 0:
+            self.canvas.add_to_print("room", "", settings)
+            self.canvas.print_canvas(clear)
+            self.description_box(True)
+        else:
 
-        if if not self.menu_options:
-            self.canvas.add_to_print("room", "No items in menu_options!", settings)
+            # self.pre_index = self.menu_options[0:self.menu_position]
+            # self.index = colored(self.menu_options[self.menu_position-1], "white", 'on_green', attrs=['bold'])
+            # self.post_index =  self.menu_options[self.menu_position+1:]
+            # old_string = "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index)
+            max = len(self.menu_options)
+            if max > 9: max = 9
+            aft_num = max // 2
+            bef_num = max - aft_num
+
+
+            before = "\n".join(self.menu_options[-aft_num:]) + '\n'
+            temp = self.menu_options[:bef_num]
+            if len(self.menu_options) > 1:
+                new = before + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
+            else:
+                new = '-\n' + colored(before, "white", 'on_green', attrs=['bold'])
+
+            self.canvas.add_to_print("room",new ,settings)
+            self.canvas.print_canvas(clear)
+            self.description_box()
+
+    def (self, empty=False):
+        settings = {
+            'column_priority'  : 3,     # Order of who goes first from left to right
+            'delay'             : 7,     # if it needs to be x lines below
+            'width'             : 30,    # how wide will it print
+            'allignment'        : '<',
+            'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
+            'join_char'         : '',
+            'title'             : 'Item Showcase',
+            'push'              : 1
+            }
+        if empty:
+            description_box = "Nothing here!"
+            self.canvas.popup("room", description_box, 13, self.title)
             self.canvas.print_canvas()
         else:
-            item_list_string = "\n".join(self.menu_options)
-            item_list_string.replace(self.menu_options[self.menu_position], colored(self.menu_options[self.menu_position], "white", 'on_green'))
-            self.canvas.add_to_print("room", item_list_string, settings)
-            self.canvas.print_canvas(clear)
+            description_box = ""
+            for key, values in item_ID.items[self.menu_options[0]].items():
+                description_box += (f"{key}: {values} \n")
+            self.canvas.popup("room", description_box, 13, self.title)
+            self.canvas.print_canvas()
 
     def shop_menu(self, direction):
         if not self.menu_options:
             return "leave_buy"
         if direction is "s":
-            self.menu_position += 1
-            if self.menu_position > len(self.menu_options)-1:
-                self.menu_position = len(self.menu_options)-1
+            self.menu_options = self.rotate(self.menu_options, 1)
             self.print_room()
         if direction is "w":
-            self.menu_position -= 1
-            if self.menu_position < 0:
-                self.menu_position = 0
+            self.menu_options = self.rotate(self.menu_options, -1)
             self.print_room()
         if direction is '\r':
             self.choose()

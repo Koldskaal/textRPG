@@ -39,12 +39,12 @@ class Canvas:
             else:
                 self.areas[name]['replace'].append((string,line))
 
-    def popup(self, name, string, start_position):
+    def popup(self, name, string, start_position, title=None):
         s = string.splitlines()
         wrap = []
         for line in s:
             wrap += ansiwrap.wrap(line, self.areas[name].get('width', 30)-2)
-        top = BORDER_INLINE * self.areas[name].get('width', 30)
+        top = BORDER_INLINE * self.areas[name].get('width', 30) if not title else title.upper().center(self.areas[name].get('width', 30), BORDER_INLINE)
         box = [top,]
         box += wrap
         box.append(BORDER_INLINE * self.areas[name].get('width', 30))
@@ -191,7 +191,7 @@ class Canvas:
         self.add_to_print('room', termcolor.colored(s, 'red'), {'column_priority': 1, 'width': 40})
         self.add_to_print('stats', healthbox, {'column_priority': 2, 'width': 20, 'allignment': '<', 'delay': 1})
         self.add_to_print('room2', s, {'column_priority': 3, 'width': 40, 'delay': 5})
-        self.popup('room2', 'you are amemsda asd dasd', 10)
+        self.popup('room2', 'you are amemsda asd dasd', 10, 'title')
         self.replace_line('room', 'asdasd', 2)
         self.print_canvas()
 
