@@ -39,7 +39,17 @@ class Canvas:
             else:
                 self.areas[name]['replace'].append((string,line))
 
+    def popup(self, name, string, start_position):
+        s = string.splitlines()
+        wrap = []
+        for line in s:
+            wrap += ansiwrap.wrap(line, self.areas[name].get('width', 30)-2)
+        top = BORDER_INLINE * self.areas[name].get('width', 30)
+        box = [top,]
+        box += wrap
+        box.append(BORDER_INLINE * self.areas[name].get('width', 30))
 
+        self.areas[name]['popup'] = (box, start_position)
 
     def print_canvas(self, clear=False):
         # Find the lowest printed line
@@ -104,8 +114,16 @@ class Canvas:
                                 kyk = create_allignment(line[0], self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
                                 if self.border:
                                     kyk =' '*self.gap +  BORDER_LEFT_RIGHT + kyk + BORDER_LEFT_RIGHT
-
                                 big_string += kyk
+                    elif i >= self.areas[k].get('popup', [0,0])[1] and self.areas[k].get('popup', [0,0])[0]:
+                        popped = self.areas[k].get('popup', [])[0].pop(0)
+                        if popped:
+                            if self.areas[k].get('push'):
+                                popped = ' ' * self.areas[k].get('push') + popped
+                            add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                            if self.border:
+                                add =' '*self.gap +  BORDER_LEFT_RIGHT + add + BORDER_LEFT_RIGHT
+                            big_string += add
                     elif i >= self.areas[k].get('delay', 0):
                         popped = self.areas[k]['_split'].pop(0) if self.areas[k]['_split'] else ' '
                         if popped:
@@ -117,8 +135,8 @@ class Canvas:
                             big_string += add
 
 
-                    elif i <= self.areas[k].get('max_lines', 0) and self.areas[k].get('max_lines', 0) != 0:
-                        big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT  if self.border else ' ' * self.areas[k].get('width', 30))
+                    # elif i <= self.areas[k].get('max_lines', 0) and self.areas[k].get('max_lines', 0) != 0:
+                    #     big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT  if self.border else ' ' * self.areas[k].get('width', 30))
                     else:
                         big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT if self.border else ' ' * self.areas[k].get('width', 30))
 
@@ -173,7 +191,7 @@ class Canvas:
         self.add_to_print('room', termcolor.colored(s, 'red'), {'column_priority': 1, 'width': 40})
         self.add_to_print('stats', healthbox, {'column_priority': 2, 'width': 20, 'allignment': '<', 'delay': 1})
         self.add_to_print('room2', s, {'column_priority': 3, 'width': 40, 'delay': 5})
-
+        self.popup('room2', 'you are amemsda asd dasd', 10)
         self.replace_line('room', 'asdasd', 2)
         self.print_canvas()
 

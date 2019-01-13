@@ -129,6 +129,8 @@ class Sell:
                 del self.canvas.areas["showcase"]
                 return "leave_sell"
 
+# items = ['1','2','3','4','5','6','7','8','9','10','11','12','fourteen','fifthteen','16','17','18','19','20','21']
+
 class Buy:
     def __init__(self, canvas, player):
         self.canvas = canvas
@@ -136,26 +138,38 @@ class Buy:
         self.menu_position = 0
         self.player = player
 
+    @staticmethod
+    def rotate(l, n):
+        return l[n:] + l[:n]
+
     def print_room(self, clear=False):
+
         settings = {
             'column_priority'  : 2,     # Order of who goes first from left to right
-            'delay'             : 4,     # if it needs to be x lines below
+            'delay'             : 0,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
             'allignment'        : '<',
-            'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
+            'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'SHOP-BUY',
             'push'              : 0
         }
         if len(shopkeeper_stock.shop_items) == 0:
-            self.canvas.add_to_print("room", "Sorry, we're out!", settings)
+            self.canvas.add_to_print("room", "", settings)
             self.canvas.print_canvas(clear)
             self.showcase(True)
         else:
-            self.pre_index = self.menu_options[0:self.menu_position]
-            self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
-            self.post_index =  self.menu_options[self.menu_position+1:]
-            self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index),settings)
+
+            # self.pre_index = self.menu_options[0:self.menu_position]
+            # self.index = colored(self.menu_options[self.menu_position-1], "white", 'on_green', attrs=['bold'])
+            # self.post_index =  self.menu_options[self.menu_position+1:]
+            # old_string = "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index)
+            before = "".join(self.menu_options[-1]) + '\n'
+            temp = self.menu_options[:14]
+            new = (before if len(self.menu_options) > 2 else ' \n')  + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
+            print(new)
+            game_log.log.add_to_log(temp[0], 'SHOP')
+            self.canvas.add_to_print("room",new ,settings)
             self.canvas.print_canvas(clear)
             self.showcase()
 
@@ -165,45 +179,49 @@ class Buy:
             'delay'             : 4,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
             'allignment'        : '<',
-            'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
+            'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
             'push'              : 1
             }
         if empty:
-            showcase = "Nothing here"
-            self.canvas.add_to_print("showcase", showcase, settings)
+            showcase = " Sorry we are out!"
+            self.canvas.popup("room", showcase, 10)
             self.canvas.print_canvas()
         else:
             showcase = ""
-            for key, values in item_ID.items[self.menu_options[self.menu_position]].items():
+            for key, values in item_ID.items[self.menu_options[0]].items():
                 showcase += (f"{key}: {values} \n")
-            self.canvas.add_to_print("showcase", showcase, settings)
+            self.canvas.popup("room", showcase, 10)
             self.canvas.print_canvas()
 
     def buy_item(self, direction):
+        def rotate(l, n):
+            return l[n:] + l[:n]
         if not shopkeeper_stock.shop_items:
             del self.canvas.areas["showcase"]
             return "leave_buy"
         else:
             if direction is "s":
+                self.menu_options = rotate(self.menu_options, 1)
                 self.menu_position += 1
                 if self.menu_position > len(self.menu_options)-1:
                     self.menu_position = len(self.menu_options)-1
                 self.print_room()
             if direction is "w":
+                self.menu_options = rotate(self.menu_options, -1)
                 self.menu_position -= 1
                 if self.menu_position <0:
                     self.menu_position = 0
                 self.print_room()
             if direction is '\r': # ENTER KEY
-                if self.player.gold > item_ID.items[self.menu_options[self.menu_position]]['price']:
-                    self.player.items.append(shopkeeper_stock.shop_items[self.menu_position])
-                    self.player.gold -= item_ID.items[self.menu_options[self.menu_position]]['price']
-                    del shopkeeper_stock.shop_items[self.menu_position]
+                if self.player.gold > item_ID.items[self.menu_options[0]]['price']:
+                    self.player.items.append(self.menu_options[0])
+                    self.player.gold -= item_ID.items[self.menu_options[0]]['price']
+                    del self.menu_options[0]
                     if self.menu_position > len(self.menu_options)-1:
                         self.menu_position = len(self.menu_options)-1
                     self.print_room()
             if direction is "r":
-                del self.canvas.areas["showcase"]
+                # del self.canvas.areas["showcase"]
                 return "leave_buy"
