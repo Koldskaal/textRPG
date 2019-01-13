@@ -135,6 +135,7 @@ class Buy:
     def __init__(self, canvas, player):
         self.canvas = canvas
         self.menu_options = shopkeeper_stock.shop_items
+        self.menu_options.sort()
         self.menu_position = 0
         self.player = player
 
@@ -148,7 +149,7 @@ class Buy:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '^',
+            'allignment'        : '<',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'SHOP-BUY',
@@ -165,7 +166,7 @@ class Buy:
             # self.post_index =  self.menu_options[self.menu_position+1:]
             # old_string = "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index)
             max = len(self.menu_options)
-            if max > 7: max = 7
+            if max > 9: max = 9
             aft_num = max // 2
             bef_num = max - aft_num
 
@@ -220,6 +221,7 @@ class Buy:
                     self.player.items.append(self.menu_options[0])
                     self.player.gold -= item_ID.items[self.menu_options[0]]['price']
                     del self.menu_options[0]
+                    shopkeeper_stock.shop_items = self.menu_options
                     self.print_room()
             if direction is "r":
                 # del self.canvas.areas["showcase"]
