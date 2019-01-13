@@ -146,9 +146,9 @@ class Buy:
 
         settings = {
             'column_priority'  : 2,     # Order of who goes first from left to right
-            'delay'             : 0,     # if it needs to be x lines below
-            'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'delay'             : 3,     # if it needs to be x lines below
+            'width'             : 41,    # how wide will it print
+            'allignment'        : '^',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'SHOP-BUY',
@@ -164,8 +164,14 @@ class Buy:
             # self.index = colored(self.menu_options[self.menu_position-1], "white", 'on_green', attrs=['bold'])
             # self.post_index =  self.menu_options[self.menu_position+1:]
             # old_string = "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index)
-            before = "".join(self.menu_options[-1]) + '\n'
-            temp = self.menu_options[:settings['max_lines']-1 if len(self.menu_options) >settings['max_lines']-1 else len(self.menu_options)-1]
+            max = len(self.menu_options)
+            if max > 7: max = 7
+            aft_num = max // 2
+            bef_num = max - aft_num
+
+
+            before = "\n".join(self.menu_options[-aft_num:]) + '\n'
+            temp = self.menu_options[:bef_num]
             if len(self.menu_options) > 1:
                 new = before + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
             else:
@@ -178,7 +184,7 @@ class Buy:
     def showcase(self, empty=False):
         settings = {
             'column_priority'  : 3,     # Order of who goes first from left to right
-            'delay'             : 4,     # if it needs to be x lines below
+            'delay'             : 7,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
             'allignment'        : '<',
             'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
@@ -188,13 +194,13 @@ class Buy:
             }
         if empty:
             showcase = " Sorry we are out!"
-            self.canvas.popup("room", showcase, 10)
+            self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
         else:
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
                 showcase += (f"{key}: {values} \n")
-            self.canvas.popup("room", showcase, 10)
+            self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
 
     def buy_item(self, direction):
