@@ -165,10 +165,12 @@ class Buy:
             # self.post_index =  self.menu_options[self.menu_position+1:]
             # old_string = "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index)
             before = "".join(self.menu_options[-1]) + '\n'
-            temp = self.menu_options[:14]
-            new = (before if len(self.menu_options) > 2 else ' \n')  + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
-            print(new)
-            game_log.log.add_to_log(temp[0], 'SHOP')
+            temp = self.menu_options[:settings['max_lines']-1 if len(self.menu_options) >settings['max_lines']-1 else len(self.menu_options)-1]
+            if len(self.menu_options) > 1:
+                new = before + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
+            else:
+                new = '-\n' + colored(before, "white", 'on_green', attrs=['bold'])
+
             self.canvas.add_to_print("room",new ,settings)
             self.canvas.print_canvas(clear)
             self.showcase()
@@ -199,28 +201,19 @@ class Buy:
         def rotate(l, n):
             return l[n:] + l[:n]
         if not shopkeeper_stock.shop_items:
-            del self.canvas.areas["showcase"]
             return "leave_buy"
         else:
             if direction is "s":
                 self.menu_options = rotate(self.menu_options, 1)
-                self.menu_position += 1
-                if self.menu_position > len(self.menu_options)-1:
-                    self.menu_position = len(self.menu_options)-1
                 self.print_room()
             if direction is "w":
                 self.menu_options = rotate(self.menu_options, -1)
-                self.menu_position -= 1
-                if self.menu_position <0:
-                    self.menu_position = 0
                 self.print_room()
             if direction is '\r': # ENTER KEY
                 if self.player.gold > item_ID.items[self.menu_options[0]]['price']:
                     self.player.items.append(self.menu_options[0])
                     self.player.gold -= item_ID.items[self.menu_options[0]]['price']
                     del self.menu_options[0]
-                    if self.menu_position > len(self.menu_options)-1:
-                        self.menu_position = len(self.menu_options)-1
                     self.print_room()
             if direction is "r":
                 # del self.canvas.areas["showcase"]
