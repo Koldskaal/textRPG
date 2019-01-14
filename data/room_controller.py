@@ -160,9 +160,6 @@ class RoomController:
             self.change_to_shop()
             #self.print_room(True)
 
-        elif self.current_room.go_to_combat == True:
-            self.change_to_combat()
-
         self.stat_window.draw()
         self.print_room()
 
