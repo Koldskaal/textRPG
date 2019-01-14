@@ -5,9 +5,9 @@ from . import item_ID
 from . import game_log
 
 class Char_menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se shopkeeper måde.
-    def __init__(self, canvas, player):
+    def __init__(self, canvas):
         self.canvas = canvas
-        self.menu_options = "Show Equipped, Items, Save, Quit Game"
+        self.menu_options = ["Show Equipped", "Items", "Save", "Quit Game"]
         self.menu_position = 0
 
     def print_room(self, clear=False):
