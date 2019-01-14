@@ -6,7 +6,7 @@ from . import item_ID
 from . import game_log
 
 class Shop:
-    def __init__(self, canvas, p, back_room):
+    def __init__(self, canvas, p, exit_room):
         self.canvas = canvas
         self.menu_options = ["Buy", "Sell", "Leave"]
         self.menu_position = 0
@@ -17,7 +17,7 @@ class Shop:
         self.buy_room = Buy(self.canvas, p, self)
         self.buy_room.go_back = self
 
-        self.go_back = back_room
+        self.go_back = exit_room
 
     def print_room(self, clear=False):
         settings = {
@@ -57,14 +57,18 @@ class Shop:
                 return self.go_back
 
 class Sell:
-    def __init__(self, canvas, player, back_room):
+    def __init__(self, canvas, player, exit_room):
         self.canvas = canvas
         self.menu_options = player.items
         self.menu_options.sort()
         self.menu_position = 0
         self.player = player
 
-        self.go_back = back_room
+        self.go_back = exit_room
+
+    @staticmethod
+    def rotate(l, n):
+        return l[n:] + l[:n]
 
     def print_room(self, clear=False):
 
@@ -146,14 +150,13 @@ class Sell:
 
     def use_key(self, direction):
         if not self.player.items:
-            del self.canvas.areas["showcase"]
             return self.go_back
         else:
             if direction is "s":
-                self.menu_options = rotate(self.menu_options, 1)
+                self.menu_options = self.rotate(self.menu_options, 1)
                 self.print_room()
             if direction is "w":
-                self.menu_options = rotate(self.menu_options, -1)
+                self.menu_options = self.rotate(self.menu_options, -1)
                 self.print_room()
             if direction is '\r': # ENTER KEY
                     shopkeeper_stock.shop_items.append(self.menu_options[0])
@@ -162,20 +165,19 @@ class Sell:
                     self.player.items = self.menu_options
                     self.print_room()
             if direction is "r":
-                del self.canvas.areas["showcase"]
                 return self.go_back
 
 # items = ['1','2','3','4','5','6','7','8','9','10','11','12','fourteen','fifthteen','16','17','18','19','20','21']
 
 class Buy:
-    def __init__(self, canvas, player, back_room):
+    def __init__(self, canvas, player, exit_room):
         self.canvas = canvas
         self.menu_options = shopkeeper_stock.shop_items
         self.menu_options.sort()
         self.menu_position = 0
         self.player = player
 
-        self.go_back = back_room
+        self.go_back = exit_room
 
     @staticmethod
     def rotate(l, n):
