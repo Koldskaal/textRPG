@@ -7,6 +7,7 @@ class BasicSpell:
         self.mana_usage = 40
         self.damage = 10 + self.caster.level * 10 - 10
         self.target = 'enemy'
+        self.description = f"A basic damaging spell. It does {self.damage} damage and costs {self.mana_usage} mana. Use with care."
 
 
     def cast(self, target):
@@ -21,8 +22,10 @@ class BasicHeal(BasicSpell):
         super().__init__(player)
         self.name = 'Basic Heal'
         self.mana_usage = 30
-        self.damage = -10 + self.caster.level * 4
+        self.damage = -10 - self.caster.level * 4
         self.target = 'player'
+
+        self.description = f"A basic healing spell. It heals for {-self.damage} and costs {self.mana_usage} mana."
 
 class BasicDoT(BasicSpell):
     def __init__(self, player):
@@ -32,6 +35,7 @@ class BasicDoT(BasicSpell):
         self.damage = 1 + self.caster.level * 1 - 1
         self.target = 'enemy'
         self.duration = 15
+        self.description = f"A basic damaging spell. It does {self.damage} per tick. Lasts 15 ticks for a total of {self.damage*15} damage! Can only be applied once."
 
     def cast(self, target):
         target.debuffs.append(self)

@@ -75,7 +75,7 @@ class Player(Character):
         self.items = []
         self.levelcap = 5+3*self.level**2
 
-        self.spells = [spells.BasicSpell(self), spells.BasicDoT(self)]
+        self.spells = [spells.BasicSpell(self), spells.BasicDoT(self), spells.BasicHeal(self)]
 
 
 

@@ -130,7 +130,7 @@ class Room:
                     + coordinates[0]][self.player_position[1]
                     + coordinates[1]] == MONSTER_CHAR):
                 e = character.Monster()
-                winning = combat.encounter(self.player, e)
+                winning = combat.encounter(self.player, e, self)
                 if winning == "enemy_killed":
                     self.room[player_coord[0]][player_coord[1]] = " "
 

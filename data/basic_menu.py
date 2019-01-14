@@ -6,7 +6,7 @@ class BasicMenu:
         self.canvas = log.canvas
         self.menu_options = []  #"index1","index2","index3"
         self.menu_position = 0
-        selt.title = 'temp'
+        self.title = 'temp'
 
     @staticmethod
     def rotate(l, n):
@@ -24,7 +24,7 @@ class BasicMenu:
             'title'             : 'SHOP-BUY',
             'push'              : 0
         }
-        if len(shopkeeper_stock.shop_items) == 0:
+        if len(self.menu_options) == 0:
             self.canvas.add_to_print("room", "", settings)
             self.canvas.print_canvas(clear)
             self.description_box(True)
@@ -51,7 +51,7 @@ class BasicMenu:
             self.canvas.print_canvas(clear)
             self.description_box()
 
-    def (self, empty=False):
+    def description_box(self, empty=False):
         settings = {
             'column_priority'  : 3,     # Order of who goes first from left to right
             'delay'             : 7,     # if it needs to be x lines below
@@ -73,7 +73,8 @@ class BasicMenu:
             self.canvas.popup("room", description_box, 13, self.title)
             self.canvas.print_canvas()
 
-    def shop_menu(self, direction):
+    def use_key(self, direction):
+        # print(direction)
         if not self.menu_options:
             return "leave_buy"
         if direction is "s":
@@ -82,6 +83,6 @@ class BasicMenu:
         if direction is "w":
             self.menu_options = self.rotate(self.menu_options, -1)
             self.print_room()
-        if direction is '\r':
-            self.choose()
+        if direction is '\r' or direction is 'e' or ord(direction) is 13:
+            return self.choose()
             self.print_room()

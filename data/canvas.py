@@ -49,10 +49,11 @@ class Canvas:
         box += wrap
         box.append(BORDER_INLINE * self.areas[name].get('width', 30))
 
-        self.areas[name]['popup'] = (box, start_position)
+        self.areas[name]['popup'] = [box, start_position]
 
     def print_canvas(self, clear=False):
         # Find the lowest printed line
+        popup = {}
         lines = 0
         for items in self.areas.values():
             items['_split'] = items['string'].splitlines()
@@ -115,8 +116,13 @@ class Canvas:
                                 if self.border:
                                     kyk =' '*self.gap +  BORDER_LEFT_RIGHT + kyk + BORDER_LEFT_RIGHT
                                 big_string += kyk
-                    elif i >= self.areas[k].get('popup', [0,0])[1] and self.areas[k].get('popup', [0,0])[0]:
+                    elif i >= self.areas[k].get('popup', [0,0])[1] and self.areas[k].get('popup', [0,0])[0] and not popup.get(k, [0,0])[1]:
+                        if not popup.get(k):
+                            popup[k] = [self.areas[k].get('popup', [])[0].copy(), False]
                         popped = self.areas[k].get('popup', [])[0].pop(0)
+                        if not self.areas[k]['popup'][0] and not popup[k][1]:
+                            self.areas[k]['popup'][0] = popup[k][0].copy()
+                            popup[k][1] = True
                         if popped:
                             if self.areas[k].get('push'):
                                 popped = ' ' * self.areas[k].get('push') + popped
@@ -141,11 +147,13 @@ class Canvas:
                         big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT if self.border else ' ' * self.areas[k].get('width', 30))
 
 
+
         print("\033[H")
         if clear:
             print("\033[H\033[J")
 
         print(big_string)
+        # print(popup.get('room'))
 
 
     def print_example(self):

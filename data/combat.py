@@ -2,13 +2,17 @@ import time
 from termcolor import colored
 from random import choice,randint
 import sys
+import msvcrt
 
 try:
     from  .loot_tables import grab_loot,low_level
     from .game_log import log
     from .textures import *
+    from .spell_menu import CombatSpellMenu
 except ModuleNotFoundError:
     from  loot_tables import grab_loot,low_level
+
+
 
 def health_bar(p, e):
     length = 10
@@ -19,10 +23,27 @@ def health_bar(p, e):
     fill = HEALTH_BAR
     enemy_bar = e.name + ' | ' + colored(fill * filledLength + '-' * (length - filledLength), 'red') + f' | {iteration}/{total}'
     log.canvas.replace_line('room', enemy_bar, 20)
+    log.print_canvas()
 
-def use_spell(player, enemy):
+def use_spell(player, enemy, exit_room):
+    spell_menu = CombatSpellMenu(player)
+    spell_menu.print_room()
+    spell = None
+    while not spell:
+        health_bar(player,enemy)
+        if msvcrt.kbhit():
+            key = ord(msvcrt.getch())
+            spell = spell_menu.use_key(chr(key))
+            health_bar(player,enemy)
+            # print(log.canvas.areas['room']['popup'])
+            while msvcrt.kbhit():
+                msvcrt.getch()
 
-    spell = player.spells[0]
+            if spell:
+                break
+
+    exit_room.print_room()
+    health_bar(player,enemy)
     if player.mana < spell.mana_usage:
         log.add_to_log(f"Not enough mana for {spell.name}.", 'Combat', 'useful')
         return
@@ -34,7 +55,7 @@ def use_spell(player, enemy):
     else:
         log.add_to_log(f"{target.name} took {spell.damage} damage.", 'Combat', 'recked')
 
-def fight(p, e):
+def fight(p, e, exit_room):
     next_hit_p = 0
     next_hit_e = 0
     int_turn = 0
@@ -87,7 +108,7 @@ def fight(p, e):
                 break
 
         if int_turn > hit:
-            use_spell(p, e)
+            use_spell(p, e, exit_room)
             health_bar(p,e)
             int_turn -= hit
             if e.health <= 0:
@@ -100,9 +121,9 @@ def fight(p, e):
     log.add_to_log(f"{winner.name} wins!", 'Announcer', 'surprise')
     return winner
 
-def encounter(p, e):
+def encounter(p, e, exit_room):
     log.print_canvas(clear=True)
-    winner = fight(p, e)
+    winner = fight(p, e, exit_room)
     if winner == p:
         p.gain_exp(e.exp)
         p.gold += e.gold
