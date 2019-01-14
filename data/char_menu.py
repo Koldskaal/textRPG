@@ -1,7 +1,7 @@
-class Char_menu:
+class Char_menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se shopkeeper måde.
     def __init__(self, canvas, player):
         self.canvas = canvas
-        self.menu_options = "Show Equipped, Items, Save, Leave Game"
+        self.menu_options = "Show Equipped, Items, Save, Quit Game"
         self.menu_position = 0
 
     def print_room(self, clear=False):
@@ -21,7 +21,7 @@ class Char_menu:
         self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index),settings)
         self.canvas.print_canvas(clear)
 
-    def sell_item(self, direction):
+    def char_menu(self, direction):
         if direction is "s":
             self.menu_position += 1
             if self.menu_position > len(self.menu_options)-1:
@@ -37,3 +37,15 @@ class Char_menu:
         if direction is "r":
             del self.canvas.areas["showcase"]
             return "leave_sell"
+
+class Show_equip:
+    pass
+
+class Items:
+    pass
+
+class Save:
+    pass
+
+class Quit_game:
+    pass
