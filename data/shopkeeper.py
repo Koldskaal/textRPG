@@ -42,12 +42,7 @@ class Shop:
                 self.menu_position = 0
             self.print_room()
         if direction is '\r': # ENTER KEY
-            if self.menu_position == 0:
-                return "buy_menu"
-            if self.menu_position == 1:
-                return "sell_menu"
-            if self.menu_position == 2:
-                return "leave_shop"
+            return self.menu_options[self.menu_position]
 
 class Sell:
     def __init__(self, canvas, player):

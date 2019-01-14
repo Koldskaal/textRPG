@@ -87,16 +87,19 @@ class RoomController:
             movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0), '\r': (0,0)}
             if key in movement:
                 self.move_player(movement[key])
+            if key == "i":
+                pass
+
 
         elif isinstance(self.current_room, shopkeeper.Shop):
             response = self.current_room.shop_menu(key)
-            if response == "leave_shop":
+            if response == "Leave":
                 self.current_room = self.list_of_rooms[self.RN]
                 self.print_room(True)
-            if response == "buy_menu":
+            if response == "Buy":
                 self.current_room = shopkeeper.Buy(self.canvas, p)
                 self.print_room(True)
-            if response == "sell_menu":
+            if response == "Sell":
                 self.current_room = shopkeeper.Sell(self.canvas, p)
                 self.print_room(True)
         elif isinstance(self.current_room, shopkeeper.Buy):
