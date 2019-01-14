@@ -49,16 +49,12 @@ class Shop:
                 self.menu_position = 0
             self.print_room()
         if direction is '\r': # ENTER KEY
-<<<<<<< HEAD
             if self.menu_position == 0:
                 return self.buy_room
             if self.menu_position == 1:
                 return self.sell_room
             if self.menu_position == 2:
                 return self.go_back
-=======
-            return self.menu_options[self.menu_position]
->>>>>>> 84a30f306b86a18c6ba0a146cf7ef9b7070dbefa
 
 class Sell:
     def __init__(self, canvas, player, back_room):
@@ -68,13 +64,7 @@ class Sell:
         self.menu_position = 0
         self.player = player
 
-<<<<<<< HEAD
         self.go_back = back_room
-=======
-    @staticmethod
-    def rotate(l, n):
-        return l[n:] + l[:n]
->>>>>>> 84a30f306b86a18c6ba0a146cf7ef9b7070dbefa
 
     def print_room(self, clear=False):
 
@@ -152,20 +142,12 @@ class Sell:
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
 
-<<<<<<< HEAD
 
 
     def use_key(self, direction):
         if not self.player.items:
             del self.canvas.areas["showcase"]
             return self.go_back
-=======
-    def sell_item(self, direction):
-        def rotate(l, n):
-            return l[n:] + l[:n]
-        if not self.player.items:
-            return "leave_sell"
->>>>>>> 84a30f306b86a18c6ba0a146cf7ef9b7070dbefa
         else:
             if direction is "s":
                 self.menu_options = rotate(self.menu_options, 1)
@@ -180,13 +162,8 @@ class Sell:
                     self.player.items = self.menu_options
                     self.print_room()
             if direction is "r":
-<<<<<<< HEAD
                 del self.canvas.areas["showcase"]
                 return self.go_back
-=======
-                # del self.canvas.areas["showcase"]
-                return "leave_sell"
->>>>>>> 84a30f306b86a18c6ba0a146cf7ef9b7070dbefa
 
 # items = ['1','2','3','4','5','6','7','8','9','10','11','12','fourteen','fifthteen','16','17','18','19','20','21']
 
