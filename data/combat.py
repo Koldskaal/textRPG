@@ -3,6 +3,7 @@ from termcolor import colored
 from random import choice,randint
 import sys
 import msvcrt
+from playsound import playsound
 
 try:
     from  .loot_tables import grab_loot,low_level
@@ -88,6 +89,7 @@ def fight(p, e, exit_room):
             health_col = colored(str(_def.health), 'green', attrs=['bold'])
             max_health = colored(str(_def.max_health), 'green', attrs=['bold'])
             log.add_to_log(f"{d_name} took {dmg} damage.", 'Combat', 'bad' if _def.name == p.name else 'default')
+            playsound('data/sounds/'+choice(['hit1.mp3', 'hit1nofilter.mp3', 'hit2.mp3', 'hit2filter.mp3']), False)
             if _def.health <= 0:
                 log.add_to_log(f"WOAH! That {d_name} looks to be in agony!", 'Announcer', 'surprise')
                 if att.health > att.max_health*0.8:
@@ -143,8 +145,9 @@ def encounter(p, e, exit_room):
         p.gold += e.gold
         gained_items = grab_loot.grab_loot_low_level(low_level.list_of_weapons, low_level.list_of_helmets, low_level.list_of_armor, low_level.list_of_rest, 2, 5)
         log.add_to_log(f'You picked up: {gained_items}!', 'Info', 'useful')
-        p.items += gained_items
 
+        p.items += gained_items
+        playsound('data/sounds/pickup.mp3', False)
         return "enemy_killed"
     else:
         log.add_to_log("You lose gtfo", 'Announcer', 'surprise')

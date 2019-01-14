@@ -2,6 +2,7 @@ import msvcrt
 import keyboard
 from data import room, room_controller
 import sys
+import playsound
 
 if sys.stdin.isatty():
     import colorama
@@ -23,7 +24,7 @@ r.print_room(True)
 
 movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0), '\r': (0,0)}
 
-
+playsound.playsound('data/sounds/bgm1loop.mp3', False)
 
 if sys.stdin.isatty():
     while running:
