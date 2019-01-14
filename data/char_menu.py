@@ -1,3 +1,9 @@
+import sys
+from . import room
+from termcolor import colored
+from . import item_ID
+from . import game_log
+
 class Char_menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se shopkeeper måde.
     def __init__(self, canvas, player):
         self.canvas = canvas
@@ -38,7 +44,7 @@ class Char_menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se sh
             del self.canvas.areas["showcase"]
             return "leave_sell"
 
-class Show_equip:
+class Show_Equip:
     pass
 
 class Items:
@@ -47,5 +53,5 @@ class Items:
 class Save:
     pass
 
-class Quit_game:
+class Quit_Game:
     pass
