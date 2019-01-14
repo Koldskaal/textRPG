@@ -1,6 +1,7 @@
 from termcolor import colored
 from . import game_log
 from . import spells
+from . import talents
 
 class Character:
     def __init__(self):
@@ -78,6 +79,7 @@ class Player(Character):
         self.levelcap = 5+3*self.level**2
 
         self.spells = [spells.BasicSpell(self), spells.BasicDoT(self), spells.BasicHeal(self)]
+        self.talents = [talents.Lifesteal(self)]
 
 
 

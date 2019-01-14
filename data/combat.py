@@ -12,7 +12,10 @@ try:
 except ModuleNotFoundError:
     from  loot_tables import grab_loot,low_level
 
-
+def activate(p, data, type):
+    for talent in p.talents:
+        if talent.type == type:
+            talent.activate(data)
 
 def health_bar(p, e):
     length = 10
@@ -41,8 +44,6 @@ def use_spell(player, enemy, exit_room):
             log.canvas.replace_line('room', "Press 'r' to skip.", 1)
             health_bar(player,enemy)
             log.print_canvas()
-
-            # print(log.canvas.areas['room']['popup'])
             while msvcrt.kbhit():
                 msvcrt.getch()
 
@@ -77,7 +78,7 @@ def fight(p, e, exit_room):
             d_name = _def.name if _def.name != p.name else 'You'
 
             att.mana += att.int
-            # dmg = (10str^2)/armor+10str)
+
             dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
             dmg = int((1*att.str**2)/(_def.armor+1*att.str))
             dmg_col = colored(str(dmg), 'red', attrs=['bold'])
@@ -91,6 +92,7 @@ def fight(p, e, exit_room):
                 log.add_to_log(f"WOAH! That {d_name} looks to be in agony!", 'Announcer', 'surprise')
                 if att.health > att.max_health*0.8:
                     log.add_to_log(f"What a blow out!", 'Announcer', 'surprise')
+            return {'dmg': dmg}
             # log.add_to_log("-"*40, 'Combat')
 
         int_turn += p.int
@@ -102,7 +104,9 @@ def fight(p, e, exit_room):
             debuff.proc_debuff()
 
         if next_hit_p > hit:
-            hitting(p, e)
+
+            data = hitting(p, e)
+            activate(p, data, 'post-hitting')
             health_bar(p,e)
             next_hit_p -= hit
             if e.health <= 0:
