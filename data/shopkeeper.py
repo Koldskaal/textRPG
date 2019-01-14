@@ -200,7 +200,22 @@ class Buy:
         else:
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
-                showcase += (f"{key}: {values} \n")
+                if key == "str":
+                    showcase += colored((f"{key}: {values} \n"), 'red')
+                if key == "agi":
+                    showcase += colored((f"{key}: {values} \n"), 'green')
+                if key == "int":
+                    showcase += colored((f"{key}: {values} \n"), 'blue')
+                if key == "hp":
+                    showcase += colored((f"{key}: {values} \n"), 'white', 'on_red')
+                if key == "mp":
+                    showcase += colored((f"{key}: {values} \n"), 'white', 'on_blue')
+                if key == "price":
+                    showcase += colored((f"{key}: {values} \n"), 'yellow')
+                if key == "armor":
+                    showcase += colored((f"{key}: {values} \n"), 'white', 'on_grey')
+                if key == "type":
+                    showcase += (f"{key}: {values} \n")
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
 
