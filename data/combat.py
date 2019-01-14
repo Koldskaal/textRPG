@@ -77,8 +77,9 @@ def fight(p, e, exit_room):
             d_name = _def.name if _def.name != p.name else 'You'
 
             att.mana += att.int
-
+            # dmg = (10str^2)/armor+10str)
             dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
+            dmg = int((1*att.str**2)/(_def.armor+1*att.str))
             dmg_col = colored(str(dmg), 'red', attrs=['bold'])
             log.add_to_log(f"{a_name} {'attack' if a_name == 'You' else 'attacks'} {d_name}!", 'Combat')
 

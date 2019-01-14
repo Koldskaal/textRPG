@@ -68,7 +68,9 @@ class Player(Character):
         self.level = 1
         self.exp = 0
 
-        self.agi = 30
+        self.str = 15
+        self.int = 2
+        self.agi = 13
 
         self.current_weapon = ""
         self.equipment = [] # id

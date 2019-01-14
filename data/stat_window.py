@@ -45,6 +45,6 @@ class StatWindow():
  Str:        {self.player.str}
  Int:        {self.player.int}
  Agi:        {self.player.agi}
-""" + 'MISC'.center(self.settings['width'], BORDER_UP_DOWN) + f"\n Gold:        {self.player.gold}"
+""" + 'MISC'.center(self.settings['width'], BORDER_UP_DOWN) + f"\n Gold:        {self.player.gold}\n Remaining exp: {self.player.levelcap-self.player.exp}"
 
         self.canvas.add_to_print('stats', self.string, self.settings)
