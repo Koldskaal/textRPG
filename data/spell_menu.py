@@ -5,7 +5,7 @@ class CombatSpellMenu(basic_menu.BasicMenu):
     def __init__(self, player):
         super().__init__()
 
-        self.title = 'Woaww'
+        self.title = 'Info'
 
         self.player = player
         self.menu_options = player.spells

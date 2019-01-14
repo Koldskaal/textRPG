@@ -52,16 +52,6 @@ class BasicMenu:
             self.description_box()
 
     def description_box(self, empty=False):
-        settings = {
-            'column_priority'  : 3,     # Order of who goes first from left to right
-            'delay'             : 7,     # if it needs to be x lines below
-            'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
-            'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
-            'join_char'         : '',
-            'title'             : 'Item Showcase',
-            'push'              : 1
-            }
         if empty:
             description_box = "Nothing here!"
             self.canvas.popup("room", description_box, 13, self.title)

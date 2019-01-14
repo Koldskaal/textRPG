@@ -22,10 +22,13 @@ class BasicHeal(BasicSpell):
         super().__init__(player)
         self.name = 'Basic Heal'
         self.mana_usage = 30
-        self.damage = -10 - self.caster.level * 4
+        self.damage = -10 - (self.caster.level * 4)
         self.target = 'player'
 
         self.description = f"A basic healing spell. It heals for {-self.damage} and costs {self.mana_usage} mana."
+
+    def level_up(self):
+        self.damage = -10 - (self.caster.level * 4)
 
 class BasicDoT(BasicSpell):
     def __init__(self, player):
@@ -51,3 +54,6 @@ class BasicDoT(BasicSpell):
         if self.turns_left == 0:
             log.add_to_log(f"{self.afflicted.name} lost another {self.damage} to {self.name}!", 'Combat')
             self.afflicted.debuffs.remove(self)
+
+    def level_up(self):
+        self.damage = 1 + self.caster.level * 1 - 1

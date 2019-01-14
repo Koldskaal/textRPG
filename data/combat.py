@@ -144,22 +144,3 @@ def encounter(p, e, exit_room):
     else:
         log.add_to_log("You lose gtfo", 'Announcer', 'surprise')
         sys.exit()
-
-if __name__ == '__main__':
-    import character
-    if sys.stdin.isatty():
-        import colorama
-        colorama.init(convert=True)
-    p = character.Player()
-    e = character.Monster()
-    e.health = 100
-    e2 = character.Monster()
-    e2.health = 120
-    e3 = character.Monster()
-    e3.health = 150
-    encounter(p,e)# for testing
-    log.add_to_log(p.levelcap)
-    encounter(p,e2)
-    log.add_to_log(p.levelcap)
-    encounter(p,e3)
-    log.add_to_log(p.levelcap)
