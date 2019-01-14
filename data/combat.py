@@ -23,18 +23,25 @@ def health_bar(p, e):
     fill = HEALTH_BAR
     enemy_bar = e.name + ' | ' + colored(fill * filledLength + '-' * (length - filledLength), 'red') + f' | {iteration}/{total}'
     log.canvas.replace_line('room', enemy_bar, 20)
-    log.print_canvas()
+
 
 def use_spell(player, enemy, exit_room):
     spell_menu = CombatSpellMenu(player)
     spell_menu.print_room()
     spell = None
     while not spell:
+        log.canvas.replace_line('room', "Press 'r' to skip.", 1)
         health_bar(player,enemy)
+        log.print_canvas()
         if msvcrt.kbhit():
             key = ord(msvcrt.getch())
+
             spell = spell_menu.use_key(chr(key))
+
+            log.canvas.replace_line('room', "Press 'r' to skip.", 1)
             health_bar(player,enemy)
+            log.print_canvas()
+
             # print(log.canvas.areas['room']['popup'])
             while msvcrt.kbhit():
                 msvcrt.getch()
@@ -44,6 +51,8 @@ def use_spell(player, enemy, exit_room):
 
     exit_room.print_room()
     health_bar(player,enemy)
+    if spell == 'skip':
+        return
     if player.mana < spell.mana_usage:
         log.add_to_log(f"Not enough mana for {spell.name}.", 'Combat', 'useful')
         return

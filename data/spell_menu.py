@@ -58,3 +58,6 @@ class CombatSpellMenu(basic_menu.BasicMenu):
         self.player.chosen_spell = self.menu_options[0]
         # print(self.menu_options[0])
         return self.menu_options[0]
+
+    def exit(self):
+        return 'skip'

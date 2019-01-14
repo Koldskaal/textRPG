@@ -83,6 +83,7 @@ class BasicMenu:
         if direction is "w":
             self.menu_options = self.rotate(self.menu_options, -1)
             self.print_room()
+        if direction is "r":
+            return self.exit()
         if direction is '\r' or direction is 'e' or ord(direction) is 13:
             return self.choose()
-            self.print_room()
