@@ -2,7 +2,7 @@ from termcolor import colored
 import time
 from random import randint
 from random import choice
-from . import shopkeeper, stat_window, combat, character, room
+from . import shopkeeper, stat_window, combat, character, room, char_menu
 from .game_log import log
 from .canvas import Canvas
 
@@ -51,7 +51,10 @@ class RoomController:
         self.RN = self.RN - 1
 
     def change_to_shop(self):
-        self.current_room = shopkeeper.Shop(self.canvas)
+        self.current_room = shopkeeper.Shop(self.canvas, p, self.current_room)
+
+    def change_to_combat(self):
+        self.current_room = ''
 
     def spawn_player_controller(self):
         if self.prev_room == None:
@@ -87,28 +90,54 @@ class RoomController:
             movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0), '\r': (0,0)}
             if key in movement:
                 self.move_player(movement[key])
+            if key == "i":
+                self.current_room = char_menu.Char_menu(self.canvas)
+                self.print_room(True)
 
-        elif isinstance(self.current_room, shopkeeper.Shop):
-            response = self.current_room.shop_menu(key)
-            if response == "leave_shop":
+        elif isinstance(self.current_room, char_menu.Char_menu):
+            response = self.current_room.char_menu(key)
+            if response == "Show Equipped":
+                self.current_room = Char_menu.Show_equip(self.canvas)
+                self.print_room(True)
+            if response == "Items":
+                self.current_room = Char_menu.Items(self.canvas)
+                self.print_room(True)
+            if response == "Save":
+                self.current_room = Char_menu.Save(self.canvas)
+                self.print_room(True)
+            if response == "Quit Game":
+                self.current_room = Char_menu.Quit_game(self.canvas)
+                self.print_room(True)
+
+        elif isinstance(self.current_room, char_menu.Char_menu):
+            response = self.current_room.char_menu(key)
+            if response == "leave char_menu":
                 self.current_room = self.list_of_rooms[self.RN]
                 self.print_room(True)
-            if response == "buy_menu":
-                self.current_room = shopkeeper.Buy(self.canvas, p)
+
+
+        elif isinstance(self.current_room, char_menu.Items) or isinstance(self.current_room, char_menu.Show_Equip) or isinstance(self.current_room, char_menu.Save) or isinstance(self.current_room, char_menu.Quit_Game):
+            response = self.current_room.char_menu(key)
+            if response == "leave show equip":
+                self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
-            if response == "sell_menu":
-                self.current_room = shopkeeper.Sell(self.canvas, p)
+            response = self.current_room.char_menu(key)
+            if response == "leave items":
+                self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
-        elif isinstance(self.current_room, shopkeeper.Buy):
-            response = self.current_room.buy_item(key)
-            if response == "leave_buy":
-                self.current_room = shopkeeper.Shop(self.canvas)
+            response = self.current_room.char_menu(key)
+            if response == "leave save":
+                self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
-        elif isinstance(self.current_room, shopkeeper.Sell):
-            response = self.current_room.sell_item(key)
-            if response == "leave_sell":
-                self.current_room = shopkeeper.Shop(self.canvas)
-                self.current_room.menu_position = 1
+            response = self.current_room.char_menu(key)
+            if response == "leave quit game":
+                self.current_room = char_menu.Char_menu(self.canvas)
+                self.print_room(True)
+
+        else:
+            response = self.current_room.use_key(key)
+            if response:
+                self.current_room = response
                 self.print_room(True)
 
     def move_player(self, coordinates):
@@ -130,6 +159,9 @@ class RoomController:
             self.current_room.go_to_shop = False
             self.change_to_shop()
             #self.print_room(True)
+
+        elif self.current_room.go_to_combat == True:
+            self.change_to_combat()
 
         self.stat_window.draw()
         self.print_room()
