@@ -82,7 +82,7 @@ class ImaginationSpell(BaseSpell):
     def __init__(self, player, name, description):
         super().__init__(player)
         self.name = name
-        self.mana_usage = randint(-10, player.max_mana+1)
+        self.mana_usage = randint(-player.max_mana, player.max_mana+1)
         self.description = description
 
     def define_damage(self):

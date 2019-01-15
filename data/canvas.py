@@ -24,6 +24,22 @@ class Canvas:
 
         self.gap = 1
 
+    @staticmethod
+    def create_allignment(s, width, allignment):
+        needed = width - ansiwrap.ansilen(s)
+        if needed > 0:
+            if allignment == '>' or allignment == 'right':
+                return needed * ' ' + s
+            elif allignment == '<' or allignment == 'left':
+                return s + needed * ' '
+            elif allignment == '^' or allignment == 'middle':
+                s = (needed//2) * ' ' + s + (needed//2) * ' '
+                if ansiwrap.ansilen(s) < width:
+                    s = ' ' + s
+                return s
+        else:
+            return s
+
     def add_to_print(self, name, string, settings={}):
         self.areas[name] = settings
         self.areas[name]['string'] = string
@@ -52,7 +68,7 @@ class Canvas:
             stat = ""
             for k, v in stats.items():
                 stat += f"{k.upper()}: {v} | "
-            stat = stat[:-3].center(self.areas[name].get('width', 30))
+            stat = self.create_allignment(stat[:-3], self.areas[name].get('width', 30), '^')
             box.append(stat)
         box.append(BORDER_INLINE * self.areas[name].get('width', 30))
 
@@ -78,20 +94,7 @@ class Canvas:
             if lines < items.get('max_lines', 0):
                 lines = items.get('max_lines', 0)
 
-        def create_allignment(s, width, allignment):
-            needed = width - ansiwrap.ansilen(s)
-            if needed > 0:
-                if allignment == '>' or allignment == 'right':
-                    return needed * ' ' + s
-                elif allignment == '<' or allignment == 'left':
-                    return s + needed * ' '
-                elif allignment == '^' or allignment == 'middle':
-                    s = (needed//2) * ' ' + s + (needed//2) * ' '
-                    if ansiwrap.ansilen(s) < width:
-                        s = ' ' + s
-                    return s
-            else:
-                return s
+
 
 
         kyk = ''
@@ -119,7 +122,7 @@ class Canvas:
                     if any(i in c for c in self.areas[k].get('replace', [])):
                         for line in self.areas[k].get('replace'):
                             if line[1] == i:
-                                kyk = create_allignment(line[0], self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                                kyk = self.create_allignment(line[0], self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
                                 if self.border:
                                     kyk =' '*self.gap +  BORDER_LEFT_RIGHT + kyk + BORDER_LEFT_RIGHT
                                 big_string += kyk
@@ -133,7 +136,7 @@ class Canvas:
                         if popped:
                             if self.areas[k].get('push'):
                                 popped = ' ' * self.areas[k].get('push') + popped
-                            add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                            add = self.create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
                             if self.border:
                                 add =' '*self.gap +  BORDER_LEFT_RIGHT + add + BORDER_LEFT_RIGHT
                             big_string += add
@@ -142,7 +145,7 @@ class Canvas:
                         if popped:
                             if self.areas[k].get('push'):
                                 popped = ' ' * self.areas[k].get('push') + popped
-                            add = create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                            add = self.create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
                             if self.border:
                                 add =' '*self.gap +  BORDER_LEFT_RIGHT + add + BORDER_LEFT_RIGHT
                             big_string += add

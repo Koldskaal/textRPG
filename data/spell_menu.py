@@ -55,8 +55,8 @@ class CombatSpellMenu(basic_menu.BasicMenu):
             description_box = self.menu_options[0].description
             stats = {
                 'MP': -self.menu_options[0].mana_usage,
-                'HP': "+"+ str(self.menu_options[0].heal) if self.menu_options[0].heal > 0 else self.menu_options[0].heal,
-                'DMG': "+"+ str(self.menu_options[0].damage) if self.menu_options[0].damage > 0 else self.menu_options[0].damage,
+                'HP': colored("+"+ str(self.menu_options[0].heal), 'green') if self.menu_options[0].heal > 0 else colored(self.menu_options[0].heal,'red'),
+                'DMG': colored("+"+ str(self.menu_options[0].damage), 'red') if self.menu_options[0].damage > 0 else colored(self.menu_options[0].damage, 'green'),
                 'DUR': self.menu_options[0].duration
                 }
             self.canvas.popup("room", description_box, 10, self.title, stats=stats)
