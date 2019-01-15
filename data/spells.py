@@ -4,19 +4,27 @@ class BasicSpell:
     def __init__(self, player):
         self.name = 'Basic Spell'
         self.caster = player
-        self.mana_usage = 40
-        self.damage = 10 + self.caster.level * 10 - 10
-        self.target = 'enemy'
-        self.description = f"A basic damaging spell. It does {self.damage} damage and costs {self.mana_usage} mana. Use with care."
+        self.mana_usage = 401
+        self.damage = self.define_damage()
+        self.duration = 111
+        self.update_descrition()
 
+        self.target = 'enemy'
+
+
+    def define_damage(self):
+        return 10111 + self.caster.level * 10 - 10
+
+    def update_descrition(self):
+        self.description = f"A basic damaging spell. It does {self.damage} damage and costs {self.mana_usage} mana. Use with care."
 
     def cast(self, target):
         target.health -= self.damage
         self.caster.mana -= self.mana_usage
 
     def level_up(self):
-        self.damage = 10 + self.caster.level * 10 - 10
-        self.description = f"A basic damaging spell. It does {self.damage} damage and costs {self.mana_usage} mana. Use with care."
+        self.damage = self.define_damage()
+        self.update_descrition()
 
 class BasicHeal(BasicSpell):
     def __init__(self, player):

@@ -39,7 +39,7 @@ class Canvas:
             else:
                 self.areas[name]['replace'].append((string,line))
 
-    def popup(self, name, string, start_position, title=None):
+    def popup(self, name, string, start_position, title=None, stats=None):
         s = string.splitlines()
         wrap = []
         for line in s:
@@ -47,6 +47,13 @@ class Canvas:
         top = BORDER_INLINE * self.areas[name].get('width', 30) if not title else title.upper().center(self.areas[name].get('width', 30), BORDER_INLINE)
         box = [top,]
         box += wrap
+        if stats:
+            box.append(BORDER_INLINE * self.areas[name].get('width', 30))
+            stat = ""
+            for k, v in stats.items():
+                stat += f"{k.upper()}: {v} | "
+            stat = stat[:-3].center(self.areas[name].get('width', 30))
+            box.append(stat)
         box.append(BORDER_INLINE * self.areas[name].get('width', 30))
 
         self.areas[name]['popup'] = [box, start_position]

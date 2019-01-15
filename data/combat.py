@@ -33,7 +33,7 @@ def use_spell(player, enemy, exit_room):
     spell_menu.print_room()
     spell = None
     while not spell:
-        log.canvas.replace_line('room', "Press 'r' to skip.", 1)
+        log.canvas.replace_line('room', "Press 'r' to skip turn.", 1)
         health_bar(player,enemy)
         log.print_canvas()
         if msvcrt.kbhit():
