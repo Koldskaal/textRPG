@@ -1,7 +1,8 @@
 from termcolor import colored
 from . import game_log
 from . import spells
-from . import talents
+from . import talent_menu
+import msvcrt
 
 class Character:
     def __init__(self):
@@ -69,7 +70,7 @@ class Player(Character):
         self.level = 1
         self.exp = 0
 
-        self.str = 10
+        self.str = 100
         self.int = 10
         self.agi = 10
 
@@ -79,7 +80,7 @@ class Player(Character):
         self.levelcap = 5+3*self.level**2
 
         self.spells = [spells.BasicSpell(self), spells.BasicDoT(self), spells.BasicHeal(self)]
-        self.talents = [talents.Lifesteal(), talents.PowerOfImagination(), talents.HitBack()]
+        self.talents = []
 
 
 
@@ -96,6 +97,8 @@ class Player(Character):
 
     def level_up(self):
         self.level += 1
+        if self.level % 2 == 0:
+            self.choose_talent()
         self.exp = self.exp-self.levelcap
         self.levelcap = 5+4*self.level**2
         self.str += 2
@@ -107,6 +110,20 @@ class Player(Character):
         game_log.log.add_to_log("All stats increased by 2! Health and mana increased by 20! You feel refreshed!", 'info', 'recked')
         for spell in self.spells:
             spell.level_up()
+
+    def choose_talent(self):
+        menu = talent_menu.TalentMenu()
+        menu.print_room()
+        while True:
+            # game_log.log.print_canvas()
+            if msvcrt.kbhit():
+                key = ord(msvcrt.getch())
+
+                talent = menu.use_key(chr(key))
+
+                if talent:
+                    break
+        self.talents.append(talent)
 
 """
 monster types: names up for debate

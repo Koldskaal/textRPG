@@ -57,16 +57,21 @@ class BasicRotatingMenu:
             self.canvas.popup("room", description_box, 13, self.title)
             self.canvas.print_canvas()
         else:
-            description_box = ""
-            for key, values in item_ID.items[self.menu_options[0]].items():
-                description_box += (f"{key}: {values} \n")
+            description_box = self.define_descriptions(self.menu_options[0])
+
             self.canvas.popup("room", description_box, 13, self.title)
             self.canvas.print_canvas()
+
+    def define_descriptions(self, item):
+        description_box = ""
+        for key, values in item_ID.items[item].items():
+            description_box += (f"{key}: {values} \n")
+        return description_box
 
     def use_key(self, direction):
         # print(direction)
         if not self.menu_options:
-            return "leave_buy"
+            return self.exit()
         if direction is "s":
             self.menu_options = self.rotate(self.menu_options, 1)
             self.print_room()
@@ -79,3 +84,9 @@ class BasicRotatingMenu:
             return self.choose()
         if direction is 'q':
             return self.choose_special()
+
+    def choose(self):
+        return self.menu_options[0]
+
+    def exit(self):
+        return

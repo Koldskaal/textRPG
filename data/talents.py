@@ -2,8 +2,18 @@ from .game_log import log
 from .spells import ImaginationSpell
 from random import choice, random, randint
 
-class Lifesteal:
+talent_list = []
+
+class BaseTalent:
     def __init__(self):
+        self.name = "Base Talent"
+        self.descrition = "A base description."
+
+class Lifesteal(BaseTalent):
+    def __init__(self):
+        super().__init__()
+        self.name = "Super Mega Ultra lifesteal"
+        self.descrition = "50% lifesteal. What is not to love?"
         self.type = ['post-hitting-player']
 
     def activate(self, data):
@@ -11,9 +21,13 @@ class Lifesteal:
         data['player'].health += lifesteal
         log.add_to_log(f"You stole {lifesteal} health!", 'combat', 'positive')
 
+talent_list.append(Lifesteal())
 
-class PowerOfImagination:
+class PowerOfImagination(BaseTalent):
     def __init__(self):
+        super().__init__()
+        self.name = "Power of Imagination"
+        self.descrition = "Get a new random spell with a random effect every turn."
         self.type = ['pre-spellcast', 'mid-spellcast']
         self.spell_names = {
             'Hadouken!': 'You have probably never heard of this move before but it is a blue fireball.',
@@ -37,8 +51,13 @@ class PowerOfImagination:
         if data and data.get('spell_name', '') in self.spell_names.keys():
             self.prev_spell.cast(data['enemy'])
 
-class Reflect:
+talent_list.append(PowerOfImagination())
+
+class Reflect(BaseTalent):
     def __init__(self):
+        super().__init__()
+        self.name = "Reflect"
+        self.descrition = "50% reflect. Refelct sorry..."
         self.type = ['post-hitting-enemy']
 
     def activate(self, data):
@@ -46,8 +65,13 @@ class Reflect:
         data['enemy'].health += refelct_dmg
         log.add_to_log(f"You reflected {refelct_dmg} damage!", 'combat', 'recked')
 
-class HitBack:
+talent_list.append(Reflect())
+
+class HitBack(BaseTalent):
     def __init__(self):
+        super().__init__()
+        self.name = "Hit 'em back'"
+        self.descrition = "20% chance to get a free attack when hit."
         self.type = ['post-hitting-enemy']
 
     def activate(self, data):
@@ -55,3 +79,5 @@ class HitBack:
             dmg = int((1*data['player'].str**2)/(data['enemy'].armor+1*data['player'].str))
             data['enemy'].health += dmg
             log.add_to_log(f"You hit {data['enemy'].name} back for {dmg}!", 'combat', 'recked')
+
+talent_list.append(HitBack())
