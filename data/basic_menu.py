@@ -77,3 +77,5 @@ class BasicMenu:
             return self.exit()
         if direction is '\r' or direction is 'e' or ord(direction) is 13:
             return self.choose()
+        if direction is 'q':
+            return self.choose_special()

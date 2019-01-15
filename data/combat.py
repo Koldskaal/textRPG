@@ -14,7 +14,7 @@ except ModuleNotFoundError:
 
 def activate(p, data, type):
     for talent in p.talents:
-        if talent.type == type:
+        if type in talent.type:
             talent.activate(data)
 
 def health_bar(p, e):
@@ -49,21 +49,19 @@ def use_spell(player, enemy, exit_room):
                 msvcrt.getch()
 
             if spell:
+                if spell[1]:
+                    data = {'enemy': enemy, 'spell_name': spell[0].name}
+                    activate(player, data, 'mid-spell')
+                    spell = 'skip'
+                else:
+                    spell = spell[0]
                 break
 
     exit_room.print_room()
     health_bar(player,enemy)
     if spell == 'skip':
         return
-    if player.mana < spell.mana_usage:
-        log.add_to_log(f"Not enough mana for {spell.name}.", 'Combat', 'useful')
-        return
     spell.cast(enemy)
-    log.add_to_log(f"You used {spell.name} on {enemy.name}!", 'Combat', 'recked')
-    if spell.heal != 0:
-        log.add_to_log(f"{player.name} healed for {abs(spell.heal)} hp.", 'Combat', ('recked' if spell.heal < 0 else 'positive'))
-    if spell.damage != 0:
-        log.add_to_log(f"{enemy.name} took {spell.damage} damage.", 'Combat', ('recked' if spell.damage > 0 else 'positive'))
 
 def fight(p, e, exit_room):
     next_hit_p = 0

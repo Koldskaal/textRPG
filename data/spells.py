@@ -12,6 +12,8 @@ class BaseSpell:
         self.duration = 1
         self.descrition = "Base for all spells. Does nothing."
 
+        self.special_action = False
+
     def define_damage(self):
         return 0
 
@@ -19,7 +21,12 @@ class BaseSpell:
         return 0
 
     def cast(self, target):
+        log.add_to_log(f"You used {self.name} on {target.name}!", 'Combat', 'recked')
+        if self.damage != 0:
+            log.add_to_log(f"{target.name} took {self.damage} damage.", 'Combat', ('recked' if self.damage > 0 else 'positive'))
         target.health -= self.damage
+        if self.heal != 0:
+            log.add_to_log(f"{self.caster.name} healed for {self.heal} hp.", 'Combat', ('recked' if self.heal < 0 else 'positive'))
         self.caster.health += self.heal
         self.caster.mana -= self.mana_usage
 
@@ -82,11 +89,12 @@ class ImaginationSpell(BaseSpell):
     def __init__(self, player, name, description):
         super().__init__(player)
         self.name = name
-        self.mana_usage = randint(-player.max_mana, player.max_mana+1)
+        self.mana_usage = 0
         self.description = description
+        self.special_action = True
 
     def define_damage(self):
-        return randint(-100, 100)
+        return randint(-80+20*self.caster.level, 80+20*self.caster.level)
 
     def define_heal(self):
-        return randint(-100, 100)
+        return randint(-80+20*self.caster.level, 80+20*self.caster.level)

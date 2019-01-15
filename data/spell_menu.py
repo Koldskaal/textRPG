@@ -1,4 +1,4 @@
-from . import basic_menu
+from . import basic_menu, game_log
 from termcolor import colored
 
 class CombatSpellMenu(basic_menu.BasicMenu):
@@ -56,7 +56,7 @@ class CombatSpellMenu(basic_menu.BasicMenu):
             stats = {
                 'MP': -self.menu_options[0].mana_usage,
                 'HP': colored("+"+ str(self.menu_options[0].heal), 'green') if self.menu_options[0].heal > 0 else colored(self.menu_options[0].heal,'red'),
-                'DMG': colored("+"+ str(self.menu_options[0].damage), 'red') if self.menu_options[0].damage > 0 else colored(self.menu_options[0].damage, 'green'),
+                'DMG': colored(str(self.menu_options[0].damage), 'red') if self.menu_options[0].damage > 0 else colored(self.menu_options[0].damage, 'green'),
                 'DUR': self.menu_options[0].duration
                 }
             self.canvas.popup("room", description_box, 10, self.title, stats=stats)
@@ -64,8 +64,13 @@ class CombatSpellMenu(basic_menu.BasicMenu):
 
     def choose(self):
         if self.menu_options[0].mana_usage > self.player.mana:
+            game_log.log.add_to_log(f"Not enough mana for {self.menu_options[0].name}.", 'Combat', 'useful')
             return
-        return self.menu_options[0]
+        return self.menu_options[0], None
+
+    def choose_special(self):
+        if self.menu_options[0].special_action:
+            return self.menu_options[0], True
 
     def exit(self):
-        return 'skip'
+        return 'skip', None
