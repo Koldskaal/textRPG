@@ -57,13 +57,12 @@ def use_spell(player, enemy, exit_room):
     if player.mana < spell.mana_usage:
         log.add_to_log(f"Not enough mana for {spell.name}.", 'Combat', 'useful')
         return
-    target = player if spell.target == 'player' else enemy
-    spell.cast(target)
-    log.add_to_log(f"You used {spell.name} on {target.name}!", 'Combat', 'recked')
-    if spell.damage < 0:
-        log.add_to_log(f"{target.name} healed for {abs(spell.damage)} hp.", 'Combat', 'positive')
-    else:
-        log.add_to_log(f"{target.name} took {spell.damage} damage.", 'Combat', 'recked')
+    spell.cast(enemy)
+    log.add_to_log(f"You used {spell.name} on {enemy.name}!", 'Combat', 'recked')
+    if spell.heal > 0:
+        log.add_to_log(f"{player.name} healed for {abs(spell.heal)} hp.", 'Combat', 'positive')
+    if spell.damage > 0:
+        log.add_to_log(f"{enemy.name} took {spell.damage} damage.", 'Combat', 'recked')
 
 def fight(p, e, exit_room):
     next_hit_p = 0
