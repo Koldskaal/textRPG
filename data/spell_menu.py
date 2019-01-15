@@ -36,9 +36,10 @@ class CombatSpellMenu(basic_menu.BasicMenu):
             before = "\n".join(spell.name for spell in self.menu_options[-aft_num:]) + '\n'
             temp = list(spell.name for spell in self.menu_options[:bef_num])
             if len(self.menu_options) > 1:
-                new = before + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
+                hover = colored(self.menu_options[0].name, "white", 'on_green') if  self.menu_options[0].mana_usage <= self.player.mana else colored( self.menu_options[0].name, "white", 'on_red')
+                new = before + "\n".join(temp).replace(temp[0], hover, 1)
             else:
-                new = '-\n' + colored(before, "white", 'on_green', attrs=['bold'])
+                new = ' \n' + colored(before, "white", 'on_green', attrs=['bold'])
 
             self.canvas.add_to_print("room",new ,settings)
             self.canvas.print_canvas(clear)
@@ -55,8 +56,8 @@ class CombatSpellMenu(basic_menu.BasicMenu):
             self.canvas.print_canvas()
 
     def choose(self):
-        self.player.chosen_spell = self.menu_options[0]
-        # print(self.menu_options[0])
+        if self.menu_options[0].mana_usage > self.player.mana:
+            return
         return self.menu_options[0]
 
     def exit(self):

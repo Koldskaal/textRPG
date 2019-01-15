@@ -8,4 +8,4 @@ class Lifesteal:
     def activate(self, data):
         lifesteal = data['dmg']*0.5
         self.player.health += lifesteal
-        log.add_to_log(f"You healed for {lifesteal} in lifesteal!", 'combat', 'positive')
+        log.add_to_log(f"You stole {lifesteal} health!", 'combat', 'positive')

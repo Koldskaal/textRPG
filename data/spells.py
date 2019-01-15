@@ -16,6 +16,7 @@ class BasicSpell:
 
     def level_up(self):
         self.damage = 10 + self.caster.level * 10 - 10
+        self.description = f"A basic damaging spell. It does {self.damage} damage and costs {self.mana_usage} mana. Use with care."
 
 class BasicHeal(BasicSpell):
     def __init__(self, player):
@@ -29,6 +30,7 @@ class BasicHeal(BasicSpell):
 
     def level_up(self):
         self.damage = -10 - (self.caster.level * 4)
+        self.description = f"A basic healing spell. It heals for {-self.damage} and costs {self.mana_usage} mana."
 
 class BasicDoT(BasicSpell):
     def __init__(self, player):
@@ -57,3 +59,4 @@ class BasicDoT(BasicSpell):
 
     def level_up(self):
         self.damage = 1 + self.caster.level * 1 - 1
+        self.description = f"A basic damaging spell. It does {self.damage} per tick. Lasts 15 ticks for a total of {self.damage*15} damage! Can only be applied once."
