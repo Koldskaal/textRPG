@@ -74,7 +74,7 @@ class Player(Character):
         self.agi = 13
 
         self.current_weapon = ""
-        self.equipment = [] # id
+        self.equipment = [] 
         self.items = []
         self.levelcap = 5+3*self.level**2
 

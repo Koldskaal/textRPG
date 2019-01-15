@@ -97,16 +97,16 @@ class RoomController:
         elif isinstance(self.current_room, char_menu.Char_menu):
             response = self.current_room.char_menu(key)
             if response == "Show Equipped":
-                self.current_room = Char_menu.Show_equip(self.canvas)
+                self.current_room = char_menu.Show_Equip(self.canvas, p)
                 self.print_room(True)
             if response == "Items":
-                self.current_room = Char_menu.Items(self.canvas)
+                self.current_room = char_menu.Items(self.canvas, p)
                 self.print_room(True)
             if response == "Save":
-                self.current_room = Char_menu.Save(self.canvas)
+                self.current_room = char_menu.Save(self.canvas)
                 self.print_room(True)
             if response == "Quit Game":
-                self.current_room = Char_menu.Quit_game(self.canvas)
+                self.current_room = char_menu.Quit_Game(self.canvas)
                 self.print_room(True)
 
         elif isinstance(self.current_room, char_menu.Char_menu):
@@ -115,21 +115,23 @@ class RoomController:
                 self.current_room = self.list_of_rooms[self.RN]
                 self.print_room(True)
 
-
-        elif isinstance(self.current_room, char_menu.Items) or isinstance(self.current_room, char_menu.Show_Equip) or isinstance(self.current_room, char_menu.Save) or isinstance(self.current_room, char_menu.Quit_Game):
-            response = self.current_room.char_menu(key)
+        elif isinstance(self.current_room, char_menu.Show_Equip):
+            response = self.current_room.equip_menu(key)
             if response == "leave show equip":
                 self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
-            response = self.current_room.char_menu(key)
+        elif isinstance(self.current_room, char_menu.Items):
+            response = self.current_room.item_menu(key)
             if response == "leave items":
                 self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
-            response = self.current_room.char_menu(key)
+        elif isinstance(self.current_room, char_menu.Save):
+            response = self.current_room.save_menu(key)
             if response == "leave save":
                 self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
-            response = self.current_room.char_menu(key)
+        elif isinstance(self.current_room, char_menu.Quit_Game):
+            response = self.current_room.quit_menu(key)
             if response == "leave quit game":
                 self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
