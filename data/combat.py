@@ -29,6 +29,7 @@ def health_bar(p, e):
 
 
 def use_spell(player, enemy, exit_room):
+    activate(player, None, 'pre-spell')
     spell_menu = CombatSpellMenu(player)
     spell_menu.print_room()
     spell = None
@@ -59,10 +60,10 @@ def use_spell(player, enemy, exit_room):
         return
     spell.cast(enemy)
     log.add_to_log(f"You used {spell.name} on {enemy.name}!", 'Combat', 'recked')
-    if spell.heal > 0:
-        log.add_to_log(f"{player.name} healed for {abs(spell.heal)} hp.", 'Combat', 'positive')
-    if spell.damage > 0:
-        log.add_to_log(f"{enemy.name} took {spell.damage} damage.", 'Combat', 'recked')
+    if spell.heal != 0:
+        log.add_to_log(f"{player.name} healed for {abs(spell.heal)} hp.", 'Combat', ('recked' if spell.heal < 0 else 'positive'))
+    if spell.damage != 0:
+        log.add_to_log(f"{enemy.name} took {spell.damage} damage.", 'Combat', ('recked' if spell.damage > 0 else 'positive'))
 
 def fight(p, e, exit_room):
     next_hit_p = 0

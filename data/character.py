@@ -69,9 +69,9 @@ class Player(Character):
         self.level = 1
         self.exp = 0
 
-        self.str = 15
-        self.int = 2
-        self.agi = 13
+        self.str = 10
+        self.int = 10
+        self.agi = 10
 
         self.current_weapon = ""
         self.equipment = [] # id
@@ -79,7 +79,7 @@ class Player(Character):
         self.levelcap = 5+3*self.level**2
 
         self.spells = [spells.BasicSpell(self), spells.BasicDoT(self), spells.BasicHeal(self)]
-        self.talents = [talents.Lifesteal(self)]
+        self.talents = [talents.Lifesteal(self), talents.PowerOfImagination(self)]
 
 
 

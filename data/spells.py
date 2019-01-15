@@ -1,4 +1,5 @@
 from .game_log import log
+from random import randint
 
 
 class BaseSpell:
@@ -68,7 +69,7 @@ class BasicDoT(BasicSpell):
 
     def proc_debuff(self):
         self.afflicted.health -= self.damage
-        log.add_to_log(f"{self.afflicted.name} lost another {self.damage} to {self.name} ({self.turns_left} turns left)!", 'Combat')
+        log.add_to_log(f"{self.afflicted.name} lost another {self.damage} to {self.name} ({self.turns_left} procs left)!", 'Combat')
         self.turns_left -= 1
         if self.turns_left == 0:
             log.add_to_log(f"{self.afflicted.name} lost another {self.damage} to {self.name}!", 'Combat')
@@ -76,3 +77,16 @@ class BasicDoT(BasicSpell):
 
     def define_damage(self):
         return 1 + self.caster.level * 1 - 1
+
+class ImaginationSpell(BaseSpell):
+    def __init__(self, player, name, description):
+        super().__init__(player)
+        self.name = name
+        self.mana_usage = randint(-10, player.max_mana+1)
+        self.description = description
+
+    def define_damage(self):
+        return randint(-100, 100)
+
+    def define_heal(self):
+        return randint(-100, 100)
