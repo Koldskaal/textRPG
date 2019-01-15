@@ -79,7 +79,7 @@ class Player(Character):
         self.levelcap = 5+3*self.level**2
 
         self.spells = [spells.BasicSpell(self), spells.BasicDoT(self), spells.BasicHeal(self)]
-        self.talents = [talents.Lifesteal(self), talents.PowerOfImagination(self), talents.HitBack(self)]
+        self.talents = [talents.Lifesteal(), talents.PowerOfImagination(), talents.HitBack()]
 
 
 

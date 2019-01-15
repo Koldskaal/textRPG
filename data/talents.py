@@ -3,20 +3,18 @@ from .spells import ImaginationSpell
 from random import choice, random, randint
 
 class Lifesteal:
-    def __init__(self, player):
+    def __init__(self):
         self.type = ['post-hitting-player']
-        self.player = player
 
     def activate(self, data):
-        lifesteal = data['dmg']*0.5
-        self.player.health += lifesteal
+        lifesteal = int(data['dmg']*0.5)
+        data['player'].health += lifesteal
         log.add_to_log(f"You stole {lifesteal} health!", 'combat', 'positive')
 
 
 class PowerOfImagination:
-    def __init__(self, player):
+    def __init__(self):
         self.type = ['pre-spellcast', 'mid-spellcast']
-        self.player = player
         self.spell_names = {
             'Hadouken!': 'You have probably never heard of this move before but it is a blue fireball.',
             'Kamehamehaaaaaaaaaaa!': 'This will look badass, I swear. I just hope he gives me enough time to pull it off.',
@@ -25,24 +23,23 @@ class PowerOfImagination:
             }
         self.prev_spell = None
 
-    def generate_spell(self):
+    def generate_spell(self, player):
         name, descrition = choice(list(self.spell_names.items()))
         descrition += "\nPress 'q' to reroll and shoot. If you have the balls."
 
-        return ImaginationSpell(self.player, name, descrition)
+        return ImaginationSpell(player, name, descrition)
 
     def activate(self, data):
         if self.prev_spell:
-            self.player.spells.remove(self.prev_spell)
-        self.prev_spell = self.generate_spell()
-        self.player.spells.append(self.prev_spell)
-        if data and data['spell_name'] in self.spell_names.keys():
+            data['player'].spells.remove(self.prev_spell)
+        self.prev_spell = self.generate_spell(data['player'])
+        data['player'].spells.append(self.prev_spell)
+        if data and data.get('spell_name', '') in self.spell_names.keys():
             self.prev_spell.cast(data['enemy'])
 
 class Reflect:
-    def __init__(self, player):
+    def __init__(self):
         self.type = ['post-hitting-enemy']
-        self.player = player
 
     def activate(self, data):
         refelct_dmg = int(data['dmg']*0.5)
@@ -50,12 +47,11 @@ class Reflect:
         log.add_to_log(f"You reflected {refelct_dmg} damage!", 'combat', 'recked')
 
 class HitBack:
-    def __init__(self, player):
+    def __init__(self):
         self.type = ['post-hitting-enemy']
-        self.player = player
 
     def activate(self, data):
         if random() < 0.2:
-            dmg = int((1*self.player.str**2)/(data['enemy'].armor+1*self.player.str))
+            dmg = int((1*data['player'].str**2)/(data['enemy'].armor+1*data['player'].str))
             data['enemy'].health += dmg
             log.add_to_log(f"You hit {data['enemy'].name} back for {dmg}!", 'combat', 'recked')

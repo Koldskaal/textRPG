@@ -29,7 +29,8 @@ def health_bar(p, e):
 
 
 def use_spell(player, enemy, exit_room):
-    activate(player, None, 'pre-spellcast')
+    data = {'player':player, 'enemy':enemy}
+    activate(player, data, 'pre-spellcast')
     spell_menu = CombatSpellMenu(player)
     spell_menu.print_room()
     spell = None
@@ -50,7 +51,7 @@ def use_spell(player, enemy, exit_room):
 
             if spell:
                 if spell[1]:
-                    data = {'enemy': enemy, 'spell_name': spell[0].name}
+                    data['spell_name'] = spell[0].name
                     activate(player, data, 'mid-spellcast')
                     spell = 'skip'
                 else:
