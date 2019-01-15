@@ -1,7 +1,7 @@
 from .game_log import log
 from termcolor import colored
 
-class BasicMenu:
+class BasicRotatingMenu:
     def __init__(self):
         self.canvas = log.canvas
         self.menu_options = []  #"index1","index2","index3"

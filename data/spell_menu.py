@@ -1,7 +1,7 @@
 from . import basic_menu, game_log
 from termcolor import colored
 
-class CombatSpellMenu(basic_menu.BasicMenu):
+class CombatSpellMenu(basic_menu.BasicRotatingMenu):
     def __init__(self, player):
         super().__init__()
 

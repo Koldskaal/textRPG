@@ -29,7 +29,7 @@ def health_bar(p, e):
 
 
 def use_spell(player, enemy, exit_room):
-    activate(player, None, 'pre-spell')
+    activate(player, None, 'pre-spellcast')
     spell_menu = CombatSpellMenu(player)
     spell_menu.print_room()
     spell = None
@@ -51,7 +51,7 @@ def use_spell(player, enemy, exit_room):
             if spell:
                 if spell[1]:
                     data = {'enemy': enemy, 'spell_name': spell[0].name}
-                    activate(player, data, 'mid-spell')
+                    activate(player, data, 'mid-spellcast')
                     spell = 'skip'
                 else:
                     spell = spell[0]
@@ -68,16 +68,16 @@ def fight(p, e, exit_room):
     next_hit_e = 0
     int_turn = 0
     hit = 50
+    data = {'enemy': e, 'player': p}
 
     while True:
-
         def hitting(att, _def):
             a_name = att.name if att.name != p.name else 'You'
             d_name = _def.name if _def.name != p.name else 'You'
 
             att.mana += att.int
 
-            dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
+            # dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
             dmg = int((1*att.str**2)/(_def.armor+1*att.str))
             dmg_col = colored(str(dmg), 'red', attrs=['bold'])
             log.add_to_log(f"{a_name} {'attack' if a_name == 'You' else 'attacks'} {d_name}!", 'Combat')
@@ -90,7 +90,7 @@ def fight(p, e, exit_room):
                 log.add_to_log(f"WOAH! That {d_name} looks to be in agony!", 'Announcer', 'surprise')
                 if att.health > att.max_health*0.8:
                     log.add_to_log(f"What a blow out!", 'Announcer', 'surprise')
-            return {'dmg': dmg}
+            return dmg
             # log.add_to_log("-"*40, 'Combat')
 
         int_turn += p.int
@@ -102,9 +102,8 @@ def fight(p, e, exit_room):
             debuff.proc_debuff()
 
         if next_hit_p > hit:
-
-            data = hitting(p, e)
-            activate(p, data, 'post-hitting')
+            data['dmg'] = hitting(p, e)
+            activate(p, data, 'post-hitting-player')
             health_bar(p,e)
             next_hit_p -= hit
             if e.health <= 0:
@@ -112,7 +111,8 @@ def fight(p, e, exit_room):
                 break
 
         if next_hit_e > hit:
-            hitting(e, p)
+            data['dmg'] = hitting(e, p)
+            activate(p, data, 'post-hitting-enemy')
             health_bar(p,e)
             next_hit_e -= hit
             if p.health <= 0:

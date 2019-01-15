@@ -1,10 +1,10 @@
 from .game_log import log
 from .spells import ImaginationSpell
-from random import choice
+from random import choice, random, randint
 
 class Lifesteal:
     def __init__(self, player):
-        self.type = ['post-hitting']
+        self.type = ['post-hitting-player']
         self.player = player
 
     def activate(self, data):
@@ -15,7 +15,7 @@ class Lifesteal:
 
 class PowerOfImagination:
     def __init__(self, player):
-        self.type = ['pre-spell', 'mid-spell']
+        self.type = ['pre-spellcast', 'mid-spellcast']
         self.player = player
         self.spell_names = {
             'Hadouken!': 'You have probably never heard of this move before but it is a blue fireball.',
@@ -26,8 +26,6 @@ class PowerOfImagination:
         self.prev_spell = None
 
     def generate_spell(self):
-
-
         name, descrition = choice(list(self.spell_names.items()))
         descrition += "\nPress 'q' to reroll and shoot. If you have the balls."
 
@@ -40,3 +38,24 @@ class PowerOfImagination:
         self.player.spells.append(self.prev_spell)
         if data and data['spell_name'] in self.spell_names.keys():
             self.prev_spell.cast(data['enemy'])
+
+class Reflect:
+    def __init__(self, player):
+        self.type = ['post-hitting-enemy']
+        self.player = player
+
+    def activate(self, data):
+        refelct_dmg = int(data['dmg']*0.5)
+        data['enemy'].health += refelct_dmg
+        log.add_to_log(f"You reflected {refelct_dmg} damage!", 'combat', 'recked')
+
+class HitBack:
+    def __init__(self, player):
+        self.type = ['post-hitting-enemy']
+        self.player = player
+
+    def activate(self, data):
+        if random() < 0.2:
+            dmg = int((1*self.player.str**2)/(data['enemy'].armor+1*self.player.str))
+            data['enemy'].health += dmg
+            log.add_to_log(f"You hit {data['enemy'].name} back for {dmg}!", 'combat', 'recked')
