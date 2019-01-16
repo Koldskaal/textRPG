@@ -40,8 +40,9 @@ class Canvas:
         else:
             return s
 
-    def add_to_print(self, name, string, settings={}):
-        self.areas[name] = settings
+    def add_to_print(self, name, string, settings={}, replace=True):
+        if replace:
+            self.areas[name] = settings
         self.areas[name]['string'] = string
 
     def replace_line(self, name, string, line, clear=False):

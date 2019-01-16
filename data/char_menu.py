@@ -67,7 +67,7 @@ class Show_Equip:
             self.showcase(True)
         else:
             self.pre_index = self.menu_options[0:self.menu_position]
-            self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
+            self.index = colored(self.menu_options[self.menu_position], "white", 'on_green')
             self.post_index =  self.menu_options[self.menu_position+1:]
             self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index),settings)
             self.canvas.print_canvas(clear)

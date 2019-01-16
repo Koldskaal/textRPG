@@ -46,7 +46,7 @@ class BasicRotatingMenu:
             if len(lst) > 1:
                 new = before + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
             else:
-                new = '-\n' + colored(before, "white", 'on_green', attrs=['bold'])
+                new = ' \n' + colored(before, "white", 'on_green', attrs=['bold'])
 
             self.canvas.add_to_print("room",new ,self.settings)
             self.canvas.print_canvas(clear)
@@ -73,7 +73,6 @@ class BasicRotatingMenu:
         return self.menu_options
 
     def use_key(self, direction):
-        # print(direction)
         if not self.menu_options:
             return self.exit()
         if direction is "s":

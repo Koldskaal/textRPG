@@ -28,6 +28,12 @@ class Player(Character):
         self.spells = [spells.BasicDoT(self)]
         self.talents = []
 
+        self.helmet = ''
+        self.body = ''
+        self.ring = ''
+        self.amulet = ''
+        self.weapon = ''
+
 
 
     def gain_exp(self, amount):

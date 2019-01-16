@@ -38,7 +38,7 @@ def ready_bar(iteration, total, line, color, string):
     percent = ("{0:.1f}").format(100 * (iteration / total) if (iteration / total) != 1 else 100)
     if percent == '100.0': percent = "{0:.3g}".format(float(percent))
     fill = HEALTH_BAR
-    _bar = ' | ' +colored(fill * filledLength + '-' * (length - filledLength), color) + f' | {percent}%'
+    _bar = colored(fill * filledLength + '-' * (length - filledLength), color)
     log.canvas.replace_line('room', _bar, line)
     log.print_canvas()
 
@@ -82,17 +82,18 @@ def fight(p, e, exit_room):
     next_hit_p = 0
     next_hit_e = 0
     int_turn = 0
-    hit = 50
+    hit = 100
     data = {'enemy': e, 'player': p}
     health_bar(e)
     # ready_bar(int_turn, hit, 1, 'blue')
 
-    while True:
+    while p.health > 0 and e.health > 0:
         health_bar(e)
         int_turn += p.int/3
+        # ready_bar(next_hit_p, hit, 2, 'green', 'attack')
         next_hit_p += p.agi
-        ready_bar(next_hit_p, hit, 2, 'green', 'attack')
         next_hit_e += e.agi
+        ready_bar(next_hit_p, hit, 2, 'green', 'attack')
         ready_bar(next_hit_e, hit, 20, 'green', 'attack')
         ready_bar(int_turn, hit, 1, 'blue', 'spell cast')
         for debuff in p.debuffs:
@@ -104,27 +105,31 @@ def fight(p, e, exit_room):
             data['dmg'] = p.hit(e)
             activate(p, data, 'post-hitting-player')
             next_hit_p -= hit
-            if e.health <= 0:
-                winner = p
-                break
+            # if e.health <= 0:
+            #     winner = p
+            #     break
 
         if next_hit_e > hit:
             data['dmg'] = e.hit(p)
             activate(p, data, 'post-hitting-enemy')
             next_hit_e -= hit
-            if p.health <= 0:
-                winner = e
-                break
+            # if p.health <= 0:
+            #     winner = e
+            #     break
 
         if int_turn > hit:
             use_spell(p, e, exit_room)
             int_turn -= hit
-            if e.health <= 0:
-                winner = p
-                break
+            # if e.health <= 0:
+            #     winner = p
+            #     break
 
         log.print_canvas()
         time.sleep(0.2)
+    if p.health != 0:
+        winner = p
+    else:
+        winner = e
 
     log.add_to_log(f"{winner.name} wins!", 'Announcer', 'surprise')
     return winner

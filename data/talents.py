@@ -19,7 +19,7 @@ class Lifesteal(BaseTalent):
     def activate(self, data):
         lifesteal = int(data['dmg']*0.5)
         data['player'].health += lifesteal
-        log.add_to_log(f"You stole {lifesteal} health!", 'combat', 'positive')
+        log.attach_to_log(f"({self.name})", 'positive')
 
 talent_list.append(Lifesteal())
 
@@ -64,6 +64,7 @@ class Reflect(BaseTalent):
         refelct_dmg = int(data['dmg']*0.5)
         log.add_to_log(f"You reflected {refelct_dmg} damage!", 'combat', 'recked')
         data['enemy'].health -= refelct_dmg
+        log.attach_to_log(f"({self.name})")
 
 talent_list.append(Reflect())
 

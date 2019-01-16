@@ -32,19 +32,24 @@ class GameLog:
         'blue'      : 'blue',
         'magenta'   : 'magenta',
         }
+        self.canvas.add_to_print('log', self.log, self.settings)
 
     def add_to_log(self, text, source, effect='default'):
         self.scroll_state = 0
         now = datetime.datetime.now().strftime('%H:%M')
-        s = "\n"+f"[{now}] [{source.upper()}] " + colored(f"{text}", self.colors[effect], attrs=['reverse'])
+        s = "\n"+f"[{now}] [{source.upper()}] " + colored(f"{text}", self.colors[effect])
         self.log += s
 
+        self.print_canvas()
+
+    def attach_to_log(self, text, effect='default'):
+        self.log += colored(' '+text, self.colors[effect])
         self.print_canvas()
 
     def print_canvas(self, clear=False):
         if not self.canvas:
             raise Exception('GameLog has no target canvas.')
-        self.canvas.add_to_print('log', self.log, self.settings)
+        self.canvas.add_to_print('log', self.log, self.settings, replace=False)
         self.canvas.print_canvas(clear)
 
     def scroll(self, direction):
