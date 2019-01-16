@@ -1,6 +1,6 @@
 from random import randint
 from .textures import *
-from . import combat,character
+from . import combat, monsters
 from .game_log import log
 import time
 from termcolor import colored
@@ -129,7 +129,7 @@ class Room:
             if (self.room[self.player_position[0]
                     + coordinates[0]][self.player_position[1]
                     + coordinates[1]] == MONSTER_CHAR):
-                e = character.Monster()
+                e = monsters.Monster()
                 winning = combat.encounter(self.player, e, self)
                 if winning == "enemy_killed":
                     self.room[player_coord[0]][player_coord[1]] = " "

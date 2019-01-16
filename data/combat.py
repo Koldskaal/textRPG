@@ -88,27 +88,6 @@ def fight(p, e, exit_room):
     # ready_bar(int_turn, hit, 1, 'blue')
 
     while True:
-        def hitting(att, _def):
-            a_name = att.name if att.name != p.name else 'You'
-            d_name = _def.name if _def.name != p.name else 'You'
-
-            att.mana += att.int
-
-            # dmg = att.str + choice([randint(0,int(att.str*0.1)),-randint(0,int(att.str*0.1))]) - _def.armor
-            dmg = int((1*att.str**2)/(_def.armor+1*att.str))
-            dmg_col = colored(str(dmg), 'red', attrs=['bold'])
-            log.add_to_log(f"{a_name} {'attack' if a_name == 'You' else 'attacks'} {d_name}!", 'Combat')
-
-            _def.health -= dmg
-            health_col = colored(str(_def.health), 'green', attrs=['bold'])
-            max_health = colored(str(_def.max_health), 'green', attrs=['bold'])
-            log.add_to_log(f"{d_name} took {dmg} damage.", 'Combat', 'bad' if _def.name == p.name else 'default')
-            if _def.health <= 0:
-                log.add_to_log(f"WOAH! That {d_name} looks to be in agony!", 'Announcer', 'surprise')
-                if att.health > att.max_health*0.8:
-                    log.add_to_log(f"What a blow out!", 'Announcer', 'surprise')
-            return dmg
-            # log.add_to_log("-"*40, 'Combat')
         health_bar(e)
         int_turn += p.int/3
         next_hit_p += p.agi
@@ -122,7 +101,7 @@ def fight(p, e, exit_room):
             debuff.proc_debuff()
 
         if next_hit_p > hit:
-            data['dmg'] = hitting(p, e)
+            data['dmg'] = p.hit(e)
             activate(p, data, 'post-hitting-player')
             next_hit_p -= hit
             if e.health <= 0:
@@ -130,7 +109,7 @@ def fight(p, e, exit_room):
                 break
 
         if next_hit_e > hit:
-            data['dmg'] = hitting(e, p)
+            data['dmg'] = e.hit(p)
             activate(p, data, 'post-hitting-enemy')
             next_hit_e -= hit
             if p.health <= 0:

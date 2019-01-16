@@ -77,17 +77,18 @@ class BasicDoT(BasicSpell):
         self.description = "A basic damage over time spell! Doesn't stack."
 
     def cast(self, target):
-        target.debuffs.append(self)
+        if self not in target.debuffs:
+            target.debuffs.append(self)
         self.afflicted = target
         self.turns_left = self.duration
         self.caster.mana -= self.mana_usage
 
     def proc_debuff(self):
         self.afflicted.health -= self.damage
-        log.add_to_log(f"{self.afflicted.name} lost another {self.damage} to {self.name} ({self.turns_left} procs left)!", 'Combat')
         self.turns_left -= 1
+        if self.turns_left % 5 == 0:
+            log.add_to_log(f"{self.turns_left} procs remaining!", 'Combat', 'recked')
         if self.turns_left == 0:
-            log.add_to_log(f"{self.afflicted.name} lost another {self.damage} to {self.name}!", 'Combat')
             self.afflicted.debuffs.remove(self)
 
     def define_damage(self):

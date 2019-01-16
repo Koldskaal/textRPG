@@ -62,8 +62,8 @@ class Reflect(BaseTalent):
 
     def activate(self, data):
         refelct_dmg = int(data['dmg']*0.5)
-        data['enemy'].health += refelct_dmg
         log.add_to_log(f"You reflected {refelct_dmg} damage!", 'combat', 'recked')
+        data['enemy'].health -= refelct_dmg
 
 talent_list.append(Reflect())
 
@@ -77,7 +77,7 @@ class HitBack(BaseTalent):
     def activate(self, data):
         if random() < 0.2:
             dmg = int((1*data['player'].str**2)/(data['enemy'].armor+1*data['player'].str))
-            data['enemy'].health += dmg
             log.add_to_log(f"You hit {data['enemy'].name} back for {dmg}!", 'combat', 'recked')
+            data['enemy'].health -= dmg
 
 talent_list.append(HitBack())

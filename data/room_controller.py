@@ -2,11 +2,11 @@ from termcolor import colored
 import time
 from random import randint
 from random import choice
-from . import shopkeeper, stat_window, combat, character, room, char_menu, spell_menu
+from . import shopkeeper, stat_window, combat, room, char_menu, spell_menu, player
 from .game_log import log
 from .canvas import Canvas
 
-p = character.Player()
+p = player.Player()
 class RoomController:
     def __init__(self):
         """
