@@ -108,9 +108,6 @@ class RoomController:
             if response == "Quit Game":
                 self.current_room = char_menu.Quit_Game(self.canvas)
                 self.print_room(True)
-
-        elif isinstance(self.current_room, char_menu.Char_menu):
-            response = self.current_room.char_menu(key)
             if response == "leave char_menu":
                 self.current_room = self.list_of_rooms[self.RN]
                 self.print_room(True)

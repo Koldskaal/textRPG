@@ -46,7 +46,7 @@ class Char_menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se sh
 class Show_Equip:
     def __init__(self, canvas, player):
         self.canvas = canvas
-        self.menu_options = [player.equipment]
+        self.menu_options = player.equipment
         self.menu_position = 0
         self.player = player
 
@@ -90,7 +90,7 @@ class Show_Equip:
             self.canvas.print_canvas()
         else:
             showcase = ""
-            for key, values in item_ID.items[self.menu_options[0]].items():
+            for key, values in item_ID.items[self.menu_options[self.menu_position]].items():
                 if key == "str":
                     showcase += colored((f"{key}: {values} \n"), 'red')
                 if key == "agi":
@@ -127,22 +127,28 @@ class Show_Equip:
         if direction is "r":
             return "leave show equip"
 
-class Items:
+class Equip_Helmet:
     def __init__(self, canvas, player):
         self.canvas = canvas
         self.menu_options = player.items
+        self.menu_options.sort()
         self.menu_position = 0
         self.player = player
 
+    @staticmethod
+    def rotate(l, n):
+        return l[n:] + l[:n]
+
     def print_room(self, clear=False):
+
         settings = {
             'column_priority'  : 2,     # Order of who goes first from left to right
-            'delay'             : 4,     # if it needs to be x lines below
-            'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
-            'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
+            'delay'             : 3,     # if it needs to be x lines below
+            'width'             : 41,    # how wide will it print
+            'allignment'        : '^',
+            'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
-            'title'             : 'Item Menu',
+            'title'             : 'Equip Helmet',
             'push'              : 0
         }
         if len(self.player.items) == 0:
@@ -150,10 +156,20 @@ class Items:
             self.canvas.print_canvas(clear)
             self.showcase(True)
         else:
-            self.pre_index = self.menu_options[0:self.menu_position]
-            self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
-            self.post_index =  self.menu_options[self.menu_position+1:]
-            self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index),settings)
+            max = len(self.menu_options)
+            if max > 9: max = 9
+            aft_num = max // 2
+            bef_num = max - aft_num
+
+
+            before = "\n".join(self.menu_options[-aft_num:]) + '\n'
+            temp = self.menu_options[:bef_num]
+            if len(self.menu_options) > 1:
+                new = before + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
+            else:
+                new = '-\n' + colored(before, "white", 'on_green', attrs=['bold'])
+
+            self.canvas.add_to_print("room",new ,settings)
             self.canvas.print_canvas(clear)
             self.showcase()
 
@@ -175,15 +191,178 @@ class Items:
         else:
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == "str":
+                    showcase += colored((f"{key}: {values} \n"), 'red')
+                if key == "agi":
+                    showcase += colored((f"{key}: {values} \n"), 'green')
+                if key == "int":
+                    showcase += colored((f"{key}: {values} \n"), 'blue')
+                if key == "hp":
+                    showcase += colored((f"{key}: {values} \n"), 'white', 'on_red')
+                if key == "mp":
+                    showcase += colored((f"{key}: {values} \n"), 'white', 'on_blue')
                 if key == "price":
                     showcase += colored((f"{key}: {values} \n"), 'yellow')
-                elif key != "price":
+                if key == "armor":
+                    showcase += colored((f"{key}: {values} \n"), 'white', 'on_grey')
+                if key == "type":
+                    showcase += (f"{key}: {values} \n")
+                if key == "description":
                     showcase += (f"{key}: {values} \n")
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
 
+    def item_menu(self, direction):
+        if not self.player.items:
+            return "leave items"
+        else:
+            if direction is "s":
+                self.menu_options = self.rotate(self.menu_options, 1)
+                self.print_room()
+            if direction is "w":
+                self.menu_options = self.rotate(self.menu_options, -1)
+                self.print_room()
+            if direction is '\r': # ENTER KEY
+                #for key, values in item_ID.items[self.menu_options[0]].items():
+                #    if values in self.menu_options[self.menu_position] ==  :
+                #        retur
+                #    self.print_room()
+                pass
+            if direction is "r":
+                return "leave items"
+
+class Items:
+    def __init__(self, canvas, player):
+        self.canvas = canvas
+        self.menu_options = player.items
+        self.menu_options.sort()
+        self.menu_position = 0
+        self.player = player
+
+    @staticmethod
+    def rotate(l, n):
+        return l[n:] + l[:n]
+
+    def print_room(self, clear=False):
+
+        settings = {
+            'column_priority'  : 2,     # Order of who goes first from left to right
+            'delay'             : 3,     # if it needs to be x lines below
+            'width'             : 41,    # how wide will it print
+            'allignment'        : '^',
+            'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
+            'join_char'         : '',
+            'title'             : 'SHOP-BUY',
+            'push'              : 0
+        }
+        if len(self.player.items) == 0:
+            self.canvas.add_to_print("room", "", settings)
+            self.canvas.print_canvas(clear)
+            self.showcase(True)
+        else:
+
+            # self.pre_index = self.menu_options[0:self.menu_position]
+            # self.index = colored(self.menu_options[self.menu_position-1], "white", 'on_green', attrs=['bold'])
+            # self.post_index =  self.menu_options[self.menu_position+1:]
+            # old_string = "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index)
+            max = len(self.menu_options)
+            if max > 9: max = 9
+            aft_num = max // 2
+            bef_num = max - aft_num
+
+
+            before = "\n".join(self.menu_options[-aft_num:]) + '\n'
+            temp = self.menu_options[:bef_num]
+            if len(self.menu_options) > 1:
+                new = before + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
+            else:
+                new = '-\n' + colored(before, "white", 'on_green', attrs=['bold'])
+
+            self.canvas.add_to_print("room",new ,settings)
+            self.canvas.print_canvas(clear)
+            self.showcase()
+
+    def showcase(self, empty=False):
+        settings = {
+            'column_priority'  : 3,     # Order of who goes first from left to right
+            'delay'             : 7,     # if it needs to be x lines below
+            'width'             : 30,    # how wide will it print
+            'allignment'        : '<',
+            'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
+            'join_char'         : '',
+            'title'             : 'Item Showcase',
+            'push'              : 1
+            }
+        if empty:
+            showcase = " My pockets are empty!"
+            self.canvas.popup("room", showcase, 13)
+            self.canvas.print_canvas()
+        else:
+            showcase = ""
+            for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == "str":
+                    showcase += colored((f"{key}: {values} \n"), 'red')
+                if key == "agi":
+                    showcase += colored((f"{key}: {values} \n"), 'green')
+                if key == "int":
+                    showcase += colored((f"{key}: {values} \n"), 'blue')
+                if key == "hp":
+                    showcase += colored((f"{key}: {values} \n"), 'white', 'on_red')
+                if key == "mp":
+                    showcase += colored((f"{key}: {values} \n"), 'white', 'on_blue')
+                if key == "price":
+                    showcase += colored((f"{key}: {values} \n"), 'yellow')
+                if key == "armor":
+                    showcase += colored((f"{key}: {values} \n"), 'white', 'on_grey')
+                if key == "type":
+                    showcase += (f"{key}: {values} \n")
+                if key == "description":
+                    showcase += (f"{key}: {values} \n")
+            self.canvas.popup("room", showcase, 13)
+            self.canvas.print_canvas()
 
     def item_menu(self, direction):
+        if not self.player.items:
+            return "leave items"
+        else:
+            if direction is "s":
+                self.menu_options = self.rotate(self.menu_options, 1)
+                self.print_room()
+            if direction is "w":
+                self.menu_options = self.rotate(self.menu_options, -1)
+                self.print_room()
+            if direction is '\r': # ENTER KEY
+                #for key, values in item_ID.items[self.menu_options[0]].items():
+                #    if values in self.menu_options[self.menu_position] ==  :
+                #        retur
+                #    self.print_room()
+                pass
+            if direction is "r":
+                return "leave items"
+class Save:
+    def __init__(self, canvas):
+        self.canvas = canvas
+        self.menu_options = ["Save game placeholder", "Save game 2 placeholder"]
+        self.menu_position = 0
+
+    def print_room(self, clear=False):
+        settings = {
+            'column_priority'  : 2,     # Order of who goes first from left to right
+            'delay'             : 4,     # if it needs to be x lines below
+            'width'             : 30,    # how wide will it print
+            'allignment'        : '<',
+            'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
+            'join_char'         : '',
+            'title'             : 'Character Menu',
+            'push'              : 0
+        }
+        self.pre_index = self.menu_options[0:self.menu_position]
+        self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
+        self.post_index =  self.menu_options[self.menu_position+1:]
+        self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index),settings)
+        self.canvas.print_canvas(clear)
+
+    def char_menu(self, direction):
         if direction is "s":
             self.menu_position += 1
             if self.menu_position > len(self.menu_options)-1:
@@ -195,16 +374,49 @@ class Items:
                 self.menu_position = 0
             self.print_room()
         if direction is '\r': # ENTER KEY
-            return self.menu_options[self.menu_position]
+            pass # requires a save method
         if direction is "r":
-            return "leave items"
-
-class Save:
-    def save_menu():
-        if direction is "r":
-            return "leave save"
-
+            return "leave save_menu"
 class Quit_Game:
-    def quit_menu():
+    def __init__(self, canvas):
+        self.canvas = canvas
+        self.menu_options = ["No", "Yes"]
+        self.menu_position = 0
+
+    def print_room(self, clear=False):
+        settings = {
+            'column_priority'  : 2,     # Order of who goes first from left to right
+            'delay'             : 4,     # if it needs to be x lines below
+            'width'             : 30,    # how wide will it print
+            'allignment'        : '<',
+            'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
+            'join_char'         : '',
+            'title'             : 'Character Menu',
+            'push'              : 0
+        }
+        self.canvas.add_to_print("room", "Are you sure you wish to quit the game?", settings)
+        self.pre_index = self.menu_options[0:self.menu_position]
+        self.index = colored(self.menu_options[self.menu_position], "white", 'on_green', attrs=['bold'])
+        self.post_index =  self.menu_options[self.menu_position+1:]
+        self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index),settings)
+        self.canvas.print_canvas(clear)
+
+    def quit_menu(self, direction):
+        if direction is "s":
+            self.menu_position += 1
+            if self.menu_position > len(self.menu_options)-1:
+                self.menu_position = len(self.menu_options)-1
+            self.print_room()
+        if direction is "w":
+            self.menu_position -= 1
+            if self.menu_position <0:
+                self.menu_position = 0
+            self.print_room()
+        if direction is '\r': # ENTER KEY
+            if self.menu_options[self.menu_position] == "Yes":
+                global running
+                running = False
+            else:
+                return "leave quit game"
         if direction is "r":
             return "leave quit game"
