@@ -138,7 +138,7 @@ class Sell:
                 if key == "mp":
                     showcase += colored((f"{key}: {values} \n"), 'white', 'on_blue')
                 if key == "price":
-                    showcase += colored((f"{key}: {values} \n"), 'yellow')
+                    showcase += colored((f"{key}: {values*0.5}"), 'yellow')
                 if key == "armor":
                     showcase += colored((f"{key}: {values} \n"), 'white', 'on_grey')
                 if key == "type":
@@ -251,7 +251,7 @@ class Buy:
                 if key == "mp":
                     showcase += colored((f"{key}: {values} \n"), 'white', 'on_blue')
                 if key == "price":
-                    showcase += colored((f"{key}: {values} \n"), 'yellow')
+                    showcase += colored((f"{key}: {values}"), 'yellow')
                 if key == "armor":
                     showcase += colored((f"{key}: {values} \n"), 'white', 'on_grey')
                 if key == "type":
