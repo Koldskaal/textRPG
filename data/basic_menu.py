@@ -6,7 +6,8 @@ class BasicRotatingMenu:
         self.canvas = log.canvas
         self.menu_options = []  #"index1","index2","index3"
         self.menu_position = 0
-        self.title = 'temp'
+        self.title_box = 'temp'
+        self.title_window = 'TEMP-WIN'
 
     @staticmethod
     def rotate(l, n):
@@ -21,7 +22,7 @@ class BasicRotatingMenu:
             'allignment'        : '^',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
-            'title'             : 'SHOP-BUY',
+            'title'             : self.title_window.upper(),
             'push'              : 0
         }
         if len(self.menu_options) == 0:
@@ -39,10 +40,10 @@ class BasicRotatingMenu:
             aft_num = max // 2
             bef_num = max - aft_num
 
-
-            before = "\n".join(self.menu_options[-aft_num:]) + '\n'
-            temp = self.menu_options[:bef_num]
-            if len(self.menu_options) > 1:
+            lst = self.define_print_content()
+            before = "\n".join(lst[-aft_num:]) + '\n'
+            temp = lst[:bef_num]
+            if len(lst) > 1:
                 new = before + "\n".join(temp).replace(temp[0], colored(temp[0], "white", 'on_green', attrs=['bold']), 1)
             else:
                 new = '-\n' + colored(before, "white", 'on_green', attrs=['bold'])
@@ -54,19 +55,22 @@ class BasicRotatingMenu:
     def description_box(self, empty=False):
         if empty:
             description_box = "Nothing here!"
-            self.canvas.popup("room", description_box, 13, self.title)
+            self.canvas.popup("room", description_box, 13, self.title_box)
             self.canvas.print_canvas()
         else:
-            description_box = self.define_descriptions(self.menu_options[0])
+            description_box, stats = self.define_descriptions(self.menu_options[0])
 
-            self.canvas.popup("room", description_box, 13, self.title)
+            self.canvas.popup("room", description_box, 13, self.title_box, stats)
             self.canvas.print_canvas()
 
     def define_descriptions(self, item):
         description_box = ""
         for key, values in item_ID.items[item].items():
             description_box += (f"{key}: {values} \n")
-        return description_box
+        return description_box, None
+
+    def define_print_content(self):
+        return self.menu_options
 
     def use_key(self, direction):
         # print(direction)

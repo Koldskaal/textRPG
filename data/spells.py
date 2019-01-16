@@ -1,6 +1,7 @@
 from .game_log import log
 from random import randint
 
+spell_list = []
 
 class BaseSpell:
     def __init__(self, player):
@@ -10,7 +11,9 @@ class BaseSpell:
         self.damage = self.define_damage()
         self.heal = self.define_heal()
         self.duration = 1
-        self.descrition = "Base for all spells. Does nothing."
+        self.description = "Base for all spells. Does nothing."
+
+        self.points = 3
 
         self.special_action = False
 
@@ -34,6 +37,7 @@ class BaseSpell:
         self.damage = self.define_damage()
         self.heal = self.define_heal()
 
+
 class BasicSpell(BaseSpell):
     def __init__(self, player):
         super().__init__(player)
@@ -49,6 +53,8 @@ class BasicSpell(BaseSpell):
     def update_descrition(self):
         self.description = f"A basic damaging spell. It does {self.damage} damage and costs {self.mana_usage} mana. Use with care."
 
+spell_list.append(BasicSpell)
+
 class BasicHeal(BaseSpell):
     def __init__(self, player):
         super().__init__(player)
@@ -58,6 +64,8 @@ class BasicHeal(BaseSpell):
 
     def define_heal(self):
         return 10 + (self.caster.level * 4)
+
+spell_list.append(BasicHeal)
 
 class BasicDoT(BasicSpell):
     def __init__(self, player):
@@ -84,6 +92,8 @@ class BasicDoT(BasicSpell):
 
     def define_damage(self):
         return 1 + self.caster.level * 1 - 1
+
+spell_list.append(BasicDoT)
 
 class ImaginationSpell(BaseSpell):
     def __init__(self, player, name, description):

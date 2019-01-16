@@ -25,19 +25,22 @@ def health_bar(character):
     percent = ("{}").format(100 * (iteration / float(total)))
     fill = HEALTH_BAR
     enemy_bar = character.name + ' | ' + colored(fill * filledLength + '-' * (length - filledLength), 'red') + f' | {iteration}/{total}'
-    log.canvas.replace_line('room', enemy_bar, 20)
+    log.canvas.replace_line('room', enemy_bar, 19)
+    log.print_canvas()
 
-def ready_bar(iteration, total, line, color):
-    length = 20
+def ready_bar(iteration, total, line, color, string):
+    length = 25
     if iteration > total:
         iteration = total
     # iteration = character.health
     # total = character.max_health
     filledLength = int(length * iteration // total)
-    percent = ("{}").format(100 * (iteration / float(total)))
+    percent = ("{0:.1f}").format(100 * (iteration / total) if (iteration / total) != 1 else 100)
+    if percent == '100.0': percent = "{0:.3g}".format(float(percent))
     fill = HEALTH_BAR
-    _bar = colored(fill * filledLength + '-' * (length - filledLength), color)
+    _bar = ' | ' +colored(fill * filledLength + '-' * (length - filledLength), color) + f' | {percent}%'
     log.canvas.replace_line('room', _bar, line)
+    log.print_canvas()
 
 
 def use_spell(player, enemy, exit_room):
@@ -82,7 +85,7 @@ def fight(p, e, exit_room):
     hit = 50
     data = {'enemy': e, 'player': p}
     health_bar(e)
-    ready_bar(int_turn, hit, 1, 'blue')
+    # ready_bar(int_turn, hit, 1, 'blue')
 
     while True:
         def hitting(att, _def):
@@ -107,11 +110,12 @@ def fight(p, e, exit_room):
             return dmg
             # log.add_to_log("-"*40, 'Combat')
         health_bar(e)
-        int_turn += p.int//2
-        ready_bar(int_turn, hit, 1, 'blue')
+        int_turn += p.int/3
         next_hit_p += p.agi
-        ready_bar(next_hit_p, hit, 2, 'green')
+        ready_bar(next_hit_p, hit, 2, 'green', 'attack')
         next_hit_e += e.agi
+        ready_bar(next_hit_e, hit, 20, 'green', 'attack')
+        ready_bar(int_turn, hit, 1, 'blue', 'spell cast')
         for debuff in p.debuffs:
             debuff.proc_debuff()
         for debuff in e.debuffs:

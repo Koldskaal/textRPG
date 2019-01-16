@@ -2,7 +2,7 @@ from termcolor import colored
 import time
 from random import randint
 from random import choice
-from . import shopkeeper, stat_window, combat, character, room, char_menu
+from . import shopkeeper, stat_window, combat, character, room, char_menu, spell_menu
 from .game_log import log
 from .canvas import Canvas
 
@@ -92,6 +92,9 @@ class RoomController:
                 self.move_player(movement[key])
             if key == "i":
                 self.current_room = char_menu.Char_menu(self.canvas)
+                self.print_room(True)
+            if key == "o":
+                self.current_room = spell_menu.BuySpellMenu(p, self.current_room)
                 self.print_room(True)
 
         elif isinstance(self.current_room, char_menu.Char_menu):

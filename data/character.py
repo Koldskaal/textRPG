@@ -69,6 +69,7 @@ class Player(Character):
 
         self.level = 1
         self.exp = 0
+        self.points = 0
 
         self.str = 10
         self.int = 10
@@ -79,7 +80,7 @@ class Player(Character):
         self.items = []
         self.levelcap = 5+3*self.level**2
 
-        self.spells = [spells.BasicSpell(self), spells.BasicDoT(self), spells.BasicHeal(self)]
+        self.spells = [spells.BasicDoT(self)]
         self.talents = []
 
 
@@ -104,6 +105,7 @@ class Player(Character):
         self.str += 2
         self.agi += 2
         self.int += 2
+        self.points += 3
         self.max_health = self.health = 100 + self.level*20-20
         self.max_mana = self.mana = 100 + self.level*20-20
         game_log.log.add_to_log(f"Level up! You are now level {self.level}!", 'info', 'recked')

@@ -14,7 +14,7 @@ class TalentMenu(basic_menu.BasicRotatingMenu):
         return three_talents
 
     def define_descriptions(self, item):
-        return item.descrition
+        return item.descrition, None
 
     def print_room(self, clear=False):
 
