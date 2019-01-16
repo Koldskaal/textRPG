@@ -60,7 +60,7 @@ class Canvas:
                 # print(f'append with {string}')
                 self.areas[name]['replace'].append((string,line))
 
-    def popup(self, name, string, start_position, title=None, stats=None):
+    def popup(self, name, string, start_position, title=None, stats=None, allignment='^'):
         s = string.splitlines()
         wrap = []
         for line in s:
@@ -73,7 +73,7 @@ class Canvas:
             stat = ""
             for k, v in stats.items():
                 stat += f"{k.upper()}: {v} | "
-            stat = self.create_allignment(stat[:-3], self.areas[name].get('width', 30), '^')
+            stat = self.create_allignment(stat[:-3], self.areas[name].get('width', 30), allignment)
             box.append(stat)
         box.append(BORDER_INLINE * self.areas[name].get('width', 30))
 

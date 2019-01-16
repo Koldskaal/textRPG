@@ -20,7 +20,7 @@ class CombatSpellMenu(basic_menu.BasicRotatingMenu):
         else:
             description_box = self.menu_options[0].description
             stats = {
-                'MP': colored(-self.menu_options[0].mana_usage, 'blue') if self.menu_options[0].mana_usage < self.player.mana else colored(-self.menu_options[0].mana_usage, 'red') ,
+                'MP': colored(-self.menu_options[0].mana_usage, 'blue') if self.menu_options[0].mana_usage < self.player.mana else colored(-self.menu_options[0].mana_usage, 'white', 'on_red') ,
                 'HP': colored("+"+ str(self.menu_options[0].heal), 'green') if self.menu_options[0].heal > 0 else colored(self.menu_options[0].heal,'red'),
                 'DMG': colored(str(self.menu_options[0].damage), 'red') if self.menu_options[0].damage > 0 else colored(self.menu_options[0].damage, 'green'),
                 'DUR': self.menu_options[0].duration
@@ -63,11 +63,13 @@ class BuySpellMenu(basic_menu.BasicRotatingMenu):
 
     def define_descriptions(self, item):
         description_box = f"{item.description}"
-        stats = {'Available points':self.player.points, 'Spell cost': item.points}
+        text = item.points if self.menu_options[0].name not in [spell.name for spell in self.player.spells] else 'BOUGHT'
+        stats = {' Cost': text}
+        self.canvas.replace_line("room", f'Available points:{self.player.points}', 1)
         return description_box, stats
 
     def choose(self):
-        if self.player.points >= self.menu_options[0].points:
+        if self.player.points >= self.menu_options[0].points and self.menu_options[0].name not in [spell.name for spell in self.player.spells]:
             self.player.points -= self.menu_options[0].points
             self.player.spells.append(self.menu_options[0])
             self.print_room()

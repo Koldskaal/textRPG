@@ -9,13 +9,7 @@ class BasicRotatingMenu:
         self.title_box = 'temp'
         self.title_window = 'TEMP-WIN'
 
-    @staticmethod
-    def rotate(l, n):
-        return l[n:] + l[:n]
-
-    def print_room(self, clear=False):
-
-        settings = {
+        self.settings = {
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
@@ -25,6 +19,12 @@ class BasicRotatingMenu:
             'title'             : self.title_window.upper(),
             'push'              : 0
         }
+
+    @staticmethod
+    def rotate(l, n):
+        return l[n:] + l[:n]
+
+    def print_room(self, clear=False):
         if len(self.menu_options) == 0:
             self.canvas.add_to_print("room", "", settings)
             self.canvas.print_canvas(clear)
@@ -48,7 +48,7 @@ class BasicRotatingMenu:
             else:
                 new = '-\n' + colored(before, "white", 'on_green', attrs=['bold'])
 
-            self.canvas.add_to_print("room",new ,settings)
+            self.canvas.add_to_print("room",new ,self.settings)
             self.canvas.print_canvas(clear)
             self.description_box()
 
@@ -60,7 +60,7 @@ class BasicRotatingMenu:
         else:
             description_box, stats = self.define_descriptions(self.menu_options[0])
 
-            self.canvas.popup("room", description_box, 13, self.title_box, stats)
+            self.canvas.popup("room", description_box, 13, self.title_box, stats, allignment='<')
             self.canvas.print_canvas()
 
     def define_descriptions(self, item):
