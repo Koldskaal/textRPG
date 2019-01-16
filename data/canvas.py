@@ -44,15 +44,20 @@ class Canvas:
         self.areas[name] = settings
         self.areas[name]['string'] = string
 
-    def replace_line(self, name, string, line):
+    def replace_line(self, name, string, line, clear=False):
         if ansiwrap.ansilen(string) > self.areas[name]['width']:
             string = ansiwrap.wrap(string, self.areas[name]['width'])[0]
-        if not self.areas[name].get('replace'):
+        # print(self.areas[name]['string'])
+        if not self.areas[name].get('replace') or clear:
+
             self.areas[name]['replace'] = [(string, line)]
         else:
             if any(line in c for c in self.areas[name]['replace']):
-                self.areas[name]['replace'] = [(string, line)]
+                # print(f'replace with {string}')s
+                self.areas[name]['replace'] = [(string, line) if x[1] == line else x for x in self.areas[name]['replace']]
+                # print(self.areas[name]['replace'])
             else:
+                # print(f'append with {string}')
                 self.areas[name]['replace'].append((string,line))
 
     def popup(self, name, string, start_position, title=None, stats=None):

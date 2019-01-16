@@ -17,15 +17,27 @@ def activate(p, data, type):
         if type in talent.type:
             talent.activate(data)
 
-def health_bar(p, e):
+def health_bar(character):
     length = 10
-    iteration = e.health
-    total = e.max_health
+    iteration = character.health
+    total = character.max_health
     filledLength = int(length * iteration // total)
     percent = ("{}").format(100 * (iteration / float(total)))
     fill = HEALTH_BAR
-    enemy_bar = e.name + ' | ' + colored(fill * filledLength + '-' * (length - filledLength), 'red') + f' | {iteration}/{total}'
+    enemy_bar = character.name + ' | ' + colored(fill * filledLength + '-' * (length - filledLength), 'red') + f' | {iteration}/{total}'
     log.canvas.replace_line('room', enemy_bar, 20)
+
+def ready_bar(iteration, total, line, color):
+    length = 20
+    if iteration > total:
+        iteration = total
+    # iteration = character.health
+    # total = character.max_health
+    filledLength = int(length * iteration // total)
+    percent = ("{}").format(100 * (iteration / float(total)))
+    fill = HEALTH_BAR
+    _bar = colored(fill * filledLength + '-' * (length - filledLength), color)
+    log.canvas.replace_line('room', _bar, line)
 
 
 def use_spell(player, enemy, exit_room):
@@ -34,17 +46,16 @@ def use_spell(player, enemy, exit_room):
     spell_menu = CombatSpellMenu(player)
     spell_menu.print_room()
     spell = None
+    log.canvas.replace_line('room', "Press 'r' to skip.", 1, clear=True)
+    health_bar(enemy)
+    log.print_canvas()
     while not spell:
-        log.canvas.replace_line('room', "Press 'r' to skip turn.", 1)
-        health_bar(player,enemy)
-        log.print_canvas()
         if msvcrt.kbhit():
             key = ord(msvcrt.getch())
-
             spell = spell_menu.use_key(chr(key))
 
             log.canvas.replace_line('room', "Press 'r' to skip.", 1)
-            health_bar(player,enemy)
+            health_bar(enemy)
             log.print_canvas()
             while msvcrt.kbhit():
                 msvcrt.getch()
@@ -59,7 +70,7 @@ def use_spell(player, enemy, exit_room):
                 break
 
     exit_room.print_room()
-    health_bar(player,enemy)
+    health_bar(enemy)
     if spell == 'skip':
         return
     spell.cast(enemy)
@@ -70,6 +81,8 @@ def fight(p, e, exit_room):
     int_turn = 0
     hit = 50
     data = {'enemy': e, 'player': p}
+    health_bar(e)
+    ready_bar(int_turn, hit, 1, 'blue')
 
     while True:
         def hitting(att, _def):
@@ -93,9 +106,11 @@ def fight(p, e, exit_room):
                     log.add_to_log(f"What a blow out!", 'Announcer', 'surprise')
             return dmg
             # log.add_to_log("-"*40, 'Combat')
-
-        int_turn += p.int
+        health_bar(e)
+        int_turn += p.int//2
+        ready_bar(int_turn, hit, 1, 'blue')
         next_hit_p += p.agi
+        ready_bar(next_hit_p, hit, 2, 'green')
         next_hit_e += e.agi
         for debuff in p.debuffs:
             debuff.proc_debuff()
@@ -105,7 +120,6 @@ def fight(p, e, exit_room):
         if next_hit_p > hit:
             data['dmg'] = hitting(p, e)
             activate(p, data, 'post-hitting-player')
-            health_bar(p,e)
             next_hit_p -= hit
             if e.health <= 0:
                 winner = p
@@ -114,7 +128,6 @@ def fight(p, e, exit_room):
         if next_hit_e > hit:
             data['dmg'] = hitting(e, p)
             activate(p, data, 'post-hitting-enemy')
-            health_bar(p,e)
             next_hit_e -= hit
             if p.health <= 0:
                 winner = e
@@ -122,7 +135,6 @@ def fight(p, e, exit_room):
 
         if int_turn > hit:
             use_spell(p, e, exit_room)
-            health_bar(p,e)
             int_turn -= hit
             if e.health <= 0:
                 winner = p
@@ -136,6 +148,7 @@ def fight(p, e, exit_room):
 
 def encounter(p, e, exit_room):
     log.print_canvas(clear=True)
+    e.bind_stats(lambda: health_bar(e))
     winner = fight(p, e, exit_room)
     if winner == p:
         p.gain_exp(e.exp)
