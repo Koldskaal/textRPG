@@ -88,5 +88,8 @@ class BasicRotatingMenu:
     def choose(self):
         return self.menu_options[0]
 
+    def choose_special(self):
+        return
+
     def exit(self):
         return
