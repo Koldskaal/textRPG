@@ -127,7 +127,7 @@ class Show_Equip:
         if direction is "r":
             return "leave show equip"
 
-class Equip_Helmet:
+class Equip_Helmets:
     def __init__(self, canvas, player):
         self.canvas = canvas
         self.menu_options = player.items
@@ -414,8 +414,7 @@ class Quit_Game:
             self.print_room()
         if direction is '\r': # ENTER KEY
             if self.menu_options[self.menu_position] == "Yes":
-                global running
-                running = False
+                sys.exit(0)
             else:
                 return "leave quit game"
         if direction is "r":
