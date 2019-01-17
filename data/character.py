@@ -3,7 +3,7 @@ from .game_log import log
 
 class Character:
     def __init__(self):
-        self.Player = False
+        self.isPlayer = False
 
         self.__health = self.__mana = 0
         self._observers = []
@@ -29,12 +29,12 @@ class Character:
     @health.setter
     def health(self, amount):
         if self.__health-amount > 0:
-            if self.Player:
+            if self.isPlayer:
                 log.add_to_log(f"You took {self.__health-amount} damage", 'Combat', 'bad')
             else:
                 log.add_to_log(f"{self.name} lost {self.__health-amount} hp", 'Combat')
         elif self.__health-amount < 0 and self.__health:
-            if self.Player:
+            if self.isPlayer:
                 log.add_to_log(f"You recovered {-(self.__health-amount)} hp", 'Combat', 'positive')
             else:
                 log.add_to_log(f"{self.name} recovered {-(self.__health-amount)} hp", 'Combat', 'positive')

@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, choice
 from .textures import *
 from . import combat, monsters
 from .game_log import log
@@ -24,7 +24,7 @@ class Room:
         self.room = self.generate_border()
         self.generate_room_nr(room_nr)
 
-        self.monster_spawned = False
+        self.monsters = {}
         self.shop_position = None
         self.door = {}
         self.print_door(prev_room_door)
@@ -33,6 +33,7 @@ class Room:
         self.go_to_shop = None
         self.leave_shop = None
 
+        self.start_time = time.time()
 
 
     def generate_border(self):
@@ -64,10 +65,10 @@ class Room:
     def spawn_player(self):
 
         self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
-        if not self.monster_spawned:
-            self.spawn_monsters()
         if self.shop_position:
             self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
+        if not self.monsters:
+            self.spawn_monsters()
 
     def spawn_monsters(self, amount=None):
         if not amount:
@@ -75,13 +76,13 @@ class Room:
         monster_coord = set()
         while len(monster_coord) <= amount:
             rand_coord = (randint(1, self.size[0]-2),randint(1, self.size[1]-2))
-            if rand_coord[0] != self.player_position[0] and rand_coord[1] != self.player_position[1]:
+            if rand_coord != self.player_position and rand_coord != self.shop_position:
                 monster_coord.add(rand_coord)
 
-        for coord in monster_coord:
+        for i, coord in enumerate(monster_coord):
+            e = monsters.Monster()
+            self.monsters[e.name+f'{i}'] = {'monster':e, 'coord':list(coord)}
             self.room[coord[0]][coord[1]] = MONSTER_CHAR
-
-        self.monster_spawned = True
 
 
     def print_room(self, clear=False):
@@ -126,13 +127,18 @@ class Room:
 
         elif (self.room[player_coord[0]][player_coord[1]] != WALL_CHAR_UP_DOWN and
                 self.room[player_coord[0]][player_coord[1]] != " "):
-            if (self.room[self.player_position[0]
-                    + coordinates[0]][self.player_position[1]
-                    + coordinates[1]] == MONSTER_CHAR):
-                e = monsters.Monster()
-                winning = combat.encounter(self.player, e, self)
-                if winning == "enemy_killed":
+            if self.room[player_coord[0]][player_coord[1]] == MONSTER_CHAR:
+                winning = ''
+                for key, value in self.monsters.items():
+                    if value['coord'] == list(player_coord):
+                        e = value['monster']
+                        winning = combat.encounter(self.player, e, self)
+                        if winning == "enemy_killed":
+                            winning = key
+                if winning:
                     self.room[player_coord[0]][player_coord[1]] = " "
+                    self.monsters.pop(winning)
+
 
             elif self.room[player_coord[0]][player_coord[1]] == SHOP_STAND:
                 self.change_to_shop()
@@ -143,6 +149,31 @@ class Room:
             self.player_position[1] = player_coord[1]
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
 
+    def move_monsters(self):
+        if time.time() - self.start_time > 1:
+            for k,monster in self.monsters.items():
+                move = choice([(0,1), (0,-1), (1,0), (-1,0)])
+                monster_coord = [monster['coord'][0] + move[0],
+                                monster['coord'][1] + move[1]]
+                print(monster_coord)
+                print(self.player_position)
+                if self.room[monster_coord[0]][monster_coord[1]] == WALL_CHAR_UP_DOWN:
+                    pass
+                elif self.room[monster_coord[0]][monster_coord[1]] == MONSTER_CHAR:
+                    pass
+                elif self.room[monster_coord[0]][monster_coord[1]] == SHOP_STAND:
+                    pass
+                elif (monster_coord == self.player_position or
+                        monster_coord == self.door['next'] or
+                        monster_coord == self.door['next']):
+                    pass
+                else:
+                    self.room[monster['coord'][0]][monster['coord'][1]] = ' '
+                    monster['coord'][0] = monster_coord[0]
+                    monster['coord'][1] = monster_coord[1]
+                    self.room[monster['coord'][0]][monster['coord'][1]] = MONSTER_CHAR
+            self.start_time = time.time()
+            self.print_room()
 
     def print_door(self, prev_room_door):
         # to koordinater sat ind dictionariet door med key next.

@@ -44,6 +44,8 @@ if sys.stdin.isatty():
             r.use_key(chr(key))
             while msvcrt.kbhit():
                 msvcrt.getch()
+        if isinstance(r.current_room, room.Room):
+            r.current_room.move_monsters()
 else:
     def move(event):
         global r

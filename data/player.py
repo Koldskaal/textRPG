@@ -10,13 +10,13 @@ class Player(Character):
         super(Player, self).__init__()
 
         self.name = 'Player'
-        self.Player = True
+        self.isPlayer = True
 
         self.level = 1
         self.exp = 0
         self.points = 7
 
-        self.str = 10
+        self.str = 100
         self.int = 10
         self.agi = 10
 
@@ -80,6 +80,3 @@ class Player(Character):
 
     def log_attack_target(self, target):
         log.add_to_log(f"You attack {target.name}!", 'Combat')
-
-    def log_damage_done(self, target, damage):
-        log.add_to_log(f"{target.name} took {damage} damage.", 'Combat')
