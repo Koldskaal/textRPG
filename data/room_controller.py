@@ -137,16 +137,16 @@ class RoomController:
                 self.current_room = char_menu.Equip_Helmets(self.canvas, p)
                 self.print_room(True)
             if response == "equip armor":
-                self.current_room = char_menu.Equip_Armor(self.canvas, p)
+                self.current_room = char_menu.Equip_Armors(self.canvas, p)
                 self.print_room(True)
             if response == "equip ring":
-                self.current_room = char_menu.Equip_Ring(self.canvas, p)
+                self.current_room = char_menu.Equip_Rings(self.canvas, p)
                 self.print_room(True)
             if response == "equip weapon":
-                self.current_room = char_menu.Equip_Weapon(self.canvas, p)
+                self.current_room = char_menu.Equip_Weapons(self.canvas, p)
                 self.print_room(True)
             if response == "equip amulet":
-                self.current_room = char_menu.Equip_Amulet(self.canvas, p)
+                self.current_room = char_menu.Equip_Amulets(self.canvas, p)
                 self.print_room(True)
             if response == "leave show equip":
                 self.current_room = char_menu.Char_menu(self.canvas)
@@ -155,8 +155,28 @@ class RoomController:
 
         elif isinstance(self.current_room, char_menu.Equip_Helmets):
             response = self.current_room.helmets_menu(key)
-            if response == "equip helmet":
-                self.current_room = char_menu.Equip_Helmets(self.canvas, p)
+            if response == "leave helmets":
+                self.current_room = char_menu.Show_Equip(self.canvas, p)
+                self.print_room(True)
+        elif isinstance(self.current_room, char_menu.Equip_Armors):
+            response = self.current_room.armors_menu(key)
+            if response == "leave armors":
+                self.current_room = char_menu.Show_Equip(self.canvas, p)
+                self.print_room(True)
+        elif isinstance(self.current_room, char_menu.Equip_Rings):
+            response = self.current_room.rings_menu(key)
+            if response == "leave rings":
+                self.current_room = char_menu.Show_Equip(self.canvas, p)
+                self.print_room(True)
+        elif isinstance(self.current_room, char_menu.Equip_Amulets):
+            response = self.current_room.amulets_menu(key)
+            if response == "leave amulets":
+                self.current_room = char_menu.Show_Equip(self.canvas, p)
+                self.print_room(True)
+        elif isinstance(self.current_room, char_menu.Equip_Weapons):
+            response = self.current_room.weapons_menu(key)
+            if response == "leave weapons":
+                self.current_room = char_menu.Show_Equip(self.canvas, p)
                 self.print_room(True)
 
         else:
