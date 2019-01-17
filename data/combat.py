@@ -126,7 +126,7 @@ def fight(p, e, exit_room):
 
         log.print_canvas()
         time.sleep(0.2)
-    if p.health != 0:
+    if p.health > 0:
         winner = p
     else:
         winner = e

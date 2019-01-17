@@ -41,7 +41,7 @@ class RoomController:
 
         else:
             self.prev_room = self.current_room
-            self.current_room = room.Room((randint(5,15),randint(5,15)), p, choice(["right"]), str(self.RN+1))
+            self.current_room = room.Room((randint(10,15),randint(8,15)), p, choice(["right"]), str(self.RN+1))
             self.list_of_rooms.append(self.current_room)
             self.RN = self.RN + 1
 

@@ -23,6 +23,9 @@ class Monster(Character):
         self.exp = 10
         self.loot_table = 'table_x'
 
+        self.str = 105
+        self.agi = 500
+
 class Giant(Character):
     def __init__(self):
         super(Giant, self).__init__()
