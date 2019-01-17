@@ -82,3 +82,12 @@ class HitBack(BaseTalent):
             data['enemy'].health -= dmg
 
 talent_list.append(HitBack())
+
+"""
+Blood magic - uses hp instead of mana is set to 0
+Epherial Armor - maximum hp is set to 1. Mana is lost before hp
+Equilibrium - When you have auto attacked, your next spell does 10% more damage. When you've cast a spell, your next auto attack does 10% more damage
+Elemental addict - Lifesteal applies to mana instead of hp
+Physical manipulation - spell damage hits for + 1*str (on spell cast, not dot ticks lol OP)
+
+"""
