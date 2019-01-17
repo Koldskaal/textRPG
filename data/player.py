@@ -16,7 +16,7 @@ class Player(Character):
         self.exp = 0
         self.points = 7
 
-        self.str = 100
+        self.str = 10
         self.int = 10
         self.agi = 10
 
