@@ -62,9 +62,9 @@ class Reflect(BaseTalent):
 
     def activate(self, data):
         refelct_dmg = int(data['dmg']*0.5)
-        log.add_to_log(f"You reflected {refelct_dmg} damage!", 'combat', 'recked')
+
         data['enemy'].health -= refelct_dmg
-        log.attach_to_log(f"({self.name})")
+        log.add_to_log(f"{data['enemy'].name} lost {refelct_dmg} hp. ({self.name})", 'combat', 'recked')
 
 talent_list.append(Reflect())
 

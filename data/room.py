@@ -4,8 +4,9 @@ from . import combat, monsters
 from .game_log import log
 import time
 from termcolor import colored
-
-
+from . import astar
+import ansiwrap
+import copy
 
 class Room:
     def __init__(self, size, player, prev_room_door='', room_nr=''):
@@ -21,6 +22,7 @@ class Room:
         """
         self.player = player
         self.size = size
+        self.__room = []
         self.room = self.generate_border()
         self.generate_room_nr(room_nr)
 
@@ -34,7 +36,6 @@ class Room:
         self.leave_shop = None
 
         self.start_time = time.time()
-
 
     def generate_border(self):
         map = []
@@ -51,6 +52,20 @@ class Room:
             map.append(row)
 
         return map
+
+    def unpack_room(self, original):
+        copy_list = copy.deepcopy(original)
+        for i, n in enumerate(copy_list):
+            for j, m in enumerate(n):
+                # print(m)
+                ansiwrap.strip_color(str(m))
+                if ansiwrap.strip_color(str(m)) != ' ':
+                    copy_list[i][j] = 1
+                else:
+                    copy_list[i][j] = 0
+
+        copy_list[self.player_position[0]][self.player_position[1]] = 0
+        return copy_list
 
     def generate_room_nr(self, room_nr):
         if int(room_nr) == 1:
@@ -72,9 +87,9 @@ class Room:
 
     def spawn_monsters(self, amount=None):
         if not amount:
-            amount = randint(1, 5)
+            amount = randint(6,10)
         monster_coord = set()
-        while len(monster_coord) <= amount:
+        while len(monster_coord) != amount:
             rand_coord = (randint(1, self.size[0]-2),randint(1, self.size[1]-2))
             if rand_coord != self.player_position and rand_coord != self.shop_position:
                 monster_coord.add(rand_coord)
@@ -152,11 +167,15 @@ class Room:
     def move_monsters(self):
         if time.time() - self.start_time > 1:
             for k,monster in self.monsters.items():
-                move = choice([(0,1), (0,-1), (1,0), (-1,0)])
-                monster_coord = [monster['coord'][0] + move[0],
-                                monster['coord'][1] + move[1]]
-                print(monster_coord)
-                print(self.player_position)
+                room = self.unpack_room(self.room)
+                path = astar.astar(room, tuple(monster['coord']), tuple(self.player_position))
+                # print(path)
+                if path:
+                    monster_coord = list(path[1])
+                else:
+                    monster_coord = monster['coord']
+                # print(monster_coord)
+                # print(self.player_position)
                 if self.room[monster_coord[0]][monster_coord[1]] == WALL_CHAR_UP_DOWN:
                     pass
                 elif self.room[monster_coord[0]][monster_coord[1]] == MONSTER_CHAR:
@@ -165,15 +184,15 @@ class Room:
                     pass
                 elif (monster_coord == self.player_position or
                         monster_coord == self.door['next'] or
-                        monster_coord == self.door['next']):
+                        monster_coord == self.door.get('prev')):
                     pass
                 else:
                     self.room[monster['coord'][0]][monster['coord'][1]] = ' '
                     monster['coord'][0] = monster_coord[0]
                     monster['coord'][1] = monster_coord[1]
                     self.room[monster['coord'][0]][monster['coord'][1]] = MONSTER_CHAR
-            self.start_time = time.time()
-            self.print_room()
+                self.start_time = time.time()
+                self.print_room()
 
     def print_door(self, prev_room_door):
         # to koordinater sat ind dictionariet door med key next.
