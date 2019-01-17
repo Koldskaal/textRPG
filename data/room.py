@@ -165,7 +165,7 @@ class Room:
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
 
     def move_monsters(self):
-        if time.time() - self.start_time > 1:
+        if time.time() - self.start_time > 0.5:
             for k,monster in self.monsters.items():
                 room = self.unpack_room(self.room)
                 path = astar.astar(room, tuple(monster['coord']), tuple(self.player_position))
