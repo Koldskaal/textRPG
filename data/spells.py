@@ -28,11 +28,13 @@ class BaseSpell:
 
         target.health -= self.damage
         if self.damage != 0:
-            log.attach_to_log(f"({self.name})", 'recked' if self.damage > 0 else 'positive')
-
+            if self.damage > 0:
+                log.add_to_log(f"{target.name} lost {self.damage} hp ({self.name})", 'recked')
+            elif self.damage < 0:
+                log.add_to_log(f"{target.name} gained {self.damage} hp ({self.name})", 'Combat', 'positive')
         self.caster.health += self.heal
         if self.heal != 0:
-            log.attach_to_log(f"({self.name})", 'positive' if self.heal > 0 else 'recked')
+            log.attach_to_log(f'({self.name})', 'positive')
         self.caster.mana -= self.mana_usage
 
     def level_up(self):
@@ -83,6 +85,7 @@ class BasicDoT(BasicSpell):
 
     def cast(self, target):
         if self not in target.debuffs:
+            log.add_to_log(f"You used {self.name} on {target.name}!", 'Combat', 'recked')
             target.debuffs.append(self)
         self.afflicted = target
         self.turns_left = self.duration
@@ -91,7 +94,7 @@ class BasicDoT(BasicSpell):
     def proc_debuff(self):
         self.afflicted.health -= self.damage
         self.turns_left -= 1
-        log.attach_to_log(f"({self.name})")
+        log.add_to_log(f"{self.afflicted.name} lost {self.damage} hp ({self.name})", 'Combat')
         if self.turns_left % 5 == 0:
             log.add_to_log(f"{self.turns_left} procs remaining!", 'Combat', 'recked')
         if self.turns_left == 0:

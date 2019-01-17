@@ -79,4 +79,4 @@ class Player(Character):
         self.talents.append(talent)
 
     def log_attack_target(self, target):
-        log.add_to_log(f"You attack {target.name}!", 'Combat')
+        log.add_to_log(f"You attack {target.name}!", 'Combat', 'yellow')

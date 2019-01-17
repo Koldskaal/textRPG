@@ -151,9 +151,9 @@ class Equip_Helmets:
         return l[n:] + l[:n]
 
     def list_of_helmets(self, player):
-        for value in item_ID.items.values():
-            for item in self.player.items:
-                if value['type'] == 'helmet':
+        for item in self.player.items:
+            for key, value in item_ID.items.items():
+                if value['type'] == 'helmet' and key == item:
                     self.helmets.append(item)
 
     def print_room(self, clear=False):

@@ -31,13 +31,9 @@ class Character:
         if self.__health-amount > 0:
             if self.isPlayer:
                 log.add_to_log(f"You took {self.__health-amount} damage", 'Combat', 'bad')
-            else:
-                log.add_to_log(f"{self.name} lost {self.__health-amount} hp", 'Combat')
         elif self.__health-amount < 0 and self.__health:
             if self.isPlayer:
                 log.add_to_log(f"You recovered {-(self.__health-amount)} hp", 'Combat', 'positive')
-            else:
-                log.add_to_log(f"{self.name} recovered {-(self.__health-amount)} hp", 'Combat', 'positive')
         self.__health = amount
         if self.__health > self.max_health:
             self.__health = self.max_health
@@ -74,6 +70,7 @@ class Character:
         dmg = int((1*self.str**2)/(target.armor+1*self.str))
         self.log_attack_target(target)
         target.health -= dmg
+        self.log_show_damage(target, dmg)
         if target.health <= 0:
             log.add_to_log(f"WOAH! {target.name.capitalize()} died!", 'Announcer', 'surprise')
             if self.health > self.max_health*0.8:
@@ -82,3 +79,9 @@ class Character:
 
     def log_attack_target(self, target):
         log.add_to_log(f"{self.name} attacks {target.name}!", 'Combat')
+
+    def log_show_damage(self, target, dmg):
+        if dmg > 0 and self.isPlayer:
+            log.add_to_log(f"{target.name} lost {dmg} hp", 'Combat')
+        if dmg < 0 and self.isPlayer:
+            log.add_to_log(f"{target.name} gained {dmg} hp", 'Combat', 'positive')

@@ -31,6 +31,7 @@ class GameLog:
         'green'     : 'green',
         'blue'      : 'blue',
         'magenta'   : 'magenta',
+        'yellow'    : 'yellow',
         }
         self.canvas.add_to_print('log', self.log, self.settings)
 
