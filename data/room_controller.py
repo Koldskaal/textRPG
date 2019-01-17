@@ -115,11 +115,6 @@ class RoomController:
                 self.current_room = self.list_of_rooms[self.RN]
                 self.print_room(True)
 
-        elif isinstance(self.current_room, char_menu.Show_Equip):
-            response = self.current_room.equip_menu(key)
-            if response == "leave show equip":
-                self.current_room = char_menu.Char_menu(self.canvas)
-                self.print_room(True)
         elif isinstance(self.current_room, char_menu.Items):
             response = self.current_room.item_menu(key)
             if response == "leave items":
@@ -134,6 +129,34 @@ class RoomController:
             response = self.current_room.quit_menu(key)
             if response == "leave quit game":
                 self.current_room = char_menu.Char_menu(self.canvas)
+                self.print_room(True)
+
+        elif isinstance(self.current_room, char_menu.Show_Equip):
+            response = self.current_room.equip_menu(key)
+            if response == "equip helmet":
+                self.current_room = char_menu.Equip_Helmets(self.canvas, p)
+                self.print_room(True)
+            if response == "equip armor":
+                self.current_room = char_menu.Equip_Armor(self.canvas, p)
+                self.print_room(True)
+            if response == "equip ring":
+                self.current_room = char_menu.Equip_Ring(self.canvas, p)
+                self.print_room(True)
+            if response == "equip weapon":
+                self.current_room = char_menu.Equip_Weapon(self.canvas, p)
+                self.print_room(True)
+            if response == "equip amulet":
+                self.current_room = char_menu.Equip_Amulet(self.canvas, p)
+                self.print_room(True)
+            if response == "leave show equip":
+                self.current_room = char_menu.Char_menu(self.canvas)
+                self.print_room(True)
+
+
+        elif isinstance(self.current_room, char_menu.Equip_Helmets):
+            response = self.current_room.helmets_menu(key)
+            if response == "equip helmet":
+                self.current_room = char_menu.Equip_Helmets(self.canvas, p)
                 self.print_room(True)
 
         else:

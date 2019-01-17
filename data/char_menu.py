@@ -3,6 +3,7 @@ from . import room
 from termcolor import colored
 from . import item_ID
 from . import game_log
+from . import player
 
 class Char_menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se shopkeeper måde.
     def __init__(self, canvas):
@@ -46,7 +47,7 @@ class Char_menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se sh
 class Show_Equip:
     def __init__(self, canvas, player):
         self.canvas = canvas
-        self.menu_options = player.equipment
+        self.menu_options = ["equip helmet", "equip armor", "equip ring", "equip amulet", "equip weapon"]
         self.menu_position = 0
         self.player = player
 
@@ -64,14 +65,14 @@ class Show_Equip:
         if len(self.player.equipment) == 0:
             self.canvas.add_to_print("room", "", settings)
             self.canvas.print_canvas(clear)
-            self.showcase(True)
+            #self.showcase(True)
         else:
             self.pre_index = self.menu_options[0:self.menu_position]
             self.index = colored(self.menu_options[self.menu_position], "white", 'on_green')
             self.post_index =  self.menu_options[self.menu_position+1:]
             self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index),settings)
             self.canvas.print_canvas(clear)
-            self.showcase()
+            #self.showcase()
 
     def showcase(self, empty=False):
         settings = {
@@ -124,13 +125,22 @@ class Show_Equip:
             self.print_room()
         if direction is '\r': # ENTER KEY
             return self.menu_options[self.menu_position]
+            #for value in items.values():
+            #    if value['type'] == 'helmet':
+            #        return "equip helmets"
+            #    if value['type'] == 'armor':
+            #        return "equip armor"
+            #    if value['type'] == 'ring':
+            #        return "equip ring"
+            ##        return "equip weapon"
         if direction is "r":
             return "leave show equip"
 
 class Equip_Helmets:
     def __init__(self, canvas, player):
+        self.helmets = []
         self.canvas = canvas
-        self.menu_options = player.items
+        self.menu_options = self.helmets
         self.menu_options.sort()
         self.menu_position = 0
         self.player = player
@@ -139,8 +149,13 @@ class Equip_Helmets:
     def rotate(l, n):
         return l[n:] + l[:n]
 
-    def print_room(self, clear=False):
+    def list_of_helmets(self, player):
+        for item in player.items:
+            for value in items.values():
+                if value['type'] == 'helmet':
+                    self.helmets = self.helmets.append(item)
 
+    def print_room(self, clear=False):
         settings = {
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
@@ -185,10 +200,11 @@ class Equip_Helmets:
             'push'              : 1
             }
         if empty:
-            showcase = " My pockets are empty!"
+            showcase = " It's not a toupee!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
         else:
+            list_of_helmets(self)
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
                 if key == "str":
@@ -212,9 +228,9 @@ class Equip_Helmets:
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
 
-    def item_menu(self, direction):
+    def helmets_menu(self, direction):
         if not self.player.items:
-            return "leave items"
+            return "leave helmets"
         else:
             if direction is "s":
                 self.menu_options = self.rotate(self.menu_options, 1)
@@ -229,8 +245,15 @@ class Equip_Helmets:
                 #    self.print_room()
                 pass
             if direction is "r":
-                return "leave items"
-
+                return "leave helmets"
+class Equip_Armor:
+    pass
+class Equip_Ring:
+    pass
+class Equip_Amulet:
+    pass
+class Equip_Weapon:
+    pass
 class Items:
     def __init__(self, canvas, player):
         self.canvas = canvas
