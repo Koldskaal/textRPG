@@ -156,6 +156,7 @@ class Equip_Helmets:
                     self.helmets = self.helmets.append(item)
 
     def print_room(self, clear=False):
+        list_of_helmets(self, player)
         settings = {
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
