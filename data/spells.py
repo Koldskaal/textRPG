@@ -29,12 +29,15 @@ class BaseSpell:
         target.health -= self.damage
         if self.damage != 0:
             if self.damage > 0:
-                log.add_to_log(f"{target.name} lost {self.damage} hp ({self.name})", 'Combat', 'recked')
+                log.add_to_log(f"{target.name} lost {self.damage} hp ({self.name})", 'Combat', 'bad')
             elif self.damage < 0:
                 log.add_to_log(f"{target.name} gained {self.damage} hp ({self.name})", 'Combat', 'positive')
         self.caster.health += self.heal
         if self.heal != 0:
-            log.attach_to_log(f'({self.name})', 'positive')
+            if self.heal > 0:
+                log.attach_to_log(f'({self.name})', 'positive')
+            elif self.heal < 0:
+                log.attach_to_log(f'({self.name})', 'recked')
         self.caster.mana -= self.mana_usage
 
     def level_up(self):
