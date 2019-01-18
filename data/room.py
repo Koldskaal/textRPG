@@ -166,6 +166,7 @@ class Room:
 
     def move_monsters(self):
         if time.time() - self.start_time > 0.5:
+            fight = None
             for k,monster in self.monsters.items():
                 room = self.unpack_room(self.room)
                 path = astar.astar(room, tuple(monster['coord']), tuple(self.player_position))
@@ -182,10 +183,12 @@ class Room:
                     pass
                 elif self.room[monster_coord[0]][monster_coord[1]] == SHOP_STAND:
                     pass
-                elif (monster_coord == self.player_position or
-                        monster_coord == self.door['next'] or
-                        monster_coord == self.door.get('prev')):
+                elif (
+                    monster_coord == self.door['next'] or
+                    monster_coord == self.door.get('prev')):
                     pass
+                elif monster_coord == self.player_position:
+                    fight = k
                 else:
                     self.room[monster['coord'][0]][monster['coord'][1]] = ' '
                     monster['coord'][0] = monster_coord[0]
@@ -193,6 +196,14 @@ class Room:
                     self.room[monster['coord'][0]][monster['coord'][1]] = MONSTER_CHAR
                 self.start_time = time.time()
                 self.print_room()
+            if fight:
+                e = self.monsters[fight]['monster']
+                winning = combat.encounter(self.player, e, self)
+                if winning == "enemy_killed":
+                    winning = fight
+                if winning:
+                    self.room[player_coord[0]][player_coord[1]] = " "
+                    self.monsters.pop(winning)
 
     def print_door(self, prev_room_door):
         # to koordinater sat ind dictionariet door med key next.
