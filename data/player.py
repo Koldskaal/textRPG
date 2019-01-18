@@ -20,8 +20,8 @@ class Player(Character):
         self.int = 10
         self.agi = 150
 
-        self.current_weapon = ""
-        self.equipment =[] # id
+        #self.current_weapon = ""
+        #self.equipment =[] # id
         self.items = []
         self.levelcap = 5+3*self.level**2
 
