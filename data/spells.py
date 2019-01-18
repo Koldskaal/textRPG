@@ -135,7 +135,7 @@ class Freeze(BaseSpell):
         if random() <= 0.25:
             if self not in target.debuffs:
                 self.afflicted = target
-                log.add_to_log(f"{self.afflicted.name} got frozen! ({self.name})", 'Combat')
+                log.add_to_log(f"{self.afflicted.name} got frozen! ({self.name})", 'Combat', 'cyan')
                 self.afflicted.debuffs.append(self)
             self.afflicted.temp_agi = self.afflicted.agi
             self.afflicted.agi = 0

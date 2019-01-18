@@ -202,8 +202,9 @@ class Room:
                 if winning == "enemy_killed":
                     winning = fight
                 if winning:
-                    self.room[player_coord[0]][player_coord[1]] = " "
+                    self.room[self.monsters[fight]['coord'][0]][self.monsters[fight]['coord'][1]] = " "
                     self.monsters.pop(winning)
+                    self.print_room()
 
     def print_door(self, prev_room_door):
         # to koordinater sat ind dictionariet door med key next.
