@@ -242,28 +242,28 @@ class Equip_Helmets:
                 player.helmet = [self.menu_options[0]]
                 self.equip_item(player)
                 self.player.items.remove(self.menu_options[0])
-                self.list_of_helmets(player)
-                del self.menu_options[0]
+                self.helmets = []
                 self.menu_options = self.helmets
                 self.menu_options.sort()
+                self.list_of_helmets(player)
                 self.print_room()
             if direction is "r":
                 return "leave helmets"
     def equip_item(self, player):
         for item in self.menu_options[0]:
-            for key, value in item_ID.items.items():
+            for key, values in item_ID.items[self.menu_options[0]].items():
                 if key == 'armor':
-                    player.armor += value
+                    self.player.armor += values
                 if key == 'str':
-                    player.str += value
+                    self.player.str += values
                 if key == 'int':
-                    player.int += value
+                    self.player.int += values
                 if key == 'agi':
-                    player.agi += value
+                    self.player.agi += values
                 if key == 'hp':
-                    player.health += value
+                    self.player.health += values
                 if key == 'mana':
-                    player.mana += value
+                    self.player.mana += values
 
 class Equip_Armors:
         def __init__(self, canvas, player):
