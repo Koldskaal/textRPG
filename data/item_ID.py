@@ -8,17 +8,17 @@ C:0001-1000    : consumeables
 """
 def equip_item(self, item):
     if armor != None:
-        self.armor += armor
+        player.armor += armor
     if str != None:
-        self.str += str
+        player.str += str
     if int != None:
-        self.int += int
+        player.int += int
     if agi != None:
-        self.agi += agi
+        player.agi += agi
     if hp != None:
-        self.health += hp
+        player.health += hp
     if mp != None:
-        self.mana += mp
+        player.mana += mp
 
 items = {
 #weapons

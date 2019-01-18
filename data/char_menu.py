@@ -239,13 +239,32 @@ class Equip_Helmets:
                 self.menu_options = self.rotate(self.menu_options, -1)
                 self.print_room()
             if direction is '\r': # ENTER KEY
-                #for key, values in item_ID.items[self.menu_options[0]].items():
-                #    if values in self.menu_options[self.menu_position] ==  :
-                #        retur
-                #    self.print_room()
-                pass
+                player.helmet = [self.menu_options[0]]
+                self.equip_item(player)
+                self.player.items.remove(self.menu_options[0])
+                self.list_of_helmets(player)
+                del self.menu_options[0]
+                self.menu_options = self.helmets
+                self.menu_options.sort()
+                self.print_room()
             if direction is "r":
                 return "leave helmets"
+    def equip_item(self, player):
+        for item in self.menu_options[0]:
+            for key, value in item_ID.items.items():
+                if key == 'armor':
+                    player.armor += value
+                if key == 'str':
+                    player.str += value
+                if key == 'int':
+                    player.int += value
+                if key == 'agi':
+                    player.agi += value
+                if key == 'hp':
+                    player.health += value
+                if key == 'mana':
+                    player.mana += value
+
 class Equip_Armors:
         def __init__(self, canvas, player):
             self.armors = []
@@ -261,9 +280,9 @@ class Equip_Armors:
             return l[n:] + l[:n]
 
         def list_of_armors(self, player):
-            for value in item_ID.items.values():
-                for item in self.player.items:
-                    if value['type'] == 'armor':
+            for item in self.player.items:
+                for key, value in item_ID.items.items():
+                    if value['type'] == 'armor' and key == item:
                         self.armors.append(item)
 
         def print_room(self, clear=False):
@@ -371,9 +390,9 @@ class Equip_Rings:
         return l[n:] + l[:n]
 
     def list_of_rings(self, player):
-        for value in item_ID.items.values():
-            for item in self.player.items:
-                if value['type'] == 'ring':
+        for item in self.player.items:
+            for key, value in item_ID.items.items():
+                if value['type'] == 'ring' and key == item:
                     self.rings.append(item)
 
     def print_room(self, clear=False):
@@ -481,9 +500,9 @@ class Equip_Amulets:
         return l[n:] + l[:n]
 
     def list_of_amulets(self, player):
-        for value in item_ID.items.values():
-            for item in self.player.items:
-                if value['type'] == 'amulet':
+        for item in self.player.items:
+            for key, value in item_ID.items.items():
+                if value['type'] == 'amulet' and key == item:
                     self.amulets.append(item)
 
     def print_room(self, clear=False):
@@ -591,11 +610,10 @@ class Equip_Weapons:
         return l[n:] + l[:n]
 
     def list_of_weapons(self, player):
-        for value in item_ID.items.values():
-            for item in self.player.items:
-                if value['type'] == 'weapon':
+        for item in self.player.items:
+            for key, value in item_ID.items.items():
+                if value['type'] == 'weapon' and key == item:
                     self.weapons.append(item)
-
     def print_room(self, clear=False):
         settings = {
             'column_priority'  : 2,     # Order of who goes first from left to right
