@@ -16,7 +16,7 @@ class Char_menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se sh
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 4,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Character Menu',
@@ -56,30 +56,27 @@ class Show_Equip:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 4,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Equipent Menu',
             'push'              : 0
         }
-        if len(self.player.equipment) == 0:
-            self.canvas.add_to_print("room", "", settings)
-            self.canvas.print_canvas(clear)
-            #self.showcase(True)
-        else:
-            self.pre_index = self.menu_options[0:self.menu_position]
-            self.index = colored(self.menu_options[self.menu_position], "white", 'on_green')
-            self.post_index =  self.menu_options[self.menu_position+1:]
-            self.canvas.add_to_print("room", "\n".join(self.pre_index) + "\n" + self.index + "\n" + "\n".join(self.post_index),settings)
-            self.canvas.print_canvas(clear)
-            #self.showcase()
+
+
+        self.pre_index = self.menu_options[0:self.menu_position]
+        self.index = colored(self.menu_options[self.menu_position], "white", 'on_green')
+        self.post_index =  self.menu_options[self.menu_position+1:]
+        self.canvas.add_to_print("room", "\n \n".join(self.pre_index) + "\n \n" + self.index + "\n" + "\n \n".join(self.post_index),settings)
+        self.canvas.print_canvas(clear)
+        #self.showcase()
 
     def showcase(self, empty=False):
         settings = {
             'column_priority'  : 3,     # Order of who goes first from left to right
             'delay'             : 7,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
@@ -116,12 +113,12 @@ class Show_Equip:
         if direction is "s":
             self.menu_position += 1
             if self.menu_position > len(self.menu_options)-1:
-                self.menu_position = len(self.menu_options)-1
+                self.menu_position = 0
             self.print_room()
         if direction is "w":
             self.menu_position -= 1
             if self.menu_position <0:
-                self.menu_position = 0
+                self.menu_position = len(self.menu_options)-1
             self.print_room()
         if direction is '\r': # ENTER KEY
             return self.menu_options[self.menu_position]
@@ -161,13 +158,13 @@ class Equip_Helmets:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '^',
+            'alignment'        : '^',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Equip Helmet',
             'push'              : 0
         }
-        if len(self.player.items) == 0:
+        if len(self.menu_options) == 0:
             self.canvas.add_to_print("room", "", settings)
             self.canvas.print_canvas(clear)
             self.showcase(True)
@@ -194,7 +191,7 @@ class Equip_Helmets:
             'column_priority'  : 3,     # Order of who goes first from left to right
             'delay'             : 7,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
@@ -229,7 +226,7 @@ class Equip_Helmets:
             self.canvas.print_canvas()
 
     def helmets_menu(self, direction):
-        if not self.player.items:
+        if not self.menu_options:
             return "leave helmets"
         else:
             if direction is "s":
@@ -290,13 +287,13 @@ class Equip_Armors:
                 'column_priority'  : 2,     # Order of who goes first from left to right
                 'delay'             : 3,     # if it needs to be x lines below
                 'width'             : 41,    # how wide will it print
-                'allignment'        : '^',
+                'alignment'        : '^',
                 'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
                 'join_char'         : '',
                 'title'             : 'Equip Armors',
                 'push'              : 0
             }
-            if len(self.player.items) == 0:
+            if len(self.menu_options) == 0:
                 self.canvas.add_to_print("room", "", settings)
                 self.canvas.print_canvas(clear)
                 self.showcase(True)
@@ -323,7 +320,7 @@ class Equip_Armors:
                 'column_priority'  : 3,     # Order of who goes first from left to right
                 'delay'             : 7,     # if it needs to be x lines below
                 'width'             : 30,    # how wide will it print
-                'allignment'        : '<',
+                'alignment'        : '<',
                 'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
                 'join_char'         : '',
                 'title'             : 'Item Showcase',
@@ -400,13 +397,13 @@ class Equip_Rings:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '^',
+            'alignment'        : '^',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Equip Rings',
             'push'              : 0
         }
-        if len(self.player.items) == 0:
+        if len(self.menu_options) == 0:
             self.canvas.add_to_print("room", "", settings)
             self.canvas.print_canvas(clear)
             self.showcase(True)
@@ -433,7 +430,7 @@ class Equip_Rings:
             'column_priority'  : 3,     # Order of who goes first from left to right
             'delay'             : 7,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
@@ -510,7 +507,7 @@ class Equip_Amulets:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '^',
+            'alignment'        : '^',
             'max_lines'         : 15,    # for the stamulet that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Equip Amulets',
@@ -543,7 +540,7 @@ class Equip_Amulets:
             'column_priority'  : 3,     # Order of who goes first from left to right
             'delay'             : 7,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 30,    # for the stamulet that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
@@ -619,7 +616,7 @@ class Equip_Weapons:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '^',
+            'alignment'        : '^',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Equip Weapon',
@@ -652,7 +649,7 @@ class Equip_Weapons:
             'column_priority'  : 3,     # Order of who goes first from left to right
             'delay'             : 7,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
@@ -722,7 +719,7 @@ class Items:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '^',
+            'alignment'        : '^',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'SHOP-BUY',
@@ -760,7 +757,7 @@ class Items:
             'column_priority'  : 3,     # Order of who goes first from left to right
             'delay'             : 7,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
@@ -823,7 +820,7 @@ class Save:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 4,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Character Menu',
@@ -861,7 +858,7 @@ class Quit_Game:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 4,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Character Menu',

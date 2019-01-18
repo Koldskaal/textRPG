@@ -15,7 +15,7 @@ class Canvas:
             'column_priority'  : 1,     # Order of who goes first from left to right
             'delay'             : 0,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '^',
+            'alignment'        : '^',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'push'              : 30
@@ -25,14 +25,14 @@ class Canvas:
         self.gap = 1
 
     @staticmethod
-    def create_allignment(s, width, allignment):
+    def create_alignment(s, width, alignment):
         needed = width - ansiwrap.ansilen(s)
         if needed > 0:
-            if allignment == '>' or allignment == 'right':
+            if alignment == '>' or alignment == 'right':
                 return needed * ' ' + s
-            elif allignment == '<' or allignment == 'left':
+            elif alignment == '<' or alignment == 'left':
                 return s + needed * ' '
-            elif allignment == '^' or allignment == 'middle':
+            elif alignment == '^' or alignment == 'middle':
                 s = (needed//2) * ' ' + s + (needed//2) * ' '
                 if ansiwrap.ansilen(s) < width:
                     s = ' ' + s
@@ -61,7 +61,7 @@ class Canvas:
                 # print(f'append with {string}')
                 self.areas[name]['replace'].append((string,line))
 
-    def popup(self, name, string, start_position, title=None, stats=None, allignment='^'):
+    def popup(self, name, string, start_position, title=None, stats=None, alignment='^'):
         s = string.splitlines()
         wrap = []
         for line in s:
@@ -70,11 +70,11 @@ class Canvas:
         box = [top,]
         box += wrap
         if stats:
-            box.append(BORDER_INLINE * self.areas[name].get('width', 30))
+            box.append(BORDER_INLINE_THIN * self.areas[name].get('width', 30))
             stat = ""
             for k, v in stats.items():
                 stat += f"{k.upper()}: {v} | "
-            stat = self.create_allignment(stat[:-3], self.areas[name].get('width', 30), allignment)
+            stat = self.create_alignment(stat[:-3], self.areas[name].get('width', 30), alignment)
             box.append(stat)
         box.append(BORDER_INLINE * self.areas[name].get('width', 30))
 
@@ -128,7 +128,7 @@ class Canvas:
                     if any(i in c for c in self.areas[k].get('replace', [])):
                         for line in self.areas[k].get('replace'):
                             if line[1] == i:
-                                kyk = self.create_allignment(line[0], self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                                kyk = self.create_alignment(line[0], self.areas[k].get('width', 30), self.areas[k].get('alignment', '^'))
                                 if self.border:
                                     kyk =' '*self.gap +  BORDER_LEFT_RIGHT + kyk + BORDER_LEFT_RIGHT
                                 big_string += kyk
@@ -142,7 +142,7 @@ class Canvas:
                         if popped:
                             if self.areas[k].get('push'):
                                 popped = ' ' * self.areas[k].get('push') + popped
-                            add = self.create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                            add = self.create_alignment(popped, self.areas[k].get('width', 30), self.areas[k].get('alignment', '^'))
                             if self.border:
                                 add =' '*self.gap +  BORDER_LEFT_RIGHT + add + BORDER_LEFT_RIGHT
                             big_string += add
@@ -151,7 +151,7 @@ class Canvas:
                         if popped:
                             if self.areas[k].get('push'):
                                 popped = ' ' * self.areas[k].get('push') + popped
-                            add = self.create_allignment(popped, self.areas[k].get('width', 30), self.areas[k].get('allignment', '^'))
+                            add = self.create_alignment(popped, self.areas[k].get('width', 30), self.areas[k].get('alignment', '^'))
                             if self.border:
                                 add =' '*self.gap +  BORDER_LEFT_RIGHT + add + BORDER_LEFT_RIGHT
                             big_string += add
@@ -213,7 +213,7 @@ class Canvas:
 
         # print(s)
         self.add_to_print('room', termcolor.colored(s, 'red'), {'column_priority': 1, 'width': 40})
-        self.add_to_print('stats', healthbox, {'column_priority': 2, 'width': 20, 'allignment': '<', 'delay': 1})
+        self.add_to_print('stats', healthbox, {'column_priority': 2, 'width': 20, 'alignment': '<', 'delay': 1})
         self.add_to_print('room2', s, {'column_priority': 3, 'width': 40, 'delay': 5})
         self.popup('room2', 'you are amemsda asd dasd', 10, 'title')
         self.replace_line('room', 'asdasd', 2)
@@ -227,7 +227,7 @@ class Canvas:
             'delay'             : 0     # if it needs to be x lines below
             'width'             : 30    # how wide will it print
             (optional thoughts)
-            'allignment'        : < , > or ^ for the format
+            'alignment'        : < , > or ^ for the format
             'max_lines'         : 30    # for the string that keeps getting bigger. Take only the latest 30
 
         }

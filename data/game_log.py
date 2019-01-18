@@ -12,7 +12,7 @@ class GameLog:
         'column_priority'   : 1,     # Order of who goes first from left to right
         'delay'             : 0,     # if it needs to be x lines below
         'width'             : 50,    # how wide will it add_to_text_log
-        'allignment'        : '<',
+        'alignment'        : '<',
         'max_lines'         : 20,    # for the string that keeps getting bigger. Take only the latest 30
         'join_char'         : '',
         'title'             : "LOG"

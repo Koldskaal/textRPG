@@ -8,7 +8,7 @@ class StatWindow():
         self.settings = {
             'column_priority'  : 4,     # Order of who goes first from left to right
             'delay'             : 0,     # if it needs to be x lines below
-            'width'             : 22,    # how wide will it print
+            'width'             : 30,    # how wide will it print
             'allignment'        : '<',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
@@ -19,32 +19,32 @@ class StatWindow():
         self.player.bind_stats(self.draw)
 
     def draw(self):
-        length = 10
-        iteration = self.player.health
-        total = self.player.max_health
-        filledLength = int(length * iteration // total)
-        percent = ("{}").format(100 * (iteration / float(total)))
-        fill = HEALTH_BAR
-        player_bar = fill * filledLength + '-' * (length - filledLength)
+        def bar(iteration, total, color):
+            length = self.settings['width']//2
+            # iteration = self.player.health
+            # total = self.player.max_health
+            filledLength = int(length * iteration // total)
+            percent = ("{}").format(100 * (iteration / float(total)))
+            fill = HEALTH_BAR
+            player_bar = fill * filledLength + '-' * (length - filledLength)
 
-        health = colored(player_bar, 'red') +'  ' +str(self.player.health)+'/'+str(self.player.max_health)
+            bar_and_text = colored(player_bar, color) +'  ' +str(iteration)+'/'+str(total)
+            return bar_and_text
 
-        length = 10
-        iteration = self.player.mana
-        total = self.player.max_mana
-        filledLength = int(length * iteration // total)
-        percent = ("{}").format(100 * (iteration / float(total)))
-        fill = MANA_BAR
-        player_bar = fill * filledLength + '-' * (length - filledLength)
+        health = bar(self.player.health, self.player.max_health, 'red')
+        mana = bar(self.player.mana, self.player.max_mana, 'blue')
 
-        mana = colored(player_bar, 'blue') +'  ' +str(self.player.mana)+'/'+str(self.player.max_mana)
+        level = "Level:".ljust(self.settings['width']//2) + (self.level + colored(f"▲ {self.player.points}"if self.player.points else "", 'yellow')).rjust(.self.settings['width']//2)
+        strength = f"Str:".ljust(self.settings['width']//2)+f"{self.player.str}".rjust(.self.settings['width']//2)
+        intellect = f"Int:".ljust(self.settings['width']//2)+f"{self.player.int}".rjust(.self.settings['width']//2)
+        agility = f"Agi:".ljust(self.settings['width']//2) + f"{self.player.agi}".rjust(.self.settings['width']//2)
+        border = 'MISC'.center(self.settings['width'], BORDER_UP_DOWN)
+        gold = "Gold:".ljust(self.settings['width']//2) + f"{self.player.gold}".rjust(.self.settings['width']//2)
+        exp = f"Remaining exp:".ljust(self.settings['width']//2) + f"{self.player.levelcap-self.player.exp}".rjust(.self.settings['width']//2)
 
-        self.string = f""" Level:       {self.player.level}
- {health}
- {mana}
- Str:        {self.player.str}
- Int:        {self.player.int}
- Agi:        {self.player.agi}
-""" + 'MISC'.center(self.settings['width'], BORDER_UP_DOWN) + f"\n Gold:        {self.player.gold}\n Remaining exp: {self.player.levelcap-self.player.exp}"
+
 
         self.canvas.add_to_print('stats', self.string, self.settings)
+
+
+        stats = {'Str': self.player.str, 'Int': self.player.int, 'Agi':self.player.agi}

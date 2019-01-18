@@ -21,6 +21,7 @@ BORDER_CORNER_UP_RIGHT = '┐'
 BORDER_CORNER_DOWN_LEFT = '└'
 BORDER_CORNER_DOWN_RIGHT = '┘'
 BORDER_INLINE = '═'
+BORDER_INLINE_THIN = '─'
 
 HEALTH_BAR = '■'
 MANA_BAR = '■'
@@ -47,6 +48,7 @@ except UnicodeEncodeError:
     BORDER_CORNER_DOWN_LEFT = '+'
     BORDER_CORNER_DOWN_RIGHT = '+'
     BORDER_INLINE = '-'
+    BORDER_INLINE_THIN = '-'
 
     HEALTH_BAR = '|'
     MANA_BAR = '|'

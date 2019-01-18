@@ -24,7 +24,7 @@ class Shop:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 4,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'SHOP',
@@ -76,7 +76,7 @@ class Sell:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '^',
+            'alignment'        : '^',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'SHOP-Sell',
@@ -114,7 +114,7 @@ class Sell:
             'column_priority'  : 3,     # Order of who goes first from left to right
             'delay'             : 7,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
@@ -189,7 +189,7 @@ class Buy:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '^',
+            'alignment'        : '^',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'SHOP-BUY',
@@ -227,7 +227,7 @@ class Buy:
             'column_priority'  : 3,     # Order of who goes first from left to right
             'delay'             : 7,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 30,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Item Showcase',
