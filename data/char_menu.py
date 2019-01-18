@@ -3,7 +3,7 @@ from . import room
 from termcolor import colored
 from . import item_ID
 from . import game_log
-from . import player
+from . import player, stat_window
 
 class Char_menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se shopkeeper måde.
     def __init__(self, canvas):
@@ -145,7 +145,7 @@ class Equip_Helmets:
         self.menu_position = 0
         self.player = player
         self.list_of_helmets(player)
-
+        self.stat_window = stat_window.StatWindow(player, self.canvas)
     @staticmethod
     def rotate(l, n):
         return l[n:] + l[:n]
@@ -246,11 +246,11 @@ class Equip_Helmets:
                 self.menu_options = self.helmets
                 self.menu_options.sort()
                 self.list_of_helmets(player)
+                self.stat_window.draw()
                 self.print_room()
             if direction is "r":
                 return "leave helmets"
     def equip_item(self, player):
-        for item in self.menu_options[0]:
             for key, values in item_ID.items[self.menu_options[0]].items():
                 if key == 'armor':
                     self.player.armor += values

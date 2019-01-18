@@ -16,12 +16,12 @@ class Player(Character):
         self.exp = 0
         self.points = 7
 
-        self.str = 100
+        self.str = 150
         self.int = 10
-        self.agi = 100
+        self.agi = 150
 
         self.current_weapon = ""
-        self.equipment = ["iron helmet", "iron sword"] # id
+        self.equipment =[] # id
         self.items = []
         self.levelcap = 5+3*self.level**2
 
