@@ -22,7 +22,7 @@ class TalentMenu(basic_menu.BasicRotatingMenu):
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 3,     # if it needs to be x lines below
             'width'             : 41,    # how wide will it print
-            'allignment'        : '^',
+            'alignment'        : '^',
             'max_lines'         : 15,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'CHOOSE-A-TALENT',

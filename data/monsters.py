@@ -18,7 +18,7 @@ class Monster(Character):
     def __init__(self):
         super(Monster, self).__init__()
 
-        self.name = 'xXxSh4dowLordxXx'
+        self.name = 'Monster'
         self.Enemy = True
         self.exp = 10
         self.loot_table = 'table_x'

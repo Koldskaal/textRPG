@@ -9,7 +9,7 @@ class Main_Menu: #TODO : tilføj rooms i roomcontroller til hver option,,, se sh
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 4,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Character Menu',
@@ -48,7 +48,7 @@ class Quit_Game:
             'column_priority'  : 2,     # Order of who goes first from left to right
             'delay'             : 4,     # if it needs to be x lines below
             'width'             : 30,    # how wide will it print
-            'allignment'        : '<',
+            'alignment'        : '<',
             'max_lines'         : 0,    # for the string that keeps getting bigger. Take only the latest 30
             'join_char'         : '',
             'title'             : 'Character Menu',

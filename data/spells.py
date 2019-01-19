@@ -1,5 +1,5 @@
 from .game_log import log
-from random import randint
+from random import randint, random
 
 spell_list = []
 
@@ -29,12 +29,15 @@ class BaseSpell:
         target.health -= self.damage
         if self.damage != 0:
             if self.damage > 0:
-                log.add_to_log(f"{target.name} lost {self.damage} hp ({self.name})", 'recked')
+                log.add_to_log(f"{target.name} lost {self.damage} hp ({self.name})", 'Combat', 'bad')
             elif self.damage < 0:
                 log.add_to_log(f"{target.name} gained {self.damage} hp ({self.name})", 'Combat', 'positive')
         self.caster.health += self.heal
         if self.heal != 0:
-            log.attach_to_log(f'({self.name})', 'positive')
+            if self.heal > 0:
+                log.attach_to_log(f'({self.name})', 'positive')
+            elif self.heal < 0:
+                log.attach_to_log(f'({self.name})', 'recked')
         self.caster.mana -= self.mana_usage
 
     def level_up(self):
@@ -79,7 +82,7 @@ class BasicDoT(BasicSpell):
         super().__init__(player)
         self.name = 'Basic DoT'
         self.mana_usage = 40
-        self.damage = 1 + self.caster.level * 1 - 1
+        self.damage = self.caster.level * 1
         self.duration = 15
         self.description = "A basic damage over time spell! Doesn't stack."
 
@@ -96,7 +99,7 @@ class BasicDoT(BasicSpell):
         self.turns_left -= 1
         log.add_to_log(f"{self.afflicted.name} lost {self.damage} hp ({self.name})", 'Combat')
         if self.turns_left % 5 == 0:
-            log.add_to_log(f"{self.turns_left} procs remaining!", 'Combat', 'recked')
+            log.add_to_log(f"{self.turns_left} ticks remaining! ({self.name})", 'Combat', 'recked')
         if self.turns_left == 0:
             self.afflicted.debuffs.remove(self)
 
@@ -118,3 +121,50 @@ class ImaginationSpell(BaseSpell):
 
     def define_heal(self):
         return randint(-80+20*self.caster.level, 80+20*self.caster.level)
+
+class Freeze(BaseSpell):
+    def __init__(self, player):
+        super().__init__(player)
+        self.name = 'Freeze'
+        self.mana_usage = 40
+        self.duration = 15
+        self.description = "Freeze up the enemy. 25% chance of causing a status effect."
+
+    def define_damage(self):
+        return self.caster.level * 10 + 5
+
+    def cast(self, target):
+        super().cast(target)
+        if random() <= 0.25:
+            if self not in target.debuffs:
+                self.afflicted = target
+                log.add_to_log(f"{self.afflicted.name} got frozen! ({self.name})", 'Combat', 'cyan')
+                self.afflicted.debuffs.append(self)
+            self.afflicted.temp_agi = self.afflicted.agi
+            self.afflicted.agi = 0
+            self.turns_left = self.duration
+
+    def proc_debuff(self):
+        self.turns_left -= 1
+        if self.turns_left == 0:
+            log.add_to_log(f"{self.afflicted.name} is no longer frozen! ({self.name})", 'Combat', 'recked')
+            self.afflicted.debuffs.remove(self)
+            self.afflicted.agi = self.afflicted.temp_agi
+
+spell_list.append(Freeze)
+
+class DrainLife(BaseSpell):
+    def __init__(self, player):
+        super().__init__(player)
+        self.name = 'Drain life'
+        self.mana_usage = 60
+        self.duration = 15
+        self.description = "Drain the hp of the opponent. Damage and heal at the same time but the mana cost is a little expensive."
+
+    def define_damage(self):
+        return self.caster.level * 10 + 5
+
+    def define_heal(self):
+        return (self.caster.level * 10 + 5)*0.6
+
+spell_list.append(DrainLife)
