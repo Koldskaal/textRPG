@@ -16,9 +16,9 @@ class Player(Character):
         self.exp = 0
         self.points = 3
 
-        self.str = 10
+        self.str = 100
         self.int = 20
-        self.agi = 10
+        self.agi = 100
 
         #self.current_weapon = ""
         #self.equipment =[] # id
