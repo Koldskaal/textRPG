@@ -129,7 +129,7 @@ class Show_Equip:
             #        return "equip ring"
             ##        return "equip weapon"
         if direction is "r":
-            return "leave show equip"
+            return "leave show equip" #add show current equipment + showcase it
 
 class Equip_Helmets:
     def __init__(self, canvas, player):
@@ -162,7 +162,7 @@ class Equip_Helmets:
             'title'             : 'Equip Helmet',
             'push'              : 0
         }
-        if len(self.player.items) == 0:
+        if len(self.helmets) == 0:
             self.canvas.add_to_print("room", "", settings)
             self.canvas.print_canvas(clear)
             self.showcase(True)
@@ -195,7 +195,7 @@ class Equip_Helmets:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.helmet == '':
+        if self.player.helmet == '' or self.helmets == []:
             showcase = " It's not a toupee!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
@@ -234,7 +234,9 @@ class Equip_Helmets:
                 self.menu_options = self.rotate(self.menu_options, -1)
                 self.print_room()
             if direction is '\r': # ENTER KEY
-                if self.player.helmet == '':
+                if self.helmets == []:
+                    pass
+                elif self.player.helmet == '':
                     self.player.helmet = [self.menu_options[0]]
                     self.equip_item(player)
                     self.player.items.remove(self.menu_options[0])
@@ -352,7 +354,7 @@ class Equip_Armors:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.body == '':
+        if self.player.body == '' or self.armors == []:
             showcase = " It's not a toupee!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
@@ -391,7 +393,9 @@ class Equip_Armors:
                 self.menu_options = self.rotate(self.menu_options, -1)
                 self.print_room()
             if direction is '\r': # ENTER KEY
-                if self.player.body == '':
+                if self.armors == []:
+                    pass
+                elif self.player.body == '':
                     self.player.body = [self.menu_options[0]]
                     self.equip_item(player)
                     self.player.items.remove(self.menu_options[0])
@@ -509,7 +513,7 @@ class Equip_Rings:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.ring == '':
+        if self.player.ring == '' or self.rings == []:
             showcase = " It's not a toupee!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
@@ -548,7 +552,9 @@ class Equip_Rings:
                 self.menu_options = self.rotate(self.menu_options, -1)
                 self.print_room()
             if direction is '\r': # ENTER KEY
-                if self.player.ring == '':
+                if self.rings == []:
+                    pass
+                elif self.player.ring == '':
                     self.player.ring = [self.menu_options[0]]
                     self.equip_item(player)
                     self.player.items.remove(self.menu_options[0])
@@ -666,7 +672,7 @@ class Equip_Amulets:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.amulet == '':
+        if self.player.amulet == '' or self.amulets == []:
             showcase = " It's not a toupee!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
@@ -705,7 +711,9 @@ class Equip_Amulets:
                 self.menu_options = self.rotate(self.menu_options, -1)
                 self.print_room()
             if direction is '\r': # ENTER KEY
-                if self.player.amulet == '':
+                if self.amulets == []:
+                    pass
+                elif self.player.amulet == '':
                     self.player.amulet = [self.menu_options[0]]
                     self.equip_item(player)
                     self.player.items.remove(self.menu_options[0])
@@ -823,7 +831,7 @@ class Equip_Weapons:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.weapon == '':
+        if self.player.weapon == '' or self.weapons == []:
             showcase = " It's not a toupee!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
@@ -862,7 +870,9 @@ class Equip_Weapons:
                 self.menu_options = self.rotate(self.menu_options, -1)
                 self.print_room()
             if direction is '\r': # ENTER KEY
-                if self.player.weapon == '':
+                if self.weapons == []:
+                    pass
+                elif self.player.weapon == '':
                     self.player.weapon = [self.menu_options[0]]
                     self.equip_item(player)
                     self.player.items.remove(self.menu_options[0])
