@@ -91,7 +91,7 @@ class Room:
         monster_coord = set()
         while len(monster_coord) != amount:
             rand_coord = (randint(1, self.size[0]-2),randint(1, self.size[1]-2))
-            if rand_coord != tuple(self.player_position) and rand_coord != tuple(self.shop_position):
+            if list(rand_coord) != self.player_position and list(rand_coord) != self.shop_position:
                 monster_coord.add(rand_coord)
 
         for i, coord in enumerate(monster_coord):
