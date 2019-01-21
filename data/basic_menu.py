@@ -26,7 +26,7 @@ class BasicRotatingMenu:
 
     def print_room(self, clear=False):
         if len(self.menu_options) == 0:
-            self.canvas.add_to_print("room", "", settings)
+            self.canvas.add_to_print("room", "", self.settings)
             self.canvas.print_canvas(clear)
             self.description_box(True)
         else:
@@ -55,12 +55,12 @@ class BasicRotatingMenu:
     def description_box(self, empty=False):
         if empty:
             description_box = "Nothing here!"
-            self.canvas.popup("room", description_box, 13, self.title_box)
+            self.canvas.popup("room", description_box, 12, self.title_box)
             self.canvas.print_canvas()
         else:
             description_box, stats = self.define_descriptions(self.menu_options[0])
 
-            self.canvas.popup("room", description_box, 13, self.title_box, stats, alignment='<')
+            self.canvas.popup("room", description_box, 12, self.title_box, stats, alignment='<')
             self.canvas.print_canvas()
 
     def define_descriptions(self, item):
@@ -87,6 +87,10 @@ class BasicRotatingMenu:
             return self.choose()
         if direction is 'q':
             return self.choose_special()
+        if direction is 'a':
+            return self.left()
+        if direction is 'd':
+            return self.right()
 
     def choose(self):
         return self.menu_options[0]
@@ -95,4 +99,10 @@ class BasicRotatingMenu:
         return
 
     def exit(self):
+        return
+
+    def left(self):
+        return
+
+    def right(self):
         return

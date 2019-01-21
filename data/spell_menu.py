@@ -47,14 +47,18 @@ class CombatSpellMenu(basic_menu.BasicRotatingMenu):
         return 'skip', None
 
 class BuySpellMenu(basic_menu.BasicRotatingMenu):
-    def __init__(self, player, exit_room):
+    def __init__(self, player, exit_room, filter=None):
         super().__init__()
 
         self.title_box = 'Info'
-        self.title_window = 'buy-spells'
+        self.settings['title'] = 'Spell-shop'.upper()
 
         self.player = player
-        self.menu_options = [spell(self.player) for spell in spells.spell_list]
+        local_spells = [spell(self.player) for spell in spells.spell_list]
+        if filter:
+            local_spells = [spell for spell in local_spells if filter in spell.types]
+
+        self.menu_options = local_spells
 
         self.exit_room = exit_room
 
@@ -65,7 +69,6 @@ class BuySpellMenu(basic_menu.BasicRotatingMenu):
         description_box = f"{item.description}"
         text = item.points if self.menu_options[0].name not in [spell.name for spell in self.player.spells] else 'BOUGHT'
         stats = {' Cost': text}
-        self.canvas.replace_line("room", f'Available points:{self.player.points}', 1)
         return description_box, stats
 
     def choose(self):
@@ -79,3 +82,63 @@ class BuySpellMenu(basic_menu.BasicRotatingMenu):
 
     def exit(self):
         return self.exit_room
+
+class BuySpellMenuManager(basic_menu.BasicRotatingMenu):
+    def __init__(self, player, exit_room):
+        super().__init__()
+        self.filters = spells.BaseSpell(player).types
+        self.rooms = [BuySpellMenu(player, exit_room)]
+        self.rooms += [BuySpellMenu(player, exit_room, type) for type in self.filters]
+        self.filters = ['all'] + self.filters
+
+        self.settings['title'] = 'buy-spells'.upper()
+
+        self.room_nr = 0
+
+        self.player = player
+        self.exit_room = exit_room
+
+        self.current_room = self.rooms[self.room_nr]
+
+    def print_room(self, clear=False):
+        self.current_room.print_room(clear)
+        self.canvas.replace_line("room", f'Available points:{self.player.points}', 20)
+
+        top_bar = "All | Damage | Heal | Buff | Debuff"
+        top_bar = top_bar.replace(self.filters[self.room_nr].capitalize(), colored(self.filters[self.room_nr].capitalize(), 'white', 'on_green'))
+        self.canvas.replace_line('room', top_bar, 1)
+        self.canvas.print_canvas(clear)
+
+    def choose(self):
+        self.current_room.choose()
+        self.print_room()
+
+    def use_key(self, direction):
+        if direction is "s":
+            self.menu_options = self.current_room.use_key(direction)
+            self.print_room()
+        if direction is "w":
+            self.menu_options = self.current_room.use_key(direction)
+            self.print_room()
+        if direction is "r":
+            return self.exit()
+        if direction is '\r' or direction is 'e' or ord(direction) is 13:
+            return self.choose()
+        if direction is 'a':
+            return self.left()
+        if direction is 'd':
+            return self.right()
+
+    def left(self):
+        self.room_nr -= 1
+        if self.room_nr < 0:
+            self.room_nr = len(self.filters) - 1
+        self.current_room = self.rooms[self.room_nr]
+        self.print_room()
+
+    def right(self):
+        self.room_nr += 1
+        if self.room_nr >= len(self.rooms):
+            self.room_nr = 0
+        self.current_room = self.rooms[self.room_nr]
+        self.print_room()

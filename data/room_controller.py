@@ -94,7 +94,7 @@ class RoomController:
                 self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
             if key == "o":
-                self.current_room = spell_menu.BuySpellMenu(p, self.current_room)
+                self.current_room = spell_menu.BuySpellMenuManager(p, self.current_room)
                 self.print_room(True)
 
         elif isinstance(self.current_room, char_menu.Char_menu):
