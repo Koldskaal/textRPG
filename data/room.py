@@ -165,7 +165,7 @@ class Room:
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
 
     def move_monsters(self):
-        if time.time() - self.start_time > 0.5:
+        if time.time() - self.start_time > 2:
             fight = None
             for k,monster in self.monsters.items():
                 room = self.unpack_room(self.room)

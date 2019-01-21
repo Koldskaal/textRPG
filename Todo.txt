@@ -3,16 +3,12 @@ Objects:
     make more
 
   NPC
-    trader
-      shopkeeper
-      inventory
     story driver
       quest?
     enemy - needs work
       make more
 
   skills: mana and int here
-    heal
     buff
     debuff (poison sword f.eks.)
 
@@ -20,19 +16,11 @@ udvid loot loot_tables
 
 balance combat stats
 
-nye client - movement n shit'
-get rid of prev (HVIS VI GIDER CUS WHO DOES) i mean it works....
 
 Features I'd like to implement, todo:
-    - lifesteal
-    - live updating player stats panel
-    - equipment "room", en måde at equippe ting
     - equipment overview panel, under stats panel(måske unødvendigt)
     - spells system
-    - extended combat system, til at inkorporere spells og andre sjove ting
-    - inventory + inventory "room" to browse/use items.
     - level up "room", flere valg når man leveler up.
-    - talent tree! evt random of 3 options pr level up. big choices.
     - Risk reward play options
       - low health kills = more reward
       - low health = more mana
@@ -42,7 +30,6 @@ Features I'd like to implement, todo:
                 higher stats for next run.
 
 Other:
-  equipment
   game tick timer
   puzzles
   dodge puzzles
