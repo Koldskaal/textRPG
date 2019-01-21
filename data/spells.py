@@ -179,6 +179,6 @@ class DrainLife(BaseSpell):
         return self.caster.level * 10 + 5
 
     def define_heal(self):
-        return (self.caster.level * 10 + 5)*0.6
+        return int((self.caster.level * 10 + 5)*0.6)
 
 spell_list.append(DrainLife)

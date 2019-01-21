@@ -26,19 +26,19 @@ movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0), '\r': (0,0)}
 if sys.stdin.isatty():
     while running:
         if msvcrt.kbhit():
+
             key = ord(msvcrt.getch())
                 # Pontential flicker killers
                 # print("\033[11A\033[J")  # moves curser 11 up then deletes down
                 # print("\033[H\033[J")  # moves curser to start corner then deletes down
                 # print('\n'*20)
 
-
             if key == 224:
                 key = ord(msvcrt.getch())
                 r.scroll_log(key)
                 pass
 
-            if key == ord('q'):
+            if key == 27:
                 running = False
 
             r.use_key(chr(key))

@@ -20,9 +20,9 @@ class CombatSpellMenu(basic_menu.BasicRotatingMenu):
         else:
             description_box = self.menu_options[0].description
             stats = {
-                'MP': colored(-self.menu_options[0].mana_usage, 'blue') if self.menu_options[0].mana_usage < self.player.mana else colored(-self.menu_options[0].mana_usage, 'white', 'on_red') ,
-                'HP': colored("+"+ str(self.menu_options[0].heal), 'green') if self.menu_options[0].heal > 0 else colored(self.menu_options[0].heal,'red'),
-                'DMG': colored(str(self.menu_options[0].damage), 'red') if self.menu_options[0].damage > 0 else colored(self.menu_options[0].damage, 'green'),
+                'MP': colored(-self.menu_options[0].mana_usage, 'blue') if self.menu_options[0].mana_usage <= self.player.mana else colored(-self.menu_options[0].mana_usage, 'white', 'on_red') ,
+                'HP': colored("+"+ str(self.menu_options[0].heal), 'green') if self.menu_options[0].heal > 0 else colored(self.menu_options[0].heal,'red') if self.menu_options[0].heal < 0 else self.menu_options[0].heal,
+                'DMG': colored(str(self.menu_options[0].damage), 'red') if self.menu_options[0].damage > 0 else colored(self.menu_options[0].damage, 'green') if self.menu_options[0].damage < 0 else self.menu_options[0].damage,
                 'DUR': self.menu_options[0].duration
                 }
             self.canvas.popup("room", description_box, 10, self.title_box, stats=stats)
@@ -61,12 +61,22 @@ class BuySpellMenu(basic_menu.BasicRotatingMenu):
         self.menu_options = local_spells
 
         self.exit_room = exit_room
+        self.details = False
 
     def define_print_content(self):
         return [spell.name for spell in self.menu_options]
 
     def define_descriptions(self, item):
-        description_box = f"{item.description}"
+        if not self.details:
+            description_box = f"{item.description}"
+        else:
+            description_box = f"MANA COST: {colored(self.menu_options[0].mana_usage, 'blue')}"
+            heal = colored("+"+ str(self.menu_options[0].heal), 'green') if self.menu_options[0].heal > 0 else colored(self.menu_options[0].heal,'red') if self.menu_options[0].heal < 0 else self.menu_options[0].heal
+            description_box += f"\nHEAL: {heal}"
+            damage = colored(str(self.menu_options[0].damage), 'red') if self.menu_options[0].damage > 0 else colored(self.menu_options[0].damage, 'green') if self.menu_options[0].damage < 0 else self.menu_options[0].damage
+            description_box += f"\nDAMAGE: {damage}"
+            description_box += f"\nDURATION: {self.menu_options[0].duration}"
+
         text = item.points if self.menu_options[0].name not in [spell.name for spell in self.player.spells] else 'BOUGHT'
         stats = {' Cost': text}
         return description_box, stats
@@ -79,6 +89,13 @@ class BuySpellMenu(basic_menu.BasicRotatingMenu):
 
         else:
             return
+
+    def special_choose(self):
+        if self.details:
+            self.details = False
+        else:
+            self.details = True
+        self.print_room()
 
     def exit(self):
         return self.exit_room
@@ -104,6 +121,13 @@ class BuySpellMenuManager(basic_menu.BasicRotatingMenu):
         self.current_room.print_room(clear)
         self.canvas.replace_line("room", f'Available points:{self.player.points}', 20)
 
+        string = colored("[r] BACK", 'cyan')
+        self.canvas.replace_line_specific('room', string, 11, [0,len("[r] BACK")])
+        string2 = colored(" BUY [e]", 'cyan')
+        self.canvas.replace_line_specific('room', string2, 10, [-1*len("[e] BUY ")-1, -1])
+        string2 = colored(" DETAILS [q]", 'cyan')
+        self.canvas.replace_line_specific('room', string2, 11, [-1*len(" DETAILS [q]")-1, -1])
+
         top_bar = "All | Damage | Heal | Buff | Debuff"
         top_bar = top_bar.replace(self.filters[self.room_nr].capitalize(), colored(self.filters[self.room_nr].capitalize(), 'white', 'on_green'))
         self.canvas.replace_line('room', top_bar, 1)
@@ -128,6 +152,8 @@ class BuySpellMenuManager(basic_menu.BasicRotatingMenu):
             return self.left()
         if direction is 'd':
             return self.right()
+        if direction is 'q':
+            return self.special_choose()
 
     def left(self):
         self.room_nr -= 1
@@ -142,3 +168,9 @@ class BuySpellMenuManager(basic_menu.BasicRotatingMenu):
             self.room_nr = 0
         self.current_room = self.rooms[self.room_nr]
         self.print_room()
+
+    def exit(self):
+        return self.exit_room
+
+    def special_choose(self):
+        self.current_room.special_choose()

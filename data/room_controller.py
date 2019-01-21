@@ -90,7 +90,7 @@ class RoomController:
             movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0), '\r': (0,0)}
             if key in movement:
                 self.move_player(movement[key])
-            if key == "i":
+            if key == "i" or key == chr(32):
                 self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
             if key == "o":
