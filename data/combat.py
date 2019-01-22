@@ -20,11 +20,11 @@ def activate(p, data, type):
 
 
 class Combat:
-    player_meelee_before = signal('player_meelee_before')
-    player_meelee_after = signal('player_meelee_after')
+    player_melee_before = signal('player_melee_before')
+    player_melee_after = signal('player_melee_after')
 
-    enemy_meelee_before = signal('enemy_meelee_before')
-    enemy_meelee_after = signal('enemy_meelee_after')
+    enemy_melee_before = signal('enemy_melee_before')
+    enemy_melee_after = signal('enemy_melee_after')
 
     player_spell_before = signal('player_spell_before')
     player_spell_after = signal('player_spell_after')
@@ -108,21 +108,21 @@ class Combat:
                 debuff.proc_debuff()
 
             if next_hit_p > hit:
-                self.player_meelee_before.send(self, **self.data)
+                self.player_melee_before.send(self, **self.data)
                 self.data['dmg'] = self.data['player'].hit(self.data['enemy'])
-                self.player_meelee_after.send(self, **self.data)
+                self.player_melee_after.send(self, **self.data)
                 next_hit_p -= hit
 
             if next_hit_e > hit:
-                self.enemy_meelee_before.send(self, **self.data)
+                self.enemy_melee_before.send(self, **self.data)
                 self.data['dmg'] = self.data['enemy'].hit(self.data['player'])
-                self.enemy_meelee_after.send(self, **self.data)
+                self.enemy_melee_after.send(self, **self.data)
                 next_hit_e -= hit
 
 
             if int_turn > hit:
                 self.player_spell_before.send(self, **self.data)
-                self.use_spell(self.data['enemy'])
+                self.use_spell()
                 self.player_spell_after.send(self, **self.data)
                 int_turn -= hit
 

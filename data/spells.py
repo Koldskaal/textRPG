@@ -137,13 +137,13 @@ class Freeze(BaseSpell):
         super().__init__(player)
         self.name = 'Freeze'
         self.mana_usage = 40
-        self.duration = 15
+        self.duration = 1
         self.description = "Freeze up the enemy. 25% chance of causing a status effect."
 
         self.types = ['damage', 'debuff']
 
     def define_damage(self):
-        return self.caster.level * 10 + 5
+        return self.caster.level * 10 + 25
 
     def cast(self, target):
         super().cast(target)
@@ -154,7 +154,7 @@ class Freeze(BaseSpell):
                 self.afflicted.debuffs.append(self)
             self.afflicted.temp_agi = self.afflicted.agi
             self.afflicted.agi = 0
-            self.turns_left = self.duration
+            self.turns_left = self.duration * 15
 
     def proc_debuff(self):
         self.turns_left -= 1
@@ -170,7 +170,7 @@ class DrainLife(BaseSpell):
         super().__init__(player)
         self.name = 'Drain life'
         self.mana_usage = 60
-        self.duration = 15
+        self.duration = 1
         self.description = "Drain the hp of the opponent. Damage and heal at the same time but the mana cost is a little expensive."
 
         self.types = ['damage', 'heal']

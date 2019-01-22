@@ -6,11 +6,11 @@ from blinker import signal
 talent_list = []
 
 class BaseTalent:
-    player_meelee_before = signal('player_meelee_before')
-    player_meelee_after = signal('player_meelee_after')
+    player_melee_before = signal('player_melee_before')
+    player_melee_after = signal('player_melee_after')
 
-    enemy_meelee_before = signal('enemy_meelee_before')
-    enemy_meelee_after = signal('enemy_meelee_after')
+    enemy_melee_before = signal('enemy_melee_before')
+    enemy_melee_after = signal('enemy_melee_after')
 
     player_spell_before = signal('player_spell_before')
     player_spell_after = signal('player_spell_after')
@@ -29,7 +29,7 @@ class Lifesteal(BaseTalent):
         self.name = "Super Mega Ultra lifesteal"
         self.descrition = "50% lifesteal. What is not to love?"
 
-        self.player_meelee_after.connect(self.activate)
+        self.player_melee_after.connect(self.activate)
 
     def activate(self, sender, **data):
         if self in data['player'].talents:
@@ -46,7 +46,6 @@ class PowerOfImagination(BaseTalent):
         super().__init__()
         self.name = "Power of Imagination"
         self.descrition = "Get a new random spell with a random effect every turn."
-        self.type = ['pre-spellcast', 'mid-spellcast']
         self.spell_names = {
             'Hadouken!': 'You have probably never heard of this move before but it is a blue fireball.',
             'Kamehamehaaaaaaaaaaa!': 'This will look badass, I swear. I just hope he gives me enough time to pull it off.',
@@ -55,19 +54,22 @@ class PowerOfImagination(BaseTalent):
             }
         self.prev_spell = None
 
+        self.player_spell_before.connect(self.activate)
+
     def generate_spell(self, player):
         name, descrition = choice(list(self.spell_names.items()))
-        descrition += "\nPress 'q' to reroll and shoot. If you have the balls."
+        # descrition += "\nPress 'q' to reroll and shoot. If you have the balls."
 
         return ImaginationSpell(player, name, descrition)
 
-    def activate(self, data):
-        if self.prev_spell:
-            data['player'].spells.remove(self.prev_spell)
-        self.prev_spell = self.generate_spell(data['player'])
-        data['player'].spells.append(self.prev_spell)
-        if data and data.get('spell_name', '') in self.spell_names.keys():
-            self.prev_spell.cast(data['enemy'])
+    def activate(self, sender, **data):
+        if self in data['player'].talents:
+            if self.prev_spell:
+                data['player'].spells.remove(self.prev_spell)
+            self.prev_spell = self.generate_spell(data['player'])
+            data['player'].spells.append(self.prev_spell)
+            if data and data.get('spell_name', '') in self.spell_names.keys():
+                self.prev_spell.cast(data['enemy'])
 
 talent_list.append(PowerOfImagination())
 
@@ -76,13 +78,15 @@ class Reflect(BaseTalent):
         super().__init__()
         self.name = "Reflect"
         self.descrition = "50% reflect. Refelct sorry..."
-        self.type = ['post-hitting-enemy']
 
-    def activate(self, data):
-        refelct_dmg = int(data['dmg']*0.5)
+        self.enemy_melee_after.connect(self.activate)
 
-        data['enemy'].health -= refelct_dmg
-        log.add_to_log(f"{data['enemy'].name} lost {refelct_dmg} hp. ({self.name})", 'combat', 'recked')
+    def activate(self, sender, **data):
+        if self in data['player'].talents:
+            refelct_dmg = int(data['dmg']*0.5)
+
+            data['enemy'].health -= refelct_dmg
+            log.add_to_log(f"{data['enemy'].name} lost {refelct_dmg} hp. ({self.name})", 'combat', 'recked')
 
 talent_list.append(Reflect())
 
@@ -90,14 +94,22 @@ class HitBack(BaseTalent):
     def __init__(self):
         super().__init__()
         self.name = "Hit 'em back'"
-        self.descrition = "20% chance to get a free attack when hit."
-        self.type = ['post-hitting-enemy']
+        self.descrition = "Add 20% chance to get a free attack when hit."
 
-    def activate(self, data):
-        if random() < 0.2:
-            dmg = int((1*data['player'].str**2)/(data['enemy'].armor+1*data['player'].str))
-            log.add_to_log(f"You hit {data['enemy'].name} back for {dmg}!", 'combat', 'recked')
-            data['enemy'].health -= dmg
+        self.chance = 0.2
+
+        self.enemy_melee_after.connect(self.activate)
+
+    def activate(self, sender, **data):
+        if self in data['player'].talents:
+            chance = 0
+            for talent in data['player'].talents:
+                if talent == self:
+                    chance += self.chance
+            if random() < chance:
+                dmg = int((1*data['player'].str**2)/(data['enemy'].armor+1*data['player'].str))
+                log.add_to_log(f"You hit {data['enemy'].name} back for {dmg}!", 'combat', 'recked')
+                data['enemy'].health -= dmg
 
 talent_list.append(HitBack())
 
