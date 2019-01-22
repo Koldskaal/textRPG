@@ -147,7 +147,8 @@ class Room:
                 for key, value in self.monsters.items():
                     if value['coord'] == list(player_coord):
                         e = value['monster']
-                        winning = combat.encounter(self.player, e, self)
+                        c = combat.Combat(self.player, e, self)
+                        winning = c.encounter()
                         if winning == "enemy_killed":
                             winning = key
                 if winning:
@@ -198,7 +199,8 @@ class Room:
                 self.print_room()
             if fight:
                 e = self.monsters[fight]['monster']
-                winning = combat.encounter(self.player, e, self)
+                c = combat.Combat(self.player, e, self)
+                winning = c.encounter()
                 if winning == "enemy_killed":
                     winning = fight
                 if winning:

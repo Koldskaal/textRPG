@@ -1,10 +1,24 @@
 from .game_log import log
 from .spells import ImaginationSpell
 from random import choice, random, randint
+from blinker import signal
 
 talent_list = []
 
 class BaseTalent:
+    player_meelee_before = signal('player_meelee_before')
+    player_meelee_after = signal('player_meelee_after')
+
+    enemy_meelee_before = signal('enemy_meelee_before')
+    enemy_meelee_after = signal('enemy_meelee_after')
+
+    player_spell_before = signal('player_spell_before')
+    player_spell_after = signal('player_spell_after')
+    player_spell_during = signal('player_spell_during')
+
+    enemy_spell_before = signal('enemy_spell_before')
+    enemy_spell_after = signal('enemy_spell_after')
+
     def __init__(self):
         self.name = "Base Talent"
         self.descrition = "A base description."
@@ -14,12 +28,16 @@ class Lifesteal(BaseTalent):
         super().__init__()
         self.name = "Super Mega Ultra lifesteal"
         self.descrition = "50% lifesteal. What is not to love?"
-        self.type = ['post-hitting-player']
 
-    def activate(self, data):
-        lifesteal = int(data['dmg']*0.5)
-        data['player'].health += lifesteal
-        log.attach_to_log(f"({self.name})", 'positive')
+        self.player_meelee_after.connect(self.activate)
+
+    def activate(self, sender, **data):
+        if self in data['player'].talents:
+            for talent in data['player'].talents:
+                if talent == self:
+                    lifesteal = int(data['dmg']*0.5)
+                    data['player'].health += lifesteal
+                    log.attach_to_log(f"({self.name})", 'positive')
 
 talent_list.append(Lifesteal())
 
