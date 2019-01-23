@@ -13,6 +13,7 @@ class Character:
         self.gold = 4000
         self.armor = 5
 
+        self.ATT = 10
         self.str = 10
         self.int = 10
         self.agi = 10
@@ -67,7 +68,7 @@ class Character:
 
     def hit(self, target):
         self.mana += self.int
-        dmg = int((1*self.str**2)/(target.armor+1*self.str))
+        dmg = int(((1*self.ATT**2)/(target.armor+1*self.ATT))*((100+(0.5*self.str))/100))
         self.log_attack_target(target)
         target.health -= dmg
         self.log_show_damage(target, dmg)

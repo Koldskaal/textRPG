@@ -127,6 +127,8 @@ class Sell:
         else:
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == 'ATT':
+                    showcase += (f"{key}: {values} \n")
                 if key == "str":
                     showcase += colored((f"{key}: {values} \n"), 'red')
                 if key == "agi":
@@ -240,6 +242,8 @@ class Buy:
         else:
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == 'ATT':
+                    showcase += (f"{key}: {values} \n")
                 if key == "str":
                     showcase += colored((f"{key}: {values} \n"), 'red')
                 if key == "agi":

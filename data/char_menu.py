@@ -838,6 +838,8 @@ class Equip_Weapons:
         else:
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == 'ATT':
+                    showcase += (f"{key}: {values} \n")
                 if key == "str":
                     showcase += colored((f"{key}: {values} \n"), 'red')
                 if key == "agi":
@@ -898,6 +900,8 @@ class Equip_Weapons:
                 return "leave weapons"
     def equip_item(self, player):
             for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == 'ATT':
+                    self.player.ATT += values
                 if key == 'armor':
                     self.player.armor += values
                 if key == 'str':
@@ -913,6 +917,8 @@ class Equip_Weapons:
 
     def unequip_item(self, player):
             for key, values in item_ID.items[self.player.weapon[0]].items():
+                if key == 'ATT':
+                    self.player.ATT += values
                 if key == 'armor':
                     self.player.armor -= values
                 if key == 'str':
@@ -995,6 +1001,8 @@ class Items:
         else:
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == 'ATT':
+                    showcase += (f"{key}: {values} \n")
                 if key == "str":
                     showcase += colored((f"{key}: {values} \n"), 'red')
                 if key == "agi":
