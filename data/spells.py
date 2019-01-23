@@ -13,6 +13,8 @@ class BaseSpell:
         self.duration = 1
         self.description = "Base for all spells. Does nothing."
 
+        self.types = ['damage', 'heal', 'buff', 'debuff']
+
         self.points = 3
 
         self.special_action = False
@@ -57,6 +59,8 @@ class BasicSpell(BaseSpell):
         self.duration = 111
         self.update_descrition()
 
+        self.types = ['damage']
+
     def define_damage(self):
         return 10111 + self.caster.level * 10 - 10
 
@@ -72,6 +76,8 @@ class BasicHeal(BaseSpell):
         self.mana_usage = 30
         self.description = f"A basic healing spell."
 
+        self.types = ['heal']
+
     def define_heal(self):
         return 10 + (self.caster.level * 4)
 
@@ -85,6 +91,8 @@ class BasicDoT(BasicSpell):
         self.damage = self.caster.level * 1
         self.duration = 15
         self.description = "A basic damage over time spell! Doesn't stack."
+
+        self.types = ['damage', 'debuff']
 
     def cast(self, target):
         if self not in target.debuffs:
@@ -116,6 +124,8 @@ class ImaginationSpell(BaseSpell):
         self.description = description
         self.special_action = True
 
+        self.types = ['damage', 'heal']
+
     def define_damage(self):
         return randint(-80+20*self.caster.level, 80+20*self.caster.level)
 
@@ -127,11 +137,13 @@ class Freeze(BaseSpell):
         super().__init__(player)
         self.name = 'Freeze'
         self.mana_usage = 40
-        self.duration = 15
+        self.duration = 1
         self.description = "Freeze up the enemy. 25% chance of causing a status effect."
 
+        self.types = ['damage', 'debuff']
+
     def define_damage(self):
-        return self.caster.level * 10 + 5
+        return self.caster.level * 10 + 25
 
     def cast(self, target):
         super().cast(target)
@@ -142,7 +154,7 @@ class Freeze(BaseSpell):
                 self.afflicted.debuffs.append(self)
             self.afflicted.temp_agi = self.afflicted.agi
             self.afflicted.agi = 0
-            self.turns_left = self.duration
+            self.turns_left = self.duration * 15
 
     def proc_debuff(self):
         self.turns_left -= 1
@@ -158,13 +170,15 @@ class DrainLife(BaseSpell):
         super().__init__(player)
         self.name = 'Drain life'
         self.mana_usage = 60
-        self.duration = 15
+        self.duration = 1
         self.description = "Drain the hp of the opponent. Damage and heal at the same time but the mana cost is a little expensive."
+
+        self.types = ['damage', 'heal']
 
     def define_damage(self):
         return self.caster.level * 10 + 5
 
     def define_heal(self):
-        return (self.caster.level * 10 + 5)*0.6
+        return int((self.caster.level * 10 + 5)*0.6)
 
 spell_list.append(DrainLife)

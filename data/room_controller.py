@@ -90,11 +90,11 @@ class RoomController:
             movement = {'a': (0,-1), 's': (1,0), 'd': (0,1), 'w': (-1,0), '\r': (0,0)}
             if key in movement:
                 self.move_player(movement[key])
-            if key == "i":
+            if key == "i" or key == chr(32):
                 self.current_room = char_menu.Char_menu(self.canvas)
                 self.print_room(True)
             if key == "o":
-                self.current_room = spell_menu.BuySpellMenu(p, self.current_room)
+                self.current_room = spell_menu.BuySpellMenuManager(p, self.current_room)
                 self.print_room(True)
 
         elif isinstance(self.current_room, char_menu.Char_menu):

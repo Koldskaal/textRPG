@@ -91,7 +91,7 @@ class Room:
         monster_coord = set()
         while len(monster_coord) != amount:
             rand_coord = (randint(1, self.size[0]-2),randint(1, self.size[1]-2))
-            if rand_coord != self.player_position and rand_coord != self.shop_position:
+            if list(rand_coord) != self.player_position and list(rand_coord) != self.shop_position:
                 monster_coord.add(rand_coord)
 
         for i, coord in enumerate(monster_coord):
@@ -147,7 +147,8 @@ class Room:
                 for key, value in self.monsters.items():
                     if value['coord'] == list(player_coord):
                         e = value['monster']
-                        winning = combat.encounter(self.player, e, self)
+                        c = combat.Combat(self.player, e, self)
+                        winning = c.encounter()
                         if winning == "enemy_killed":
                             winning = key
                 if winning:
@@ -198,7 +199,8 @@ class Room:
                 self.print_room()
             if fight:
                 e = self.monsters[fight]['monster']
-                winning = combat.encounter(self.player, e, self)
+                c = combat.Combat(self.player, e, self)
+                winning = c.encounter()
                 if winning == "enemy_killed":
                     winning = fight
                 if winning:

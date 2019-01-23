@@ -61,6 +61,21 @@ class Canvas:
                 # print(f'append with {string}')
                 self.areas[name]['replace'].append((string,line))
 
+    def replace_line_specific(self, name, string, line, spot, clear=False):
+        if not self.areas[name].get('replace_specific') or clear:
+            self.areas[name]['replace_specific'] = [(string, line, spot)]
+        else:
+            if any(line in c for c in self.areas[name]['replace_specific']):
+                spots = []
+                for x in self.areas[name]['replace_specific']:
+                    spots.append(x[2])
+
+                if spot not in spots:
+                    self.areas[name]['replace_specific'].append((string,line, spot))
+
+            else:
+                self.areas[name]['replace_specific'].append((string,line, spot))
+
     def popup(self, name, string, start_position, title=None, stats=None, alignment='^'):
         s = string.splitlines()
         wrap = []
@@ -161,6 +176,18 @@ class Canvas:
                     #     big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT  if self.border else ' ' * self.areas[k].get('width', 30))
                     else:
                         big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT if self.border else ' ' * self.areas[k].get('width', 30))
+                    if any(i in c for c in self.areas[k].get('replace_specific', [])):
+                        for line in self.areas[k].get('replace_specific'):
+                            # print(line)
+                            if line[1] == i:
+
+                                zero_point = len(big_string) -  self.areas[k].get('width', 30) - 1
+                                big_string_list = list(big_string)
+                                first_part = line[2][0] if line[2][0] < 0 else zero_point+line[2][0]
+                                second_part = line[2][1] if line[2][1] < 0 else zero_point+line[2][1]
+
+                                big_string_list[first_part:second_part] = list(line[0])
+                                big_string = "".join(big_string_list)
 
 
 
