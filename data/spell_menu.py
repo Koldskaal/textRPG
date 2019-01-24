@@ -83,6 +83,10 @@ class BuySpellMenu(basic_menu.BasicRotatingMenu):
         stats = {' Cost': text}
         return description_box, stats
 
+    def use_key(self, direction):
+        super().use_key(direction)
+        return self.menu_options
+
     def choose(self):
         if self.player.points >= self.menu_options[0].points and self.menu_options[0].name not in [spell.name for spell in self.player.spells]:
             self.player.points -= self.menu_options[0].points

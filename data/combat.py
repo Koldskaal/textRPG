@@ -41,6 +41,8 @@ class Combat:
 
         self.tick_rate = 0.2
 
+        self.spell_menu = CombatSpellMenu(self.data['player'])
+
     @staticmethod
     def enemy_health_bar(character):
         length = 10
@@ -138,8 +140,8 @@ class Combat:
         return winner
 
     def use_spell(self):
-        spell_menu = CombatSpellMenu(self.data['player'])
-        spell_menu.print_room()
+
+        self.spell_menu.print_room()
         spell = None
         log.canvas.replace_line('room', "Press 'r' to skip.", 1, clear=True)
         # self.enemy_health_bar(self.data['enemy'])
@@ -147,7 +149,7 @@ class Combat:
         while not spell:
             if msvcrt.kbhit():
                 key = ord(msvcrt.getch())
-                spell = spell_menu.use_key(chr(key))
+                spell = self.spell_menu.use_key(chr(key))
 
                 log.canvas.replace_line('room', "Press 'r' to skip.", 1)
                 # self.enemy_health_bar(self.data['enemy'])
@@ -157,7 +159,7 @@ class Combat:
 
                 if spell:
                     if spell[1]:
-                        data['spell_name'] = spell[0].name
+                        self.data['spell_name'] = spell[0].name
                         self.player_spell_during.send(self, **self.data)
                         spell = 'skip'
                     else:
