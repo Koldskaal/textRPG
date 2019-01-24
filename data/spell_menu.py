@@ -93,11 +93,12 @@ class BuySpellMenu(basic_menu.BasicRotatingMenu):
             self.player.spells.append(self.menu_options[0])
             self.print_room()
             return self.menu_options[0]
-        elif self.menu_options[0] in self.bought_spells:
+        elif any(self.menu_options[0].name == spell.name for spell in self.bought_spells):
+            spell = [spell for spell in self.bought_spells if self.menu_options[0].name == spell.name]
             self.player.points += self.menu_options[0].points
-            self.player.spells.remove(self.menu_options[0])
+            self.player.spells.remove(spell[0])
             self.print_room()
-            return self.menu_options[0]
+            return spell[0]
         else:
             return
 
@@ -127,9 +128,9 @@ class BuySpellMenuManager(basic_menu.BasicRotatingMenu):
         self.exit_room = exit_room
 
         self.bought_spells = []
-        self.menu_options = []
 
         self.current_room = self.rooms[self.room_nr]
+        self.menu_options = self.current_room.menu_options
 
     def print_room(self, clear=False):
         self.current_room.print_room(clear)
@@ -141,7 +142,7 @@ class BuySpellMenuManager(basic_menu.BasicRotatingMenu):
         string2 = colored(" BUY [e]", 'cyan')
         self.canvas.replace_line_specific('room', string2, 10, [-1*len("[e] BUY ")-1, -1], clear=True)
         if self.menu_options:
-            if self.menu_options[0] in self.bought_spells:
+            if any(self.menu_options[0].name == spell.name for spell in self.bought_spells):
                 string2 = colored(" UNDO [e]", 'cyan')
                 self.canvas.replace_line_specific('room', string2, 10, [-1*len(" UNDO [e]")-1, -1], clear=True)
 
@@ -169,7 +170,7 @@ class BuySpellMenuManager(basic_menu.BasicRotatingMenu):
                 for room in self.rooms:
                     room.bought_spells.append(spell)
 
-        self.print_room(True)
+        self.print_room()
 
     def use_key(self, direction):
         if direction is "s":
