@@ -1,6 +1,6 @@
 import time
 from termcolor import colored
-from random import choice,randint
+from random import choice,randint, random
 import sys
 import msvcrt
 from blinker import signal
@@ -74,17 +74,19 @@ class Combat:
         log.print_canvas(clear=True)
 
         winner = self.fight()
-        if winner == self.data['player']:
-            self.data['player'].gain_exp(self.data['enemy'].exp)
-            self.data['player'].gold += self.data['enemy'].gold
-            gained_items = grab_loot.grab_loot_low_level(low_level.list_of_weapons, low_level.list_of_helmets, low_level.list_of_armor, low_level.list_of_rest, 2, 5)
-            log.add_to_log(f'You picked up: {gained_items}!', 'Info', 'useful')
+        if winner:
+            if winner == self.data['player']:
+                self.data['player'].gain_exp(self.data['enemy'].exp)
+                self.data['player'].gold += self.data['enemy'].gold
+                gained_items = grab_loot.grab_loot_low_level(low_level.list_of_weapons, low_level.list_of_helmets, low_level.list_of_armor, low_level.list_of_rest, 2, 5)
+                log.add_to_log(f'You picked up: {gained_items}!', 'Info', 'useful')
 
-            self.data['player'].items += gained_items
-            return "enemy_killed"
-        else:
-            log.add_to_log("You lose gtfo", 'Announcer', 'surprise')
-            sys.exit()
+                self.data['player'].items += gained_items
+                return "enemy_killed"
+            else:
+                log.add_to_log("You lose gtfo", 'Announcer', 'surprise')
+                sys.exit()
+        return winner
 
     def fight(self):
         next_hit_p = 0
@@ -96,6 +98,24 @@ class Combat:
 
 
         while self.data['player'].health > 0 and self.data['enemy'].health > 0:
+            if msvcrt.kbhit():
+                key = ord(msvcrt.getch())
+                if chr(key) == 'f':
+                    log.add_to_log(f"You try to flee!", 'Announcer', 'surprise')
+                    if random() < .5:
+                        time.sleep(0.5)
+                        log.add_to_log(f"It worked. You managed to escape.", 'Announcer', 'surprise')
+                        winner = None
+                        break
+                    else:
+                        time.sleep(0.5)
+                        log.add_to_log(f"It didn't work. {self.data['enemy'].name} gets a free hit.", 'Announcer', 'surprise')
+                        self.enemy_melee_before.send(self, **self.data)
+                        self.data['dmg'] = self.data['enemy'].hit(self.data['player'])
+                        self.enemy_melee_after.send(self, **self.data)
+                while msvcrt.kbhit():
+                    msvcrt.getch()
+
             # self.enemy_health_bar(self.data['enemy'])
             int_turn += self.data['player'].int/3
 
@@ -131,12 +151,13 @@ class Combat:
 
             log.print_canvas()
             time.sleep(self.tick_rate)
-        if self.data['player'].health > 0:
-            winner = self.data['player']
-        else:
-            winner = self.data['enemy']
+            if self.data['player'].health > 0:
+                winner = self.data['player']
+            else:
+                winner = self.data['enemy']
 
-        log.add_to_log(f"{winner.name} wins!", 'Announcer', 'surprise')
+        if winner:
+            log.add_to_log(f"{winner.name} wins!", 'Announcer', 'surprise')
         return winner
 
     def use_spell(self):
