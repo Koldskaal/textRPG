@@ -2,6 +2,11 @@ from PIL import Image
 import ansiwrap
 from data.textures import *
 import colorama
+from termcolor import colored
+import os
+cmd = 'mode con: cols=200 lines=500'
+os.system(cmd)
+# os.system('mode 250')
 colorama.init(strip=True)
 
 ASCII_CHARS = [' ',',',':',';','+','*','?','%','S','@','#']
@@ -176,4 +181,13 @@ if __name__ == '__main__':
     #     path = "asciify.jpg"
     # else:
     #     path = sys.argv[1]
+    while True:
+        print('Want forest version or cave version? type f or c.')
+        print('WARNING! Forest version will cure your eye cancer. I promise.')
+        i = input('> ')
+        if i == 'f' or i=='c':
+            break
+    if i == 'f':
+        CHARS['empty'] = colored('A', 'green')
+        CHARS['wall'] = colored('A', 'green')
     runner('test2.png')
