@@ -176,10 +176,18 @@ class Canvas:
                         big_string += (' '*self.gap + BORDER_LEFT_RIGHT + ' ' * self.areas[k].get('width', 30) + BORDER_LEFT_RIGHT if self.border else ' ' * self.areas[k].get('width', 30))
                     if any(i in c for c in self.areas[k].get('replace_specific', [])):
                         for line in self.areas[k].get('replace_specific'):
-                            # print(line)
                             if line[1] == i:
+                                count = 0
+                                stripped = len(ansiwrap.strip_color(big_string.splitlines()[-1])) - self.areas[k].get('width', 30)
 
-                                zero_point = len(big_string) -  self.areas[k].get('width', 30) - 1
+                                while True:
+                                    unstripped = big_string[-(self.areas[k].get('width', 30)+count):]
+                                    if len(ansiwrap.strip_color(big_string.splitlines()[-1].replace(unstripped,''))) == stripped:
+                                        break
+                                    count += 1
+
+                                zero_point = len(big_string) -  len(unstripped) - 1
+
                                 big_string_list = list(big_string)
                                 first_part = line[2][0] if line[2][0] < 0 else zero_point+line[2][0]
                                 second_part = line[2][1] if line[2][1] < 0 else zero_point+line[2][1]

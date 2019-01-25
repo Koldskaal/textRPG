@@ -95,9 +95,11 @@ class Combat:
         hit = 100
 
         # self.enemy_health_bar(self.data['enemy'])
+        string = colored("[f] FLEE", 'cyan')
 
 
         while self.data['player'].health > 0 and self.data['enemy'].health > 0:
+            log.canvas.replace_line_specific('room', string, 11, [0,len("[f] FLEE")])
             if msvcrt.kbhit():
                 key = ord(msvcrt.getch())
                 if chr(key) == 'f':
