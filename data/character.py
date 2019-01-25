@@ -13,7 +13,7 @@ class Character:
         self.gold = 4000
         self.armor = 5
 
-        self.ATT = 10
+        self.ATT = 15
         self.str = 10
         self.int = 10
         self.agi = 10

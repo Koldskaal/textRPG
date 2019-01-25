@@ -36,7 +36,7 @@ class Room:
         self.leave_shop = None
 
         self.start_time = time.time()
-        self.time_between_moves = 0.5
+        self.time_between_moves = 1.5
         self.st_time_between_moves = self.time_between_moves
         self.flee_time = 1.5
 

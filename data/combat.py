@@ -39,7 +39,7 @@ class Combat:
 
         self.data['enemy'].bind_stats(lambda: self.enemy_health_bar(self.data['enemy']))
 
-        self.tick_rate = 0.2
+        self.tick_rate = 0.1
 
         self.spell_menu = CombatSpellMenu(self.data['player'])
 

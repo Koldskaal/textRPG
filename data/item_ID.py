@@ -58,6 +58,6 @@ items = {
 "ruby": {'type': 'sellable', 'price': 100},
 "worn-out bedroll": {'type': 'consumable', 'price': 50},
 #potions
-"health potion": {'type': 'potion', 'price': 100, "description": "A pultrice of red liquid, that when consumed, restores 100 health"},
-"mana potion": {'type': 'potion', 'price': 100, "description": "A pultrice of blue liquid, that when consumed restores 100 mana. Side effects include a blue tongue"},
+"health potion": {'type': 'consumable', 'price': 100, "description": "A pultrice of red liquid, that when consumed, restores 100 health"},
+"mana potion": {'type': 'consumable', 'price': 100, "description": "A pultrice of blue liquid, that when consumed restores 100 mana. Side effects include a blue tongue"},
 }

@@ -22,7 +22,7 @@ class Player(Character):
 
         #self.current_weapon = ""
         #self.equipment =[] # id
-        self.items = ['axe of blood']
+        self.items = ['axe of blood', "health potion"]
         self.levelcap = 5+3*self.level**2
 
         self.spells = [spells.BasicDoT(self)]
