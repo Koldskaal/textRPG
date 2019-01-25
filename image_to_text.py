@@ -81,11 +81,15 @@ def do(image, new_width=40):
 
     # Construct the image from the character list
     new_image = [pixels[index:index+image.size[0]] for index in range(0, len_pixels, image.size[0])]
+    _special_positions = {}
     image = ""
     for i, line in enumerate(new_image):
         for j, word in enumerate(line):
             if word in CHARS:
                 new_image[i][j] = CHARS[word]
+                if word == 'player':
+                    _special_positions[word] = {'character': CHARS[word], 'position': [i,j]}
+
                 image += CHARS[word]
                 if word == 'wall' or word == 'door':
                     try:
@@ -93,7 +97,6 @@ def do(image, new_width=40):
                             image += CHARS['wall']
                         else:
                             image += ' '
-
                     except:
                         pass
                 else:
@@ -101,8 +104,9 @@ def do(image, new_width=40):
         image += '\n'
 
     sliced = []
-    coord = (10,15)
+    coord = _special_positions['player']['position']
     cut = 10//2
+    print(f'Player spawns in {coord}')
 
     for i in range(-cut, cut):
         row =[]
