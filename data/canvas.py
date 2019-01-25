@@ -66,13 +66,11 @@ class Canvas:
             self.areas[name]['replace_specific'] = [(string, line, spot)]
         else:
             if any(line in c for c in self.areas[name]['replace_specific']):
-                spots = []
+                spots = [] # to check if spot is taken.
                 for x in self.areas[name]['replace_specific']:
                     spots.append(x[2])
-
                 if spot not in spots:
                     self.areas[name]['replace_specific'].append((string,line, spot))
-
             else:
                 self.areas[name]['replace_specific'].append((string,line, spot))
 

@@ -38,7 +38,8 @@ class GameLog:
     def add_to_log(self, text, source, effect='default'):
         self.scroll_state = 0
         now = datetime.datetime.now().strftime('%H:%M')
-        s = "\n"+f"[{now}] [{source.upper()}] " + colored(f"{text}", self.colors[effect])
+        l = len(self.log.splitlines())
+        s = "\n"+f"[{now}] " + colored(f"{text}", self.colors[effect]) # [{source.upper()}] saved for later
         self.log += s
 
         self.print_canvas()

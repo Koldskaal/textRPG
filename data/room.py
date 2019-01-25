@@ -36,6 +36,9 @@ class Room:
         self.leave_shop = None
 
         self.start_time = time.time()
+        self.time_between_moves = 0.5
+        self.st_time_between_moves = self.time_between_moves
+        self.flee_time = 1.5
 
     def generate_border(self):
         map = []
@@ -154,6 +157,9 @@ class Room:
                 if winning:
                     self.room[player_coord[0]][player_coord[1]] = " "
                     self.monsters.pop(winning)
+                else:
+                    self.start_time = time.time()
+                    self.time_between_moves += self.flee_time
 
 
             elif self.room[player_coord[0]][player_coord[1]] == SHOP_STAND:
@@ -166,7 +172,7 @@ class Room:
             self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
 
     def move_monsters(self):
-        if time.time() - self.start_time > 2:
+        if time.time() - self.start_time > self.time_between_moves:
             fight = None
             for k,monster in self.monsters.items():
                 room = self.unpack_room(self.room)
@@ -197,6 +203,8 @@ class Room:
                     self.room[monster['coord'][0]][monster['coord'][1]] = MONSTER_CHAR
                 self.start_time = time.time()
                 self.print_room()
+                if self.time_between_moves != self.st_time_between_moves:
+                    self.time_between_moves = self.st_time_between_moves
             if fight:
                 e = self.monsters[fight]['monster']
                 c = combat.Combat(self.player, e, self)
@@ -207,6 +215,9 @@ class Room:
                     self.room[self.monsters[fight]['coord'][0]][self.monsters[fight]['coord'][1]] = " "
                     self.monsters.pop(winning)
                     self.print_room()
+                else:
+                    self.start_time = time.time()
+                    self.time_between_moves += self.flee_time
 
     def print_door(self, prev_room_door):
         # to koordinater sat ind dictionariet door med key next.
