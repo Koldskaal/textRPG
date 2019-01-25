@@ -184,6 +184,9 @@ class Canvas:
                                     unstripped = big_string[-(self.areas[k].get('width', 30)+count):]
                                     if len(ansiwrap.strip_color(big_string.splitlines()[-1].replace(unstripped,''))) == stripped:
                                         break
+                                    if count > 200:
+                                        unstripped = big_string[-(self.areas[k].get('width', 30)):]
+                                        break
                                     count += 1
 
                                 zero_point = len(big_string) -  len(unstripped) - 1
