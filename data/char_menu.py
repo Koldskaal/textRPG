@@ -195,8 +195,12 @@ class Equip_Helmets:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.helmet == '' or self.helmets == []:
+        if self.player.helmet == '' and self.helmets == []:
             showcase = " It's not a toupee!"
+            self.canvas.popup("room", showcase, 13)
+            self.canvas.print_canvas()
+        elif self.helmets == []:
+            showcase = " My pockets are empty!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
         else:
@@ -354,8 +358,12 @@ class Equip_Armors:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.body == '' or self.armors == []:
-            showcase = " It's not a toupee!"
+        if self.player.body == '' and self.armors == []:
+            showcase = " I'm naked!"
+            self.canvas.popup("room", showcase, 13)
+            self.canvas.print_canvas()
+        elif self.armors == []:
+            showcase = " My pockets are empty!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
         else:
@@ -513,8 +521,12 @@ class Equip_Rings:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.ring == '' or self.rings == []:
-            showcase = " It's not a toupee!"
+        if self.player.ring == '' and self.rings == []:
+            showcase = " If you like it then you should've put a ring on it!"
+            self.canvas.popup("room", showcase, 13)
+            self.canvas.print_canvas()
+        elif self.rings == []:
+            showcase = " My pockets are empty!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
         else:
@@ -672,8 +684,12 @@ class Equip_Amulets:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.amulet == '' or self.amulets == []:
-            showcase = " It's not a toupee!"
+        if self.player.amulet == '' and self.amulets == []:
+            showcase = " If i was a rich girl..."
+            self.canvas.popup("room", showcase, 13)
+            self.canvas.print_canvas()
+        elif self.amulets == []:
+            showcase = " My pockets are empty!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
         else:
@@ -831,13 +847,19 @@ class Equip_Weapons:
             'title'             : 'Item Showcase',
             'push'              : 1
             }
-        if self.player.weapon == '' or self.weapons == []:
-            showcase = " It's not a toupee!"
+        if self.player.weapon == '' and self.weapons == []:
+            showcase = " At least I can't drop my weapon..."
+            self.canvas.popup("room", showcase, 13)
+            self.canvas.print_canvas()
+        elif self.weapons == []:
+            showcase = " My pockets are empty!"
             self.canvas.popup("room", showcase, 13)
             self.canvas.print_canvas()
         else:
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == 'ATT':
+                    showcase += (f"{key}: {values} \n")
                 if key == "str":
                     showcase += colored((f"{key}: {values} \n"), 'red')
                 if key == "agi":
@@ -898,6 +920,8 @@ class Equip_Weapons:
                 return "leave weapons"
     def equip_item(self, player):
             for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == 'ATT':
+                    self.player.ATT += values
                 if key == 'armor':
                     self.player.armor += values
                 if key == 'str':
@@ -913,6 +937,8 @@ class Equip_Weapons:
 
     def unequip_item(self, player):
             for key, values in item_ID.items[self.player.weapon[0]].items():
+                if key == 'ATT':
+                    self.player.ATT -= values
                 if key == 'armor':
                     self.player.armor -= values
                 if key == 'str':
@@ -995,6 +1021,8 @@ class Items:
         else:
             showcase = ""
             for key, values in item_ID.items[self.menu_options[0]].items():
+                if key == 'ATT':
+                    showcase += (f"{key}: {values} \n")
                 if key == "str":
                     showcase += colored((f"{key}: {values} \n"), 'red')
                 if key == "agi":
@@ -1027,10 +1055,11 @@ class Items:
                 self.menu_options = self.rotate(self.menu_options, -1)
                 self.print_room()
             if direction is '\r': # ENTER KEY
-                #for key, values in item_ID.items[self.menu_options[0]].items():
-                #    if values in self.menu_options[self.menu_position] ==  :
-                #        retur
-                #    self.print_room()
+                for key, values in item_ID.items[self.menu_options[0]].items():
+                    if key in self.menu_options[self.menu_position] == "consumable":
+                        if values == "health potion":
+                            data['player'].health += 100
+                    self.print_room()
                 pass
             if direction is "r":
                 return "leave items"

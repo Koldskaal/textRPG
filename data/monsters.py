@@ -24,7 +24,7 @@ class Monster(Character):
         self.loot_table = 'table_x'
 
         self.str = 3
-        self.agi = 100
+        self.agi = 10
 
 class Giant(Character):
     def __init__(self):

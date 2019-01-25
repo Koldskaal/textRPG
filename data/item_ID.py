@@ -22,17 +22,17 @@ def equip_item(self, item):
 
 items = {
 #weapons
-'axe of blood': {'type': 'weapon', 'str': 100, 'agi': 100, 'int': 100, 'price': 100000},#'spell': 'Basic Spell'
-"wooden sword": {'type': 'weapon', 'str': 2, 'price': 1},
-"iron sword": {'type': 'weapon', 'str': 4, 'price': 3},
-"steel sword": {'type': 'weapon', 'str': 6, 'price': 5},
-"wodden dagger": {'type': 'weapon', 'str': 1, 'agi': 1, 'price': 1},
-"iron dagger": {'type': 'weapon', 'str': 2, 'agi': 2, 'price': 3},
-"steel dagger": {'type': 'weapon', 'str': 3, 'agi': 3, 'price': 5},
-"make-shift flint spear": {'type': 'weapon', 'str': 2, 'hp': 20, 'price': 3},
-"stone mace": {'type': 'weapon', 'str': 3, 'agi':-2, 'price': 3},
-"stone warhammer": {'type': 'weapon', 'str': 7, 'agi':-4, 'price': 6},
-"quarterstaff": {'type': 'weapon', 'str': 2, 'int': 2, 'price': 10},
+'axe of blood': {'type': 'weapon', 'ATT': 100, 'str': 100, 'agi': 100, 'int': 100, 'price': 100000},#'spell': 'Basic Spell'
+"wooden sword": {'type': 'weapon', 'ATT': 2, 'str': 2, 'price': 1},
+"iron sword": {'type': 'weapon', 'ATT': 4, 'str': 4, 'price': 3},
+"steel sword": {'type': 'weapon', 'ATT': 6, 'str': 6, 'price': 5},
+"wodden dagger": {'type': 'weapon', 'ATT': 1, 'str': 1, 'agi': 1, 'price': 1},
+"iron dagger": {'type': 'weapon', 'ATT': 2, 'str': 2, 'agi': 2, 'price': 3},
+"steel dagger": {'type': 'weapon', 'ATT': 3, 'str': 3, 'agi': 3, 'price': 5},
+"make-shift flint spear": {'type': 'weapon', 'ATT': 3, 'str': 2, 'hp': 20, 'price': 3},
+"stone mace": {'type': 'weapon', 'ATT': 5, 'str': 3, 'agi':-2, 'price': 3},
+"stone warhammer": {'type': 'weapon', 'ATT': 8, 'str': 7, 'agi':-4, 'price': 6},
+"quarterstaff": {'type': 'weapon', 'ATT': 3, 'str': 2, 'int': 2, 'price': 10},
 #helmets
 'wizard hat': {'type': 'helmet', 'armor': 0, 'int': 2, 'price': 10},
 'tinfoil hat': {'type': 'helmet', 'armor': 0, 'price': 1},
@@ -58,6 +58,6 @@ items = {
 "ruby": {'type': 'sellable', 'price': 100},
 "worn-out bedroll": {'type': 'consumable', 'price': 50},
 #potions
-"health potion": {'type': 'potion', 'price': 100, "description": "A pultrice of red liquid, that when consumed, restores 100 health"},
-"mana potion": {'type': 'potion', 'price': 100, "description": "A pultrice of blue liquid, that when consumed restores 100 mana. Side effects include a blue tongue"},
+"health potion": {'type': 'consumable', 'price': 100, "description": "A pultrice of red liquid, that when consumed, restores 100 health"},
+"mana potion": {'type': 'consumable', 'price': 100, "description": "A pultrice of blue liquid, that when consumed restores 100 mana. Side effects include a blue tongue"},
 }
