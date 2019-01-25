@@ -4,7 +4,7 @@ from data.textures import *
 import colorama
 from termcolor import colored
 import os
-cmd = 'mode con: cols=200 lines=500'
+cmd = 'mode con: cols=200 lines=200'
 os.system(cmd)
 # os.system('mode 250')
 colorama.init(strip=True)
@@ -189,5 +189,5 @@ if __name__ == '__main__':
             break
     if i == 'f':
         CHARS['empty'] = colored('A', 'green')
-        CHARS['wall'] = colored('A', 'green')
+        CHARS['wall'] = colored('A', 'yellow')
     runner('test2.png')
