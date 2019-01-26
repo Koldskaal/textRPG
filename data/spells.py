@@ -8,6 +8,8 @@ spell_hit_sound = pygame.mixer.Sound('data/sounds/DmgSpell1.ogg')
 
 debuff_hit_sound = pygame.mixer.Sound('data/sounds/debuffspell.ogg')
 
+heal_sound = pygame.mixer.Sound('data/sounds/pickup.ogg')
+
 class BaseSpell:
     def __init__(self, player):
         self.name = 'Base Spell'
@@ -34,14 +36,15 @@ class BaseSpell:
         log.add_to_log(f"You used {self.name} on {target.name}!", 'Combat', 'recked')
 
         target.health -= self.damage
-        spell_hit_sound.play()
         if self.damage != 0:
+            spell_hit_sound.play()
             if self.damage > 0:
                 log.add_to_log(f"{target.name} lost {self.damage} hp ({self.name})", 'Combat', 'bad')
             elif self.damage < 0:
                 log.add_to_log(f"{target.name} gained {self.damage} hp ({self.name})", 'Combat', 'positive')
         self.caster.health += self.heal
         if self.heal != 0:
+            heal_sound.play()
             if self.heal > 0:
                 log.attach_to_log(f'({self.name})', 'positive')
             elif self.heal < 0:

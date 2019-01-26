@@ -5,7 +5,7 @@ from random import choice
 import pygame
 pygame.init()
 hit_sounds = [pygame.mixer.Sound('data/sounds/hit1.ogg'), pygame.mixer.Sound('data/sounds/hit1nofilter.ogg')]
-heal_sound = pygame.mixer.Sound('data/sounds/pickup.ogg')
+
 
 class Character:
     def __init__(self):
@@ -40,7 +40,6 @@ class Character:
                 log.add_to_log(f"You took {self.__health-amount} damage", 'Combat', 'bad')
         elif self.__health-amount < 0 and self.__health:
             if self.isPlayer:
-                heal_sound.play()
                 log.add_to_log(f"You recovered {-(self.__health-amount)} hp", 'Combat', 'positive')
         self.__health = amount
         if self.__health > self.max_health:
