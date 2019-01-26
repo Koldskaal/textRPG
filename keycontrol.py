@@ -18,8 +18,8 @@ import cursor
 cursor.hide() ## Hides the cursor
 
 running = True
-pygame.mixer.music.load('data/sounds/bgm1-desert.mp3')
-pygame.mixer.music.play(5)
+pygame.mixer.music.load('data/sounds/bgm3-battle1.mp3')
+pygame.mixer.music.play(10)
 
 #other = room.Room((15,15))
 r = room_controller.RoomController()
