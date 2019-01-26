@@ -275,9 +275,9 @@ class Equip_Helmets:
                 if key == 'agi':
                     self.player.agi += values
                 if key == 'hp':
-                    self.player.health += values
+                    self.player.max_health += values
                 if key == 'mana':
-                    self.player.mana += values
+                    self.player.max_mana += values
 
     def unequip_item(self, player):
             for key, values in item_ID.items[self.player.helmet[0]].items():
@@ -290,9 +290,9 @@ class Equip_Helmets:
                 if key == 'agi':
                     self.player.agi -= values
                 if key == 'hp':
-                    self.player.health -= values
+                    self.player.max_health -= values
                 if key == 'mana':
-                    self.player.mana -= values
+                    self.player.max_mana -= values
 
 class Equip_Armors:
     def __init__(self, canvas, player):
@@ -438,9 +438,9 @@ class Equip_Armors:
                 if key == 'agi':
                     self.player.agi += values
                 if key == 'hp':
-                    self.player.health += values
+                    self.player.max_health += values
                 if key == 'mana':
-                    self.player.mana += values
+                    self.player.max_mana += values
 
     def unequip_item(self, player):
             for key, values in item_ID.items[self.player.body[0]].items():
@@ -453,9 +453,9 @@ class Equip_Armors:
                 if key == 'agi':
                     self.player.agi -= values
                 if key == 'hp':
-                    self.player.health -= values
+                    self.player.max_health -= values
                 if key == 'mana':
-                    self.player.mana -= values
+                    self.player.max_mana -= values
 
 class Equip_Rings:
     def __init__(self, canvas, player):
@@ -601,9 +601,9 @@ class Equip_Rings:
                 if key == 'agi':
                     self.player.agi += values
                 if key == 'hp':
-                    self.player.health += values
+                    self.player.max_health += values
                 if key == 'mana':
-                    self.player.mana += values
+                    self.player.max_mana += values
 
     def unequip_item(self, player):
             for key, values in item_ID.items[self.player.ring[0]].items():
@@ -616,9 +616,9 @@ class Equip_Rings:
                 if key == 'agi':
                     self.player.agi -= values
                 if key == 'hp':
-                    self.player.health -= values
+                    self.player.max_health -= values
                 if key == 'mana':
-                    self.player.mana -= values
+                    self.player.max_mana -= values
 
 class Equip_Amulets:
     def __init__(self, canvas, player):
@@ -764,9 +764,9 @@ class Equip_Amulets:
                 if key == 'agi':
                     self.player.agi += values
                 if key == 'hp':
-                    self.player.health += values
+                    self.player.max_health += values
                 if key == 'mana':
-                    self.player.mana += values
+                    self.player.max_mana += values
 
     def unequip_item(self, player):
             for key, values in item_ID.items[self.player.amulet[0]].items():
@@ -779,9 +779,9 @@ class Equip_Amulets:
                 if key == 'agi':
                     self.player.agi -= values
                 if key == 'hp':
-                    self.player.health -= values
+                    self.player.max_health -= values
                 if key == 'mana':
-                    self.player.mana -= values
+                    self.player.max_mana -= values
 
 class Equip_Weapons:
     def __init__(self, canvas, player):
@@ -931,9 +931,9 @@ class Equip_Weapons:
                 if key == 'agi':
                     self.player.agi += values
                 if key == 'hp':
-                    self.player.health += values
+                    self.player.max_health += values
                 if key == 'mana':
-                    self.player.mana += values
+                    self.player.max_mana += values
 
     def unequip_item(self, player):
             for key, values in item_ID.items[self.player.weapon[0]].items():
@@ -948,9 +948,9 @@ class Equip_Weapons:
                 if key == 'agi':
                     self.player.agi -= values
                 if key == 'hp':
-                    self.player.health -= values
+                    self.player.max_health -= values
                 if key == 'mana':
-                    self.player.mana -= values
+                    self.player.max_mana -= values
 
 class Items:
     def __init__(self, canvas, player):
