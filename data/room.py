@@ -26,6 +26,8 @@ class Room:
         self.room = self.generate_border()
         self.generate_room_nr(room_nr)
 
+        self.difficulty = int(room_nr)
+
         self.monsters = {}
         self.shop_position = None
         self.door = {}
@@ -83,14 +85,15 @@ class Room:
     def spawn_player(self):
 
         self.room[self.player_position[0]][self.player_position[1]] = PLAYER_CHAR
-        if self.shop_position:
-            self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
         if not self.monsters:
             self.spawn_monsters()
+        if self.shop_position:
+            self.room[self.shop_position[0]][self.shop_position[1]] = SHOP_STAND
 
     def spawn_monsters(self, amount=None):
+        level, amount = divmod(self.difficulty, 5)
         if not amount:
-            amount = randint(6,10)
+            self.shop_position = [len(self.room)//2,len(self.room[0])//2]
         monster_coord = set()
         while len(monster_coord) != amount:
             rand_coord = (randint(1, self.size[0]-2),randint(1, self.size[1]-2))

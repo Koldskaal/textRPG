@@ -68,7 +68,7 @@ class PowerOfImagination(BaseTalent):
                 data['player'].spells.remove(self.prev_spell)
             self.prev_spell = self.generate_spell(data['player'])
             data['player'].spells.append(self.prev_spell)
-            if data and data.get('spell_name', '') in self.spell_names.keys():
+            if data.get('spell_name', '') in self.spell_names.keys():
                 self.prev_spell.cast(data['enemy'])
 
 talent_list.append(PowerOfImagination())

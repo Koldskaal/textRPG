@@ -178,3 +178,5 @@ class Faery(Character):
         self.int = 15
         self.gold = 1000
         #spells
+
+monster_collection = {'level1': [Goblin], 'level2': [Giant, Goblin]}
