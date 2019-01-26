@@ -1,3 +1,4 @@
+
 from PIL import Image
 import ansiwrap
 from data.textures import *
@@ -189,5 +190,5 @@ if __name__ == '__main__':
             break
     if i == 'f':
         CHARS['empty'] = colored('A', 'green')
-        CHARS['wall'] = colored('A', 'yellow')
+        # CHARS['wall'] = colored('A', 'yellow')
     runner('test2.png')
