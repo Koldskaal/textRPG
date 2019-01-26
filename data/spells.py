@@ -1,7 +1,12 @@
 from .game_log import log
 from random import randint, random
-
+import pygame
+pygame.mixer.init()
 spell_list = []
+
+spell_hit_sound = pygame.mixer.Sound('data/sounds/DmgSpell1.ogg')
+
+debuff_hit_sound = pygame.mixer.Sound('data/sounds/debuffspell.ogg')
 
 class BaseSpell:
     def __init__(self, player):
@@ -29,6 +34,7 @@ class BaseSpell:
         log.add_to_log(f"You used {self.name} on {target.name}!", 'Combat', 'recked')
 
         target.health -= self.damage
+        spell_hit_sound.play()
         if self.damage != 0:
             if self.damage > 0:
                 log.add_to_log(f"{target.name} lost {self.damage} hp ({self.name})", 'Combat', 'bad')
@@ -96,6 +102,7 @@ class BasicDoT(BasicSpell):
 
     def cast(self, target):
         if self not in target.debuffs:
+            debuff_hit_sound.play()
             log.add_to_log(f"You used {self.name} on {target.name}!", 'Combat', 'recked')
             target.debuffs.append(self)
         self.afflicted = target
