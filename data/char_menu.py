@@ -1056,14 +1056,14 @@ class Items:
                 self.print_room()
             if direction is '\r': # ENTER KEY
                 for key, values in item_ID.items[self.menu_options[0]].items():
-                    if key in self.menu_options[self.menu_position] == "consumable":
-                        if values == "health potion":
+                    if values == "consumable":
+                        if self.menu_options[0] == "health potion":
                             self.player.health += 100
                             self.player.items.remove('health potion')
-                        if values == "mana potion":
+                        if self.menu_options[0] == "mana potion":
                             self.player.mana += 100
                             self.player.items.remove('mana potion')
-                        if values == "worn-out bedroll":
+                        if self.menu_options[0] == "worn-out bedroll":
                             self.player.mana += 10000
                             self.player.health += 10000
                             self.player.items.remove('worn-out bedroll')
