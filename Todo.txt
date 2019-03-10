@@ -1,0 +1,45 @@
+Objects:
+  Character
+    make more
+
+  NPC
+    story driver
+      quest?
+    enemy - needs work
+      make more
+
+  skills: mana and int here
+    buff
+    debuff (poison sword f.eks.)
+
+udvid loot loot_tables
+
+balance combat stats
+
+
+Features I'd like to implement, todo:
+    - equipment overview panel, under stats panel(måske unødvendigt)
+    - spells system
+    - level up "room", flere valg når man leveler up.
+    - Risk reward play options
+      - low health kills = more reward
+      - low health = more mana
+      - potions to xp
+
+    -roguelike: no stats, only hp+mana on lvlup. On death ->
+                higher stats for next run.
+
+Other:
+  game tick timer
+  puzzles
+  dodge puzzles
+  character creation (simple deploy x amount of base stats?)
+  Main menu
+  saving progress?
+
+Story:
+  who
+  what
+  when
+  why
+  how

@@ -1,0 +1,6 @@
+ansiwrap==0.8.3
+colorama==0.4.1
+cursor==1.2.0
+keyboard==0.13.2
+termcolor==1.1.0
+win-unicode-console==0.5
